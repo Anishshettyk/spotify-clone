@@ -132,7 +132,7 @@ if (cluster.isMaster) {
 
           // we can also pass the token to the browser to make requests from there
           res.redirect(
-            `${FRONTEND_URI}/#${querystring.stringify({
+            `${frontendURL}/#${querystring.stringify({
               access_token,
               refresh_token,
             })}`,

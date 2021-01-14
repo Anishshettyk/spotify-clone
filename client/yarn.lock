@@ -1962,10 +1962,10 @@
     "@typescript-eslint/types" "4.13.0"
     eslint-visitor-keys "^2.0.0"
 
-"@upstatement/eslint-config@^0.4.3":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@upstatement/eslint-config/-/eslint-config-0.4.3.tgz#9cfbe22d15c0fee2f7154e9f61455c4e53718027"
-  integrity sha512-I5wYURRsCUpYyTkyq/AOF+aNglJAde2Kzlq297pQ2r61AatUgn84Jw4CsYR6rgQNmTinpLtb8uwi12mOIaM8zg==
+"@upstatement/eslint-config@0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@upstatement/eslint-config/-/eslint-config-0.4.2.tgz#daea6cf675c5a08e088aae39757f607363459397"
+  integrity sha512-gkbHkN40k4NahdnebDlhOCGoujrCy178c3d6Slkk4sg0gro6xKKFSpbBg2OJIkXshHMS4n/zCdQYSqzLMU/SUQ==
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"

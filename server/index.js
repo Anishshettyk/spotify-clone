@@ -1,3 +1,20 @@
+// SPOTIFY WEB API AUTHORIZATION CODE FLOW
+// https://developer.spotify.com/documentation/general/guides/authorization-guide/
+// https://github.com/spotify/web-api-auth-examples
+
+require("dotenv").config();
+
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET_ID;
+let REDIRECT_URI = process.env.REDIRECT_URL || "http://localhost:8888/callback";
+let FRONTEND_URI = process.env.FRONTEND_URL || "http://localhost:3000";
+const PORT = process.env.PORT || 8888;
+
+if (process.env.NODE_ENV !== "production") {
+  REDIRECT_URI = "http://localhost:8888/callback";
+  FRONTEND_URI = "http://localhost:3000";
+}
+
 const express = require("express");
 const request = require("request");
 const cors = require("cors");
@@ -8,26 +25,12 @@ const cluster = require("cluster");
 const numCPUs = require("os").cpus().length;
 const history = require("connect-history-api-fallback");
 
-require("dotenv").config();
-
-const PORT = process.env.PORT || 8000;
-const clientID = process.env.CLIENT_ID;
-const clientSecretID = process.env.CLIENT_SECRET_ID;
-let frontendURL = process.env.FRONTEND_URL || "http://localhost:3000";
-let redirectURL = process.env.REDIRECT_URL || "http://localhost:8000/callback";
-
-if (process.env.node_ENV !== "production") {
-  frontendURL = "http://localhost:3000";
-  redirectURL = "http://localhost:8000/callback";
-}
-
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
  * @return {string} The generated string
  */
-
-const generateRandomString = (length) => {
+const generateRandomString = function (length) {
   let text = "";
   const possible =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -91,9 +94,9 @@ if (cluster.isMaster) {
     res.redirect(
       `https://accounts.spotify.com/authorize?${querystring.stringify({
         response_type: "code",
-        client_id: clientID,
+        client_id: CLIENT_ID,
         scope: scope,
-        redirect_uri: redirectURL,
+        redirect_uri: REDIRECT_URI,
         state: state,
       })}`
     );
@@ -115,12 +118,12 @@ if (cluster.isMaster) {
         url: "https://accounts.spotify.com/api/token",
         form: {
           code: code,
-          redirect_uri: redirectURL,
+          redirect_uri: REDIRECT_URI,
           grant_type: "authorization_code",
         },
         headers: {
           Authorization: `Basic ${new Buffer.from(
-            `${clientID}:${clientSecretID}`
+            `${CLIENT_ID}:${CLIENT_SECRET}`
           ).toString("base64")}`,
         },
         json: true,
@@ -133,7 +136,7 @@ if (cluster.isMaster) {
 
           // we can also pass the token to the browser to make requests from there
           res.redirect(
-            `${frontendURL}/#${querystring.stringify({
+            `${FRONTEND_URI}/#${querystring.stringify({
               access_token,
               refresh_token,
             })}`
@@ -154,7 +157,7 @@ if (cluster.isMaster) {
       url: "https://accounts.spotify.com/api/token",
       headers: {
         Authorization: `Basic ${new Buffer.from(
-          `${clientID}:${clientSecretID}`
+          `${CLIENT_ID}:${CLIENT_SECRET}`
         ).toString("base64")}`,
       },
       form: {

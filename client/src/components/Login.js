@@ -1,7 +1,7 @@
-import React from 'react';
-import spotify_logo from './../assets/spotify-logo.png';
-import styled from 'styled-components/macro';
-import { theme, mixins, Main } from './../styles';
+import React from "react";
+import spotify_logo from "./../assets/spotify-logo.png";
+import styled from "styled-components/macro";
+import { theme, mixins, Main } from "./../styles";
 
 const { colors } = theme;
 
@@ -40,9 +40,9 @@ const StyledLoginContainer = styled(Main)`
 `;
 
 const LoginURL =
-  process.env.NODE_ENV !== 'production'
-    ? 'http://localhost:8000/login'
-    : 'https://spotify-clone-rne.herokuapp.com/login';
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:8000/login"
+    : "https://spotify-clone-rne.herokuapp.com/login";
 
 const Login = () => (
   <StyledLoginContainer>

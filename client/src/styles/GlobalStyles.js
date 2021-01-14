@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components/macro';
-import theme from './theme';
+import { createGlobalStyle } from "styled-components/macro";
+import theme from "./theme";
 const { colors, fontSizes, fonts } = theme;
 
 const GlobalStyle = createGlobalStyle`
@@ -131,7 +131,7 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 0;
     outline: 0;
     &::placeholder {
-      opacity: 0.7;
+      opacity: 0.8;
     }
     &:focus,
     &:active {

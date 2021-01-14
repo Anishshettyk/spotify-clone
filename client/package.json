@@ -57,7 +57,6 @@
     "web-vitals": "^0.2.4"
   },
   "devDependencies": {
-    "@upstatement/eslint-config": "0.4.2",
     "babel-plugin-styled-components": "^1.12.0",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",

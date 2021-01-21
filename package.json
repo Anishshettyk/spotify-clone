@@ -10,7 +10,7 @@
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "start": "node server",
     "heroku-postbuild": "cd client/ && yarn && yarn install --production && yarn build",
-    "deploy": "git push heroku main && git push origin"
+    "deploy": "git push heroku main && git push origin && heroku open"
   },
   "author": "ANISH SHETTY K",
   "license": "ISC",

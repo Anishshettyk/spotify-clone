@@ -1,71 +1,77 @@
 import axios from "axios";
-import { getHashParams } from "./../utils";
+import { getHashParams } from "../utils";
 
-const expireTime = 3600 * 1000;
+// TOKENS ******************************************************************************************
+const EXPIRATION_TIME = 3600 * 1000 * 24 * 365; // 3600 seconds * 1000 = 1 year in milliseconds
 
-//set item to localStorage
-const setTokensTimeStamp = () =>
+const setTokenTimestamp = () =>
   window.localStorage.setItem("SPOTIFY_TOKEN_TIMESTAMP", Date.now());
 const setLocalAccessToken = (token) => {
-  setTokensTimeStamp();
+  setTokenTimestamp();
   window.localStorage.setItem("SPOTIFY_ACCESS_TOKEN", token);
 };
 const setLocalRefreshToken = (token) =>
   window.localStorage.setItem("SPOTIFY_REFRESH_TOKEN", token);
-
-//get item from localStorage
-const getTokenTimeStamp = () =>
+const getTokenTimestamp = () =>
   window.localStorage.getItem("SPOTIFY_TOKEN_TIMESTAMP");
 const getLocalAccessToken = () =>
   window.localStorage.getItem("SPOTIFY_ACCESS_TOKEN");
 const getLocalRefreshToken = () =>
   window.localStorage.getItem("SPOTIFY_REFRESH_TOKEN");
 
-//refresh the access token
+// Refresh the token
 const refreshAccessToken = async () => {
   try {
-    const { data } = await axios.get(
-      `/refresh_token?refresh_token=${getLocalRefreshToken()}`
-    );
-
+    const { data } = await axios
+      .get(`/refresh_token?refresh_token=${getLocalRefreshToken()}`)
+      .catch((error) => {
+        if (error.response.status === 401) {
+          window.localStorage.removeItem("SPOTIFY_TOKEN_TIMESTAMP");
+          window.localStorage.removeItem("SPOTIFY_ACCESS_TOKEN");
+          window.localStorage.removeItem("SPOTIFY_REFRESH_TOKEN");
+          window.location.reload();
+          if (process.env.NODE_ENV !== "production") {
+            window.location.href = "http://localhost:3000";
+          }
+          if (process.env.NODE_ENV === "production") {
+            window.location.href = "https://spotify-clone-rne.herokuapp.com";
+          }
+        }
+      });
     const { access_token } = data;
-
-    //set local access token
     setLocalAccessToken(access_token);
-
-    //reload the window
     window.location.reload();
     return;
-  } catch (error) {
-    console.warn("error occurred while refreshing access token");
-    console.error(error);
+  } catch (e) {
+    console.warn("couldn't refresh the refresh token");
+    console.error(e);
   }
 };
 
-//get the access token from query parameter
-const getAccessToken = () => {
+// Get access token off of query params (called on application init)
+export const getAccessToken = () => {
   const { error, access_token, refresh_token } = getHashParams();
 
   if (error) {
-    console.warn("error occurred while getting access token");
     console.error(error);
+    refreshAccessToken();
   }
 
-  //check if access token has expired
-  if (Date.now() - getTokenTimeStamp() > expireTime) {
-    console.warn("Access token has expired refreshing token again.....");
+  // If token has expired
+  if (Date.now() - getTokenTimestamp() > EXPIRATION_TIME) {
+    console.warn("Access token has expired, refreshing...");
     refreshAccessToken();
   }
 
   const localAccessToken = getLocalAccessToken();
   const localRefreshToken = getLocalRefreshToken();
 
-  //if no refresh token then set the refresh token from params
+  // If there is no REFRESH token in local storage, set it as `refresh_token` from params
   if (!localRefreshToken || localRefreshToken === "undefined") {
     setLocalRefreshToken(refresh_token);
   }
 
-  //if no access token then set the access token from params
+  // If there is no ACCESS token in local storage, set it and return `access_token` from params
   if (!localAccessToken || localAccessToken === "undefined") {
     setLocalAccessToken(access_token);
     return access_token;
@@ -94,10 +100,30 @@ export const logout = () => {
 
 //headers for every endpoint
 const headers = {
+  Accept: "application/json",
   Authorization: `Bearer ${token}`,
-  "Content-type": "application/json",
+  "Content-Type": "application/json",
 };
 
 //get user profile
 export const getUser = () =>
-  axios.get("https://api.spotify.com/v1/me", { headers });
+  axios.get("https://api.spotify.com/v1/me", { headers }).catch((err) => {
+    if (err.response.status === 401) {
+      logout();
+    }
+  });
+
+//get following artists
+export const getFollowing = () =>
+  axios.get("https://api.spotify.com/v1/me/following?type=artist", { headers });
+
+export const getUserInfo = () => {
+  return axios.all([getUser(), getFollowing()]).then(
+    axios.spread((user, followedArtists) => {
+      return {
+        user: user.data,
+        followedArtists: followedArtists.data,
+      };
+    })
+  );
+};

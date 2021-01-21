@@ -91,6 +91,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: ${fontSizes.base};
     background-color: ${colors.black};
     color: ${colors.white};
+    
   }
   #root {
     min-height: 100%;

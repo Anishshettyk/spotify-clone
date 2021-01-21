@@ -97,7 +97,6 @@ const MenuItem = styled.li`
   }
   div {
     padding-top: 5px;
-    color: ${colors.white};
     font-weight: bold;
   }
 `;
@@ -113,7 +112,7 @@ const Github = styled.div`
     &:hover,
     &:focus,
     &.active {
-      color: ${colors.blue};
+      color: ${colors.green};
     }
     svg {
       width: 30px;

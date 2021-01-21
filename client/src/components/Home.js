@@ -1,15 +1,32 @@
 import React from "react";
-import { logout } from "./../spotify";
-import UserProfile from "./UserProfile";
-
+import styled from "styled-components";
+import { theme, media } from "../styles";
+import { Router } from "@reach/router";
+import TopBanner from "./TopBanner";
+import ScrollToTop from "./ScrollToTop";
 import Navbar from "./Navbar";
+import User from "./User";
+import Main from "./Main";
+
+const HomeStyledWrapper = styled.div`
+  padding-left: ${theme.navWidth};
+  ${media.tablet`
+    padding-left: 0;
+    padding-bottom: 50px;
+  `};
+`;
 
 const Home = () => (
-  <div>
+  <HomeStyledWrapper>
     <Navbar />
-    <UserProfile />
-    <button onClick={logout}>logout</button>
-  </div>
+    <TopBanner />
+    <Router primary={false}>
+      <ScrollToTop path="/">
+        <Main path="/" />
+        <User path="me" />
+      </ScrollToTop>
+    </Router>
+  </HomeStyledWrapper>
 );
 
 export default Home;

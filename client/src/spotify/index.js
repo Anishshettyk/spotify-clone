@@ -117,12 +117,17 @@ export const getUser = () =>
 export const getFollowing = () =>
   axios.get("https://api.spotify.com/v1/me/following?type=artist", { headers });
 
+//get users playlists
+export const getPlaylists = () =>
+  axios.get("https://api.spotify.com/v1/me/playlists", { headers });
+
 export const getUserInfo = () => {
-  return axios.all([getUser(), getFollowing()]).then(
-    axios.spread((user, followedArtists) => {
+  return axios.all([getUser(), getFollowing(), getPlaylists()]).then(
+    axios.spread((user, followedArtists, playlists) => {
       return {
         user: user.data,
         followedArtists: followedArtists.data,
+        playlists: playlists.data,
       };
     })
   );

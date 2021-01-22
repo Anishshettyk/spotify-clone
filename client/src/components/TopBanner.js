@@ -17,7 +17,6 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 const { colors } = theme;
 
 const TopBannerContainer = styled.div`
-  background-color: ${colors.grey};
   display: flex;
   align-items: center;
   justify-content: center;

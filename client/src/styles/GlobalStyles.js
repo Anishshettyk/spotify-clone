@@ -91,7 +91,8 @@ const GlobalStyle = createGlobalStyle`
     font-size: ${fontSizes.base};
     background-color: ${colors.black};
     color: ${colors.white};
-    
+    background: linear-gradient(transparent, ${colors.black});
+    background-color: ${colors.darkGrey};
   }
   #root {
     min-height: 100%;

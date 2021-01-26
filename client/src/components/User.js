@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "@reach/router";
 import styled from "styled-components";
 import { getUserInfo } from "./../spotify";
 import { Avatar } from "@material-ui/core";
@@ -6,6 +7,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { theme, media } from "../styles";
 import { AppBar, Tabs, Tab, Box } from "@material-ui/core";
+import { Profile } from "./divisions";
 
 const { colors } = theme;
 function TabPanel(props) {
@@ -45,6 +47,16 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(15),
     height: theme.spacing(15),
   },
+  Avatar__size: {
+    width: theme.spacing(13),
+    height: theme.spacing(13),
+  },
+  [theme.breakpoints.down("sm")]: {
+    Avatar__size: {
+      width: theme.spacing(7),
+      height: theme.spacing(7),
+    },
+  },
   appBar: {
     boxShadow: "none",
   },
@@ -82,38 +94,6 @@ const StyledTab = withStyles((theme) => ({
   },
 }))((props) => <Tab disableRipple {...props} />);
 
-const UserProfileContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 10px 50px;
-
-  .userProfile__content {
-    padding-left: 30px;
-    p {
-      text-transform: uppercase;
-      font-size: 15px;
-    }
-    h1 {
-      font-weight: 900;
-      font-size: 40px;
-      letter-spacing: 1px;
-    }
-  }
-  ${media.tablet`
-  padding:15px 25px;
-  .userProfile__content{
-    padding:10px;
-    P{
-      font-size:13px;
-    }
-    h1{
-      font-size:30px;
-    }
-  } 
-  `}
-`;
-
 const UserActionsContainer = styled.div`
   .overview__tab {
     h3 {
@@ -141,13 +121,51 @@ const UserActionsContainer = styled.div`
     grid-gap: 10px;
     `}
   }
+  .artist__follower__content__container {
+    padding: 0 10px;
+    .followed__artist__content__container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0px;
+      border-bottom: 1px solid ${colors.grey};
+      .followed__artist__content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .followed__artist__content__container__text {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 0 0 0 10px;
+          p {
+            font-size: 13px;
+            letter-spacing: 2px;
+            font-weight: 200;
+            color: ${colors.lightestGrey};
+          }
+        }
+      }
+    }
+  }
+`;
+const ArtistName = styled(Link)`
+  h5 {
+    letter-spacing: 1px;
+    font-weight: 200;
+    &:hover,
+    &:focus {
+      transform: scale(1.03);
+      color: ${colors.green};
+    }
+  }
 `;
 
-const User = () => {
+const User = ({ artistID }) => {
   const [user, setUser] = useState(null);
   const [followedArtists, setFollowedArtists] = useState(null);
   const [playlists, setPlaylists] = useState(null);
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const getUserData = async () => {
     const { user, followedArtists, playlists } = await getUserInfo();
@@ -170,18 +188,7 @@ const User = () => {
     <section>
       {user ? (
         <div>
-          <UserProfileContainer>
-            <Avatar
-              src={user.images[0].url}
-              alt={user.display_name}
-              className={classes.large}
-            />
-
-            <div className="userProfile__content">
-              <p>{user.type}</p>
-              <h1>{user.display_name}</h1>
-            </div>
-          </UserProfileContainer>
+          <Profile profiler={user} />
 
           <UserActionsContainer className={classes.root}>
             <StyledAppBar position="static" className={classes.appBar}>
@@ -224,10 +231,54 @@ const User = () => {
               </div>
             </TabPanel>
             <TabPanel value={value} index={1}>
-              Item Two
+              <div className="overview__tab__content__container">
+                {playlists &&
+                  playlists.items.map(
+                    (playlist, id) =>
+                      playlist.public && (
+                        <div
+                          className="overview__tab__content__inside__container"
+                          key={id}
+                        >
+                          <img
+                            src={playlist.images[0].url}
+                            alt={playlist.name}
+                          />
+                          <h4>{playlist.name}</h4>
+                          <p>{`Total tracks ${playlist.tracks.total}`}</p>
+                        </div>
+                      )
+                  )}
+              </div>
             </TabPanel>
             <TabPanel value={value} index={2}>
-              Item Three
+              <div className="artist__follower__content__container">
+                {followedArtists &&
+                  followedArtists.artists.items.map((item, id) => (
+                    <div
+                      className="followed__artist__content__container"
+                      key={id}
+                    >
+                      <div className="followed__artist__content">
+                        <Avatar
+                          src={item.images[0].url}
+                          alt={item.name}
+                          className={classes.Avatar__size}
+                        />
+                        <div className="followed__artist__content__container__text">
+                          <ArtistName to={`/artist/${item.id}`}>
+                            <h5>{item.name}</h5>
+                          </ArtistName>
+                          <p>{`${item.followers.total} Followers`}</p>
+                        </div>
+                      </div>
+
+                      <Link to={`/artist/${item.id}`}>
+                        <button>View Artist</button>
+                      </Link>
+                    </div>
+                  ))}
+              </div>
             </TabPanel>
           </UserActionsContainer>
         </div>

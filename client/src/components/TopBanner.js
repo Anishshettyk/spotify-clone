@@ -60,7 +60,7 @@ const SearchContainer = styled.div`
 
 const TopBanner = () => {
   const [user, setUser] = useState("");
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const getUserData = async () => {
     const response = await getUser();

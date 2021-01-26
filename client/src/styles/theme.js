@@ -1,23 +1,25 @@
 const theme = {
   colors: {
-    green: '#1DB954',
-    offGreen: '#1ed760',
-    blue: '#509bf5',
-    navBlack: '#040306',
-    black: '#181818',
-    white: '#FFFFFF',
-    lightestGrey: '#b3b3b3',
-    lightGrey: '#9B9B9B',
-    grey: '#404040',
-    darkGrey: '#282828',
+    green: "#1DB954",
+    offGreen: "#1ed760",
+    blue: "#509bf5",
+    navBlack: "#040306",
+    black: "#181818",
+    white: "#FFFFFF",
+    lightestGrey: "#b3b3b3",
+    lightGrey: "#9B9B9B",
+    grey: "#404040",
+    darkGrey: "#282828",
   },
 
   fonts: {
-    primary: 'Circular Std, system, -apple-system, BlinkMacSystemFont, sans-serif',
+    primary:
+      "Circular Std, system, -apple-system, BlinkMacSystemFont, sans-serif",
   },
 
   fontSizes: {
     base: `16px`,
+    xxs: `10px`,
     xs: `12px`,
     sm: `14px`,
     md: `20px`,
@@ -49,8 +51,8 @@ const theme = {
 
   transition: `all 0.25s cubic-bezier(0.3, 0, 0.4, 1);`,
 
-  navWidth: '100px',
-  navHeight: '70px',
+  navWidth: "100px",
+  navHeight: "70px",
 };
 
 export default theme;

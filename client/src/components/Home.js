@@ -7,6 +7,7 @@ import ScrollToTop from "./ScrollToTop";
 import Navbar from "./Navbar";
 import User from "./User";
 import Main from "./Main";
+import Artist from "./Artist";
 
 const HomeStyledWrapper = styled.div`
   padding-left: ${theme.navWidth};
@@ -24,6 +25,7 @@ const Home = () => (
       <ScrollToTop path="/">
         <Main path="/" />
         <User path="me" />
+        <Artist path="artist/:artistID" />
       </ScrollToTop>
     </Router>
   </HomeStyledWrapper>

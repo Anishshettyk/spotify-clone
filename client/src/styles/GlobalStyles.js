@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components/macro";
 import theme from "./theme";
+import media from "./media";
 const { colors, fontSizes, fonts } = theme;
 
 const GlobalStyle = createGlobalStyle`
@@ -91,8 +92,8 @@ const GlobalStyle = createGlobalStyle`
     font-size: ${fontSizes.base};
     background-color: ${colors.black};
     color: ${colors.white};
-    background: linear-gradient(transparent, ${colors.black});
-    background-color: ${colors.darkGrey};
+    background: linear-gradient(transparent 7.0666%, ${colors.black} 38.08333%);
+    background-color: ${colors.grey};
   }
   #root {
     min-height: 100%;
@@ -144,12 +145,13 @@ const GlobalStyle = createGlobalStyle`
   }
   button {
     display: inline-block;
-    color: ${colors.lightestGrey};
+    color: ${colors.green};
     font-family: ${fonts.primary};
-    font-size: ${fontSizes.base};
+    font-size: ${fontSizes.sm};
+    background-color:transparent;
+    border:2px solid ${colors.lightestGrey};
     font-weight: 700;
     border-radius: 50px;
-    border: 0;
     padding: 10px 20px;
     cursor: pointer;
     transition: ${theme.transition};
@@ -158,6 +160,10 @@ const GlobalStyle = createGlobalStyle`
       color: ${colors.white};
       outline: 0;
     }
+    ${media.tablet`
+    font-size:${fontSizes.xs};
+    padding:7px 13px;
+    `}
   }
 `;
 

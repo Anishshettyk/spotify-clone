@@ -108,7 +108,7 @@ const headers = {
 //get user profile
 export const getUser = () =>
   axios.get("https://api.spotify.com/v1/me", { headers }).catch((err) => {
-    if (err.response.status === 401) {
+    if (err.response?.status === 401) {
       logout();
     }
   });
@@ -120,6 +120,29 @@ export const getFollowing = () =>
 //get users playlists
 export const getPlaylists = () =>
   axios.get("https://api.spotify.com/v1/me/playlists", { headers });
+
+//get a artist details
+export const getArtist = (artistID) =>
+  axios.get(`https://api.spotify.com/v1/artists/${artistID}`, { headers });
+
+//follow a artist
+export const followArtist = (artistID) => {
+  const URL = `https://api.spotify.com/v1/me/following?type=artist&ids=${artistID}`;
+  return axios({ method: "put", URL, headers });
+};
+
+//unfollow a artist
+export const unfollowArtist = (artistID) => {
+  const URL = `https://api.spotify.com/v1/me/following?type=artist&ids=${artistID}`;
+  return axios({ method: "delete", URL, headers });
+};
+
+//does user follow that particular artist
+export const doesUserFollowArtist = (artistID) =>
+  axios.get(
+    `https://api.spotify.com/v1/me/following/contains?type=artist&ids=${artistID}`,
+    { headers }
+  );
 
 export const getUserInfo = () => {
   return axios.all([getUser(), getFollowing(), getPlaylists()]).then(

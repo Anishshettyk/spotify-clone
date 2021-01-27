@@ -147,15 +147,15 @@ export const getArtist = (artistID) =>
   axios.get(`https://api.spotify.com/v1/artists/${artistID}`, { headers });
 
 //follow a artist
-export const followArtist = (artistID) => {
-  const URL = `https://api.spotify.com/v1/me/following?type=artist&ids=${artistID}`;
-  return axios({ method: "put", URL, headers });
+export const followArtist = (artistId) => {
+  const url = `https://api.spotify.com/v1/me/following?type=artist&ids=${artistId}`;
+  return axios({ method: "put", url, headers });
 };
 
 //unfollow a artist
-export const unfollowArtist = (artistID) => {
-  const URL = `https://api.spotify.com/v1/me/following?type=artist&ids=${artistID}`;
-  return axios({ method: "delete", URL, headers });
+export const unfollowArtist = (artistId) => {
+  const url = `https://api.spotify.com/v1/me/following?type=artist&ids=${artistId}`;
+  return axios({ method: "delete", url, headers });
 };
 
 //does user follow that particular artist

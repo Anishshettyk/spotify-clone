@@ -1,5 +1,6 @@
 import { css } from "styled-components/macro";
 import theme from "./theme";
+import media from "./media";
 const { colors, fontSizes } = theme;
 
 const mixins = {
@@ -23,6 +24,11 @@ const mixins = {
   flexBetween: css`
     display: flex;
     justify-content: space-between;
+    align-items: center;
+  `,
+  flexStart: css`
+    display: flex;
+    justify-content: flex-start;
     align-items: center;
   `,
 
@@ -54,44 +60,50 @@ const mixins = {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   `,
 
-  button: css`
+  greenButton: css`
     display: inline-block;
     color: ${colors.white};
     font-weight: 700;
     font-size: ${fontSizes.xs};
     letter-spacing: 1px;
     text-transform: uppercase;
-    border: 1px solid ${colors.white};
+    background-color: ${colors.green};
+    border: none;
     border-radius: 50px;
-    padding: 11px 24px;
+    padding: 9px 33px;
     cursor: pointer;
     transition: ${theme.transition};
     &:hover,
     &:focus {
-      color: ${colors.black};
-      background: ${colors.white};
-      outline: 0;
+      transform: scale(1.04);
     }
+    ${media.tablet`
+    font-size:${fontSizes.xs};
+    padding:7px 20px;
+    `}
   `,
 
-  greenButton: css`
+  greenOutlineButton: css`
     display: inline-block;
-    background-color: ${colors.green};
-    color: ${colors.white};
+    background-color: transparent;
+    color: ${colors.green};
     font-weight: 700;
     font-size: ${fontSizes.xs};
     letter-spacing: 1px;
     text-transform: uppercase;
     border-radius: 50px;
-    padding: 11px 24px;
+    padding: 9px 33px;
     margin: 20px 0;
     cursor: pointer;
     transition: ${theme.transition};
     &:hover,
     &:focus {
-      background-color: ${colors.offGreen};
-      outline: 0;
+      transform: scale(1.04);
     }
+    ${media.tablet`
+    font-size:${fontSizes.xs};
+    padding:7px 20px;
+    `}
   `,
 };
 

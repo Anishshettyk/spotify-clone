@@ -19,6 +19,10 @@ const useStyles = makeStyles(() => ({
     minWidth: 120,
     backgroundColor: colors.grey,
   },
+
+  SelectStyles: {
+    margin: "0px 10px",
+  },
 }));
 
 const ArtistsStyledContainer = styled.main`
@@ -27,6 +31,7 @@ const ArtistsStyledContainer = styled.main`
   h1 {
     font-size: 45px;
     font-weight: 900;
+    letter-spacing: 0.5px;
     padding-bottom: 10px;
     border-bottom: 1px solid ${colors.grey};
   }
@@ -157,6 +162,15 @@ const ArtistName = styled(Link)`
   }
 `;
 
+const StyledFormControl = styled(FormControl)`
+  div {
+    &:before,
+    &:after {
+      border: none;
+    }
+  }
+`;
+
 const Artists = () => {
   const [topArtists, setTopArtists] = useState(null);
   const [filterValue, setFilterValue] = useState("");
@@ -192,16 +206,17 @@ const Artists = () => {
         <SearchIcon />
         <input
           type="text"
-          placeholder="Filter"
+          placeholder="Filter Artists by Name"
           onChange={(event) => setFilterValue(event.target.value)}
         />
       </FilterStyledContainer>
       <SortStyledContainer>
         <h3>Sorted by</h3>
-        <FormControl className={classes.formControl}>
+        <StyledFormControl className={classes.formControl}>
           <Select
             inputProps={{ "aria-label": "sort latest artists" }}
             defaultValue="All time"
+            className={classes.SelectStyles}
           >
             <MenuItem value="All time" onClick={() => setActiveRange("long")}>
               All time
@@ -219,7 +234,7 @@ const Artists = () => {
               Last 4 weeks
             </MenuItem>
           </Select>
-        </FormControl>
+        </StyledFormControl>
       </SortStyledContainer>
       <ArtistsContainer>
         {topArtists ? (

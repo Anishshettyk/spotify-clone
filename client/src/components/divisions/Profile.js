@@ -19,7 +19,7 @@ const ProfilerContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 10px 50px;
+  padding: 10px 15px;
 
   .Profiler__content {
     padding-left: 30px;

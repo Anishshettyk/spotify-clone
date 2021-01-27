@@ -94,6 +94,10 @@ const StyledTab = withStyles((theme) => ({
   },
 }))((props) => <Tab disableRipple {...props} />);
 
+const StyledUserSection = styled.main`
+  padding: 10px 15px;
+`;
+
 const UserActionsContainer = styled.div`
   .overview__tab {
     h3 {
@@ -185,7 +189,7 @@ const User = ({ artistID }) => {
   const classes = useStyles();
 
   return (
-    <section>
+    <StyledUserSection>
       {user ? (
         <div>
           <Profile profiler={user} />
@@ -285,7 +289,7 @@ const User = ({ artistID }) => {
       ) : (
         <div>loading...</div>
       )}
-    </section>
+    </StyledUserSection>
   );
 };
 

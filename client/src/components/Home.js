@@ -2,12 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { theme, media } from "../styles";
 import { Router } from "@reach/router";
-import TopBanner from "./TopBanner";
-import ScrollToTop from "./ScrollToTop";
-import Navbar from "./Navbar";
-import User from "./User";
-import Main from "./Main";
-import Artist from "./Artist";
+import {
+  Artist,
+  Main,
+  User,
+  Navbar,
+  ScrollToTop,
+  TopBanner,
+  Artists,
+} from "./../components";
 
 const HomeStyledWrapper = styled.div`
   padding-left: ${theme.navWidth};
@@ -25,6 +28,7 @@ const Home = () => (
       <ScrollToTop path="/">
         <Main path="/" />
         <User path="me" />
+        <Artists path="artists" />
         <Artist path="artist/:artistID" />
       </ScrollToTop>
     </Router>

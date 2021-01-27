@@ -1,8 +1,12 @@
-import { css } from 'styled-components/macro';
-import theme from './theme';
+import { css } from "styled-components/macro";
+import theme from "./theme";
 const { colors, fontSizes } = theme;
 
 const mixins = {
+  flexComman: css`
+    display: flex;
+    align-items: center;
+  `,
   flexCenter: css`
     display: flex;
     justify-content: center;
@@ -45,6 +49,9 @@ const mixins = {
 
   coverShadow: css`
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  `,
+  coverShadowSmall: css`
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   `,
 
   button: css`

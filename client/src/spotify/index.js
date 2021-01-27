@@ -121,6 +121,27 @@ export const getFollowing = () =>
 export const getPlaylists = () =>
   axios.get("https://api.spotify.com/v1/me/playlists", { headers });
 
+//get artists
+export const getTopArtistsShort = () =>
+  axios.get(
+    "https://api.spotify.com/v1/me/top/artists?limit=50&time_range=short_term",
+    {
+      headers,
+    }
+  );
+export const getTopArtistsMedium = () =>
+  axios.get(
+    "https://api.spotify.com/v1/me/top/artists?limit=50&time_range=medium_term",
+    {
+      headers,
+    }
+  );
+export const getTopArtistsLong = () =>
+  axios.get(
+    "https://api.spotify.com/v1/me/top/artists?limit=50&time_range=long_term",
+    { headers }
+  );
+
 //get a artist details
 export const getArtist = (artistID) =>
   axios.get(`https://api.spotify.com/v1/artists/${artistID}`, { headers });

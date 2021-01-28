@@ -4,7 +4,7 @@ import { Link } from "@reach/router";
 import styled from "styled-components";
 import { theme, mixins, media } from "../styles";
 
-import PersonIcon from "@material-ui/icons/Person";
+import HomeIcon from "@material-ui/icons/Home";
 import HeadsetMicIcon from "@material-ui/icons/HeadsetMic";
 import MusicNoteIcon from "@material-ui/icons/MusicNote";
 import UpdateIcon from "@material-ui/icons/Update";
@@ -120,8 +120,8 @@ const Github = styled.div`
   }
 `;
 
-const isActive = ({ currentLink }) =>
-  currentLink ? { className: "active" } : null;
+const isActive = ({ isCurrent }) =>
+  isCurrent ? { className: "active" } : null;
 
 const NavLink = (props) => <Link getProps={isActive} {...props} />;
 
@@ -136,8 +136,8 @@ const Navbar = () => {
       <NavMenu>
         <MenuItem>
           <NavLink to="/">
-            <PersonIcon />
-            <div>Profile</div>
+            <HomeIcon />
+            <div>Home</div>
           </NavLink>
         </MenuItem>
         <MenuItem>

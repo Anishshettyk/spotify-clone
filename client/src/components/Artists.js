@@ -5,6 +5,7 @@ import {
   getTopArtistsMedium,
   getTopArtistsLong,
 } from "../spotify";
+import { Loader } from "./index";
 import styled from "styled-components";
 import { theme, mixins, media } from "../styles";
 import { FormControl, MenuItem, Select } from "@material-ui/core";
@@ -265,7 +266,7 @@ const Artists = () => {
               </Artist>
             ))
         ) : (
-          <div>loading...</div>
+          <Loader />
         )}
       </ArtistsContainer>
     </ArtistsStyledContainer>

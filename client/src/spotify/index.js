@@ -165,6 +165,20 @@ export const doesUserFollowArtist = (artistID) =>
     { headers }
   );
 
+//get an artist album (single)
+
+export const getArtistAlbumSingle = (artistId) =>
+  axios.get(
+    `https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=single&market=ES&limit=50&offset=5`,
+    { headers }
+  );
+
+//get artists related to a artist
+export const getRelatedArtist = (artistId) =>
+  axios.get(`https://api.spotify.com/v1/artists/${artistId}/related-artists`, {
+    headers,
+  });
+
 export const getUserInfo = () => {
   return axios.all([getUser(), getFollowing(), getPlaylists()]).then(
     axios.spread((user, followedArtists, playlists) => {

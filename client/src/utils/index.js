@@ -9,3 +9,6 @@ export const getHashParams = () => {
 
   return hashParams;
 };
+
+export const formatWithCommas = (n) =>
+  n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

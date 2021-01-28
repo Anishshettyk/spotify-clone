@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import { theme, media } from "../styles";
 import { AppBar, Tabs, Tab, Box } from "@material-ui/core";
 import { Profile } from "./divisions";
+import { Loader } from "./index";
 
 const { colors } = theme;
 function TabPanel(props) {
@@ -126,7 +127,6 @@ const UserActionsContainer = styled.div`
     `}
   }
   .artist__follower__content__container {
-    padding: 0 10px;
     .followed__artist__content__container {
       display: flex;
       align-items: center;
@@ -287,7 +287,7 @@ const User = ({ artistID }) => {
           </UserActionsContainer>
         </div>
       ) : (
-        <div>loading...</div>
+        <Loader />
       )}
     </StyledUserSection>
   );

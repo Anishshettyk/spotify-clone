@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "@reach/router";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import {
@@ -6,12 +7,28 @@ import {
   doesUserFollowArtist,
   followArtist,
   unfollowArtist,
+  getArtistAlbumSingle,
+  getRelatedArtist,
 } from "../spotify/";
+import { formatWithCommas } from "./../utils";
 import { Profile } from "./divisions";
-import { mixins } from "../styles";
+import { Loader } from "./index";
+import { media, mixins, theme } from "../styles";
+import { Avatar } from "@material-ui/core";
+
+const { colors } = theme;
 
 const StyledArtistContainer = styled.main`
   margin: 0px 15px;
+`;
+const ArtistTopContentContainer = styled.div`
+  ${mixins.flexBetween};
+  p {
+    color: ${colors.lightGrey};
+    padding-right: 20px;
+    text-transform: uppercase;
+    font-size: 13px;
+  }
 `;
 const ArtistStyledButtonContainer = styled.div`
   margin: 15px 0px 15px 15px;
@@ -25,19 +42,89 @@ const ArtistStyledButtonContainer = styled.div`
     }
   }
 `;
+const ArtistContentContainer = styled.div`
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-gap: 20px;
+  margin: 10px 0px;
+  ${media.tablet`
+  display:block;
+  `}
+`;
+const ArtistContent = styled.div``;
+
+const FansAlsoLikeContainer = styled.div`
+  .fansAlsoLike__container {
+    margin: 10px 0px;
+    padding: 2px;
+    &:hover {
+      background-color: ${colors.darkGrey};
+    }
+    ${mixins.flexComman};
+    h5 {
+      margin: 0;
+      margin-left: 10px;
+    }
+  }
+  ${media.tablet`
+  margin-top:5vh;
+  `}
+`;
+
+const LatestReleaseContainer = styled.div`
+  .latest__release__container {
+    ${mixins.flexStart};
+    &:hover {
+      background-color: ${colors.darkGrey};
+    }
+    img {
+      width: 80px;
+      height: 80px;
+    }
+    .latest__release__content {
+      padding: 0px 10px;
+      p {
+        color: ${colors.lightestGrey};
+      }
+    }
+  }
+`;
+const CommanLink = styled(Link)`
+  width: 100%;
+`;
 
 const Artist = ({ artistID }) => {
   const [artistData, setArtistData] = useState(null);
   const [followersState, setFollowersState] = useState(false);
+  const [artistAlbums, setArtistAlbums] = useState(null);
+  const [relatedArtist, setRelatedArtist] = useState(null);
 
   useEffect(() => {
+    let isActive = true;
     const getArtistData = async () => {
       const artistDataResponse = await getArtist(artistID);
       const { data } = await doesUserFollowArtist(artistID);
-      setArtistData(artistDataResponse);
-      setFollowersState(data[0]);
+
+      if (isActive) {
+        setArtistData(artistDataResponse);
+        setFollowersState(data[0]);
+      }
     };
+    const getArtistContent = async () => {
+      const AlbumResponse = await getArtistAlbumSingle(artistID);
+      const relatedArtistResponse = await getRelatedArtist(artistID);
+
+      if (isActive) {
+        setArtistAlbums(AlbumResponse.data);
+        setRelatedArtist(relatedArtistResponse.data.artists);
+      }
+    };
+
     getArtistData();
+    getArtistContent();
+    return () => {
+      isActive = false;
+    };
   }, [artistID]);
 
   const isFollowing = async () => {
@@ -61,15 +148,58 @@ const Artist = ({ artistID }) => {
       {artistData ? (
         <div>
           <Profile profiler={artistData.data} />
-          <ArtistStyledButtonContainer>
-            <button>Play</button>
-            <button onClick={() => followAction(followersState)}>
-              {followersState ? "Following" : "Follow"}
-            </button>
-          </ArtistStyledButtonContainer>
+          <ArtistTopContentContainer>
+            <ArtistStyledButtonContainer>
+              <button>Play</button>
+              <button onClick={() => followAction(followersState)}>
+                {followersState ? "Following" : "Follow"}
+              </button>
+            </ArtistStyledButtonContainer>
+            <p>
+              Total Followings
+              <br />
+              <span>{formatWithCommas(artistData.data.followers.total)}</span>
+            </p>
+          </ArtistTopContentContainer>
+          <ArtistContentContainer>
+            <ArtistContent>
+              <LatestReleaseContainer>
+                <h3>Latest Release</h3>
+                {artistAlbums && (
+                  <CommanLink to={`/albums/${artistAlbums.items[0]?.id}`}>
+                    <div className="latest__release__container">
+                      <img
+                        src={artistAlbums?.items[0]?.images[0].url}
+                        alt={artistAlbums?.items[0]?.name}
+                      />
+                      <div className="latest__release__content">
+                        <h4>
+                          {artistAlbums?.items[0]?.name ||
+                            "No latest release available"}
+                        </h4>
+                        <p>{artistAlbums?.items[0]?.release_date}</p>
+                      </div>
+                    </div>
+                  </CommanLink>
+                )}
+              </LatestReleaseContainer>
+            </ArtistContent>
+            <FansAlsoLikeContainer>
+              <h3>Fans also like</h3>
+              {relatedArtist &&
+                relatedArtist.slice(0, 7).map((artist, i) => (
+                  <CommanLink to={`/artist/${artist?.id}`} key={i}>
+                    <div className="fansAlsoLike__container">
+                      <Avatar src={artist.images[0]?.url} alt={artist?.name} />
+                      <h5>{artist?.name}</h5>
+                    </div>
+                  </CommanLink>
+                ))}
+            </FansAlsoLikeContainer>
+          </ArtistContentContainer>
         </div>
       ) : (
-        <div>loading...</div>
+        <Loader />
       )}
     </StyledArtistContainer>
   );

@@ -97,6 +97,9 @@ const StyledTab = withStyles((theme) => ({
 
 const StyledUserSection = styled.main`
   padding: 10px 15px;
+  ${media.tablet`
+    padding:10px 0px;
+  `}
 `;
 
 const UserActionsContainer = styled.div`
@@ -147,6 +150,9 @@ const UserActionsContainer = styled.div`
             letter-spacing: 2px;
             font-weight: 200;
             color: ${colors.lightestGrey};
+            ${media.tablet`
+              font-size:10px;
+            `}
           }
         }
       }

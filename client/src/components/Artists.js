@@ -201,75 +201,83 @@ const Artists = () => {
   const classes = useStyles();
 
   return (
-    <ArtistsStyledContainer>
-      <h1>Artists</h1>
-      <FilterStyledContainer>
-        <SearchIcon />
-        <input
-          type="text"
-          placeholder="Filter Artists by Name"
-          onChange={(event) => setFilterValue(event.target.value)}
-        />
-      </FilterStyledContainer>
-      <SortStyledContainer>
-        <h3>Sorted by</h3>
-        <StyledFormControl className={classes.formControl}>
-          <Select
-            inputProps={{ "aria-label": "sort latest artists" }}
-            defaultValue="All time"
-            className={classes.SelectStyles}
-          >
-            <MenuItem value="All time" onClick={() => setActiveRange("long")}>
-              All time
-            </MenuItem>
-            <MenuItem
-              value="last 6 months"
-              onClick={() => setActiveRange("medium")}
-            >
-              Last 6 months
-            </MenuItem>
-            <MenuItem
-              value="last 4 weeks"
-              onClick={() => setActiveRange("short")}
-            >
-              Last 4 weeks
-            </MenuItem>
-          </Select>
-        </StyledFormControl>
-      </SortStyledContainer>
-      <ArtistsContainer>
-        {topArtists ? (
-          topArtists.items
-            // eslint-disable-next-line array-callback-return
-            .filter((artist) => {
-              if (filterValue === "") {
-                return artist;
-              } else if (
-                artist.name.toLowerCase().includes(filterValue.toLowerCase())
-              ) {
-                return artist;
-              }
-            })
-            .map((artist, i) => (
-              <Artist key={i}>
-                <ArtistArtwork to={`/artist/${artist.id}`}>
-                  {artist.images.length && (
-                    <img src={artist.images[1].url} alt="Artist" />
-                  )}
-                  <Mask>
-                    <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
-                  </Mask>
-                </ArtistArtwork>
-                <ArtistName to={`/artist/${artist.id}`}>
-                  {artist.name}
-                </ArtistName>
-              </Artist>
-            ))
-        ) : (
-          <Loader />
-        )}
-      </ArtistsContainer>
-    </ArtistsStyledContainer>
+    <section>
+      {topArtists ? (
+        <ArtistsStyledContainer>
+          <h1>Artists</h1>
+          <FilterStyledContainer>
+            <SearchIcon />
+            <input
+              type="text"
+              placeholder="Filter Artists by Name"
+              onChange={(event) => setFilterValue(event.target.value)}
+            />
+          </FilterStyledContainer>
+          <SortStyledContainer>
+            <h3>Sorted by</h3>
+            <StyledFormControl className={classes.formControl}>
+              <Select
+                inputProps={{ "aria-label": "sort latest artists" }}
+                defaultValue="All time"
+                className={classes.SelectStyles}
+              >
+                <MenuItem
+                  value="All time"
+                  onClick={() => setActiveRange("long")}
+                >
+                  All time
+                </MenuItem>
+                <MenuItem
+                  value="last 6 months"
+                  onClick={() => setActiveRange("medium")}
+                >
+                  Last 6 months
+                </MenuItem>
+                <MenuItem
+                  value="last 4 weeks"
+                  onClick={() => setActiveRange("short")}
+                >
+                  Last 4 weeks
+                </MenuItem>
+              </Select>
+            </StyledFormControl>
+          </SortStyledContainer>
+          <ArtistsContainer>
+            {topArtists &&
+              topArtists.items
+                // eslint-disable-next-line array-callback-return
+                .filter((artist) => {
+                  if (filterValue === "") {
+                    return artist;
+                  } else if (
+                    artist.name
+                      .toLowerCase()
+                      .includes(filterValue.toLowerCase())
+                  ) {
+                    return artist;
+                  }
+                })
+                .map((artist, i) => (
+                  <Artist key={i}>
+                    <ArtistArtwork to={`/artist/${artist.id}`}>
+                      {artist.images.length && (
+                        <img src={artist.images[1].url} alt="Artist" />
+                      )}
+                      <Mask>
+                        <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
+                      </Mask>
+                    </ArtistArtwork>
+                    <ArtistName to={`/artist/${artist.id}`}>
+                      {artist.name}
+                    </ArtistName>
+                  </Artist>
+                ))}
+          </ArtistsContainer>
+        </ArtistsStyledContainer>
+      ) : (
+        <Loader />
+      )}
+    </section>
   );
 };
 

@@ -10,6 +10,7 @@ import {
   ScrollToTop,
   TopBanner,
   Artists,
+  RecentlyPlayed,
 } from "./../components";
 
 const HomeStyledWrapper = styled.div`
@@ -28,6 +29,7 @@ const Home = () => (
       <ScrollToTop path="/">
         <Main path="/" />
         <User path="me" />
+        <RecentlyPlayed path="recently-played" />
         <Artists path="artists" />
         <Artist path="artist/:artistID" />
       </ScrollToTop>

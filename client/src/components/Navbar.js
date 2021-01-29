@@ -153,7 +153,7 @@ const Navbar = () => {
           </NavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to="/recent">
+          <NavLink to="/recently-played">
             <UpdateIcon />
             <div>Recent</div>
           </NavLink>

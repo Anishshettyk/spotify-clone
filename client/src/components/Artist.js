@@ -28,6 +28,9 @@ const ArtistTopContentContainer = styled.div`
     padding-right: 20px;
     text-transform: uppercase;
     font-size: 13px;
+    ${media.phablet`
+      display:none;
+    `}
   }
 `;
 const ArtistStyledButtonContainer = styled.div`

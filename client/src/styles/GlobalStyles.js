@@ -164,6 +164,7 @@ const GlobalStyle = createGlobalStyle`
     font-size:${fontSizes.xs};
     padding:7px 13px;
     `}
+    
   }
 `;
 

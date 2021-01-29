@@ -179,6 +179,12 @@ export const getRelatedArtist = (artistId) =>
     headers,
   });
 
+//get recently played tracks
+export const getRecentlyPlayed = () =>
+  axios.get("https://api.spotify.com/v1/me/player/recently-played", {
+    headers,
+  });
+
 export const getUserInfo = () => {
   return axios.all([getUser(), getFollowing(), getPlaylists()]).then(
     axios.spread((user, followedArtists, playlists) => {

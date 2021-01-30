@@ -64,7 +64,6 @@ const Mask = styled.div`
   right: 0;
   font-size: 20px;
   color: ${colors.white};
-  border-radius: 10px;
   opacity: 0;
   transition: ${theme.transition};
 `;
@@ -82,7 +81,7 @@ const RecentlyPlayedLink = styled(Link)`
   img {
     object-fit: cover;
     width: 100%;
-    border-radius: 10px;
+
     box-shadow: ${mixins.coverShadow};
   }
 `;

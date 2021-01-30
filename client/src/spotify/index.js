@@ -196,3 +196,21 @@ export const getUserInfo = () => {
     })
   );
 };
+
+//get users current playback
+export const getUsersCurrentPlayback = () =>
+  axios.get(
+    "https://api.spotify.com/v1/me/player?market=ES&additional_types=episode",
+    {
+      headers,
+    }
+  );
+
+//gets users current playing track
+export const getUsersCurrentPlay = () =>
+  axios.get(
+    "https://api.spotify.com/v1/me/player/currently-playing?market=ES&additional_types=episode",
+    {
+      headers,
+    }
+  );

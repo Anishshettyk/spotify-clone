@@ -89,7 +89,7 @@ if (cluster.isMaster) {
 
     // your application requests authorization
     const scope =
-      "user-read-private user-read-email user-read-recently-played user-top-read user-follow-read user-follow-modify playlist-read-private playlist-read-collaborative playlist-modify-public";
+      "user-read-private user-read-email user-read-recently-played user-top-read user-follow-read user-follow-modify playlist-read-private playlist-read-collaborative playlist-modify-public user-read-playback-position user-library-read playlist-modify-public ugc-image-upload user-read-currently-playing user-library-modify user-modify-playback-state user-read-playback-state";
 
     res.redirect(
       `https://accounts.spotify.com/authorize?${querystring.stringify({

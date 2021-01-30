@@ -11,6 +11,7 @@ import {
   TopBanner,
   Artists,
   RecentlyPlayed,
+  Player,
 } from "./../components";
 
 const HomeStyledWrapper = styled.div`
@@ -25,6 +26,7 @@ const Home = () => (
   <HomeStyledWrapper>
     <Navbar />
     <TopBanner />
+    <Player />
     <Router primary={false}>
       <ScrollToTop path="/">
         <Main path="/" />

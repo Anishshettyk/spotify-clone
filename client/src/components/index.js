@@ -7,3 +7,4 @@ export { default as TopBanner } from "./TopBanner";
 export { default as ScrollToTop } from "./ScrollToTop";
 export { default as Loader } from "./Loader";
 export { default as RecentlyPlayed } from "./RecentlyPlayed";
+export { default as Player } from "./Player";

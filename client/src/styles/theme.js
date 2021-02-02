@@ -53,6 +53,7 @@ const theme = {
 
   navWidth: "100px",
   navHeight: "70px",
+  visibleBottom: "80px",
 };
 
 export default theme;

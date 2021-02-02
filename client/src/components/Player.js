@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useContext } from "react";
+import { PlayerContext } from "../context/PlayerContext";
 import { Link } from "@reach/router";
 import styled from "styled-components";
 import { theme, media } from "../styles";
-import { getRecentlyPlayed } from "../spotify";
-import { Slider } from "@material-ui/core";
+import { PlayerFeatures } from "./divisions";
+import { Slider, Tooltip } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
+import { convertTime } from "../utils";
 
 import ShuffleIcon from "@material-ui/icons/Shuffle";
 import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-// import PauseCircleOutlineIcon from "@material-ui/icons/PauseCircleOutline";
+import PauseCircleOutlineIcon from "@material-ui/icons/PauseCircleOutline";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
 import RepeatIcon from "@material-ui/icons/Repeat";
-import QueueMusicIcon from "@material-ui/icons/QueueMusic";
-import DevicesIcon from "@material-ui/icons/Devices";
-import VolumeUp from "@material-ui/icons/VolumeUp";
 
 const { colors } = theme;
 
@@ -35,15 +34,6 @@ const MusicSlider = withStyles({
     width: 12,
     backgroundColor: "#fff",
     marginTop: -4,
-    "&:focus, &:hover, &$active": {
-      boxShadow: "inherit",
-    },
-  },
-})(Slider);
-
-const VolumeSlider = withStyles({
-  root: {
-    color: colors.green,
   },
 })(Slider);
 
@@ -54,7 +44,7 @@ const PlayerStyledContainer = styled.section`
   z-index: 100;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr;
   grid-gap: 5px;
   width: calc(100% - 100px);
   padding: 10px;
@@ -100,7 +90,7 @@ const PLayerAlbumLink = styled(Link)`
   &:hover,
   &:focus {
     p {
-      color: ${colors.blue};
+      color: ${colors.green};
       transform: scale(1.01);
     }
   }
@@ -118,6 +108,7 @@ const PlayerActionsContainer = styled.div`
     justify-content: center;
     svg {
       margin: 0px 15px;
+      cursor: pointer;
     }
   }
   .playerActions__slider__container {
@@ -135,33 +126,35 @@ const PlayerActionsContainer = styled.div`
     }
   }
 `;
-const PlayerFeaturesContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  svg {
-    margin-right: 15px;
-  }
-  .volume__control {
-    display: flex;
-    width: 50%;
-    svg {
-      margin-right: 15px;
-    }
-  }
-`;
 
 const Player = () => {
-  const [playerData, setPlayerData] = useState(null);
+  const [playing, setPlaying] = useState(false);
+  const [duration, setDuration] = useState("0:00");
+  const [currentTime, setCurrentTime] = useState("0:00");
+  const [percentage, setPercentage] = useState(0);
 
-  const getPlayersPresentData = async () => {
-    const usersCurrentPLaybackResponse = await getRecentlyPlayed();
-    setPlayerData(usersCurrentPLaybackResponse.data.items);
+  const { playerData } = useContext(PlayerContext);
+
+  const audioRef = useRef();
+
+  const handlePlayPause = () => {
+    const audio = audioRef.current;
+    if (playing && audio.play) {
+      setPlaying(false);
+      audio.pause();
+    } else {
+      setPlaying(true);
+      audio.play();
+    }
   };
 
-  useEffect(() => {
-    getPlayersPresentData();
-  }, []);
+  const MusicSliderpercentage = () => {
+    const audio = audioRef.current;
+    const percentageobtained = Math.floor(
+      audio.currentTime * (100 / audio.duration)
+    );
+    setPercentage(percentageobtained);
+  };
 
   return (
     <PlayerStyledContainer>
@@ -169,19 +162,21 @@ const Player = () => {
         {playerData && (
           <div className="artistData__container">
             <img
-              src={playerData[0]?.track?.album?.images[2]?.url}
-              alt={playerData[0]?.track?.album?.name}
+              src={playerData.track?.album?.images[2]?.url}
+              alt={playerData?.track?.name}
             />
             <div className="artistData_content_container">
-              <PLayerAlbumLink
-                to={`/albums/${playerData[0]?.track?.album?.id}`}
-              >
-                <p>{playerData[0]?.track?.album?.name}</p>
+              <PLayerAlbumLink to={`/albums/${playerData?.track?.album?.id}`}>
+                <p>
+                  {playerData?.track?.name.length > 15
+                    ? `${playerData?.track?.name.slice(0, 15)}...`
+                    : playerData?.track?.name}
+                </p>
               </PLayerAlbumLink>
               <PlayerArtistLink
-                to={`/artist/${playerData[0]?.track?.album?.artists[0]?.id}`}
+                to={`/artist/${playerData?.track?.artists[0]?.id}`}
               >
-                <span>{playerData[0]?.track?.album?.artists[0]?.name}</span>
+                <span>{playerData?.track?.artists[0]?.name}</span>
               </PlayerArtistLink>
             </div>
           </div>
@@ -189,29 +184,68 @@ const Player = () => {
       </ArtistContent>
       <PlayerActionsContainer>
         <div className="playerActions__button__container">
-          <ShuffleIcon style={{ fontSize: 20 }} />
-          <SkipPreviousIcon style={{ fontSize: 20 }} />
-          <PlayCircleOutlineIcon style={{ fontSize: 35 }} />
-          <SkipNextIcon style={{ fontSize: 20 }} />
-          <RepeatIcon style={{ fontSize: 20 }} />
+          <Tooltip title="Shuffle">
+            <ShuffleIcon style={{ fontSize: 20, color: colors.lightGrey }} />
+          </Tooltip>
+          <Tooltip title="Prev">
+            <SkipPreviousIcon
+              style={{ fontSize: 20, color: colors.lightestGrey }}
+            />
+          </Tooltip>
+          {playing ? (
+            <Tooltip title="pause">
+              <PauseCircleOutlineIcon
+                style={{ fontSize: 35 }}
+                onClick={handlePlayPause}
+              />
+            </Tooltip>
+          ) : (
+            <Tooltip title="Play">
+              <PlayCircleOutlineIcon
+                style={{ fontSize: 35 }}
+                onClick={handlePlayPause}
+              />
+            </Tooltip>
+          )}
+
+          <Tooltip title="Next">
+            <SkipNextIcon
+              style={{ fontSize: 20, color: colors.lightestGrey }}
+            />
+          </Tooltip>
+          <Tooltip title="Repeat">
+            <RepeatIcon style={{ fontSize: 20, color: colors.lightGrey }} />
+          </Tooltip>
         </div>
-        <div className="playerActions__slider__container">
-          <span className="timer__start">0.00</span>
-          <MusicSlider
-            aria-label="player slider"
-            aria-labelledby="continuous-slider"
-          />
-          <span className="timer__end">4.20</span>
-        </div>
+        {playerData && (
+          <div className="playerActions__slider__container">
+            <span className="timer__start">{`${currentTime}`}</span>
+            <MusicSlider
+              aria-label="player slider"
+              aria-labelledby="continuous-slider"
+              defaultValue={0}
+              value={percentage}
+              onChange={MusicSliderpercentage}
+            />
+            <audio
+              src={playerData?.track?.preview_url}
+              ref={audioRef}
+              onLoadedData={(e) => {
+                setDuration(
+                  convertTime(Math.floor(e.currentTarget.duration.toFixed(2)))
+                );
+              }}
+              onTimeUpdate={(e) => {
+                setCurrentTime(
+                  convertTime(e.currentTarget.currentTime.toFixed(2))
+                );
+              }}
+            ></audio>
+            <span className="timer__end">{duration}</span>
+          </div>
+        )}
       </PlayerActionsContainer>
-      <PlayerFeaturesContainer>
-        <QueueMusicIcon style={{ fontSize: 20 }} />
-        <DevicesIcon style={{ fontSize: 20 }} />
-        <div className="volume__control">
-          <VolumeUp />
-          <VolumeSlider aria-labelledby="continuous-slider" />
-        </div>
-      </PlayerFeaturesContainer>
+      <PlayerFeatures />
     </PlayerStyledContainer>
   );
 };

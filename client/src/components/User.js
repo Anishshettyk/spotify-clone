@@ -110,7 +110,7 @@ const UserActionsContainer = styled.div`
     }
   }
   .overview__tab__content__container {
-    margin-top: 3vh;
+    margin: 3vh 0px ${theme.navHeight};
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 20px;
@@ -130,6 +130,7 @@ const UserActionsContainer = styled.div`
     `}
   }
   .artist__follower__content__container {
+    margin-bottom: ${theme.navHeight};
     .followed__artist__content__container {
       display: flex;
       align-items: center;

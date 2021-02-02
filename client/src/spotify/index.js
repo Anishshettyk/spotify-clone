@@ -159,17 +159,29 @@ export const unfollowArtist = (artistId) => {
 };
 
 //does user follow that particular artist
-export const doesUserFollowArtist = (artistID) =>
+export const doesUserFollowArtist = (artistId) =>
   axios.get(
-    `https://api.spotify.com/v1/me/following/contains?type=artist&ids=${artistID}`,
+    `https://api.spotify.com/v1/me/following/contains?type=artist&ids=${artistId}`,
+    { headers }
+  );
+
+//get artists popular tracks
+export const getArtistsTopTrack = (artistId) =>
+  axios.get(
+    `https://api.spotify.com/v1/artists/${artistId}/top-tracks?market=IN`,
     { headers }
   );
 
 //get an artist album (single)
-
 export const getArtistAlbumSingle = (artistId) =>
   axios.get(
-    `https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=single&market=ES&limit=50&offset=5`,
+    `https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=single&market=IN&limit=20&offset=5`,
+    { headers }
+  );
+//get an artist album (appeared on)
+export const getArtistAlbumAppearsOn = (artistId) =>
+  axios.get(
+    `https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=appears_on&market=IN&limit=20&offset=5`,
     { headers }
   );
 
@@ -214,3 +226,9 @@ export const getUsersCurrentPlay = () =>
       headers,
     }
   );
+
+//get user devices
+export const getUsersDevices = () =>
+  axios.get("https://api.spotify.com/v1/me/player/devices", {
+    headers,
+  });

@@ -13,6 +13,7 @@ import {
   RecentlyPlayed,
   Player,
 } from "./../components";
+import PlayerProvider from "./../context/PlayerContext";
 
 const HomeStyledWrapper = styled.div`
   padding-left: ${theme.navWidth};
@@ -23,20 +24,22 @@ const HomeStyledWrapper = styled.div`
 `;
 
 const Home = () => (
-  <HomeStyledWrapper>
-    <Navbar />
-    <TopBanner />
-    <Player />
-    <Router primary={false}>
-      <ScrollToTop path="/">
-        <Main path="/" />
-        <User path="me" />
-        <RecentlyPlayed path="recently-played" />
-        <Artists path="artists" />
-        <Artist path="artist/:artistID" />
-      </ScrollToTop>
-    </Router>
-  </HomeStyledWrapper>
+  <PlayerProvider>
+    <HomeStyledWrapper>
+      <Navbar />
+      <TopBanner />
+      <Player />
+      <Router primary={false}>
+        <ScrollToTop path="/">
+          <Main path="/" />
+          <User path="me" />
+          <RecentlyPlayed path="recently-played" />
+          <Artists path="artists" />
+          <Artist path="artist/:artistID" />
+        </ScrollToTop>
+      </Router>
+    </HomeStyledWrapper>
+  </PlayerProvider>
 );
 
 export default Home;

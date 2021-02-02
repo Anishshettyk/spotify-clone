@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
 
 const ArtistsStyledContainer = styled.main`
   min-height: 91vh;
-  padding: 50px 20px;
+  padding: 50px 20px ${theme.visibleBottom} 20px;
   h1 {
     font-size: 45px;
     font-weight: 900;

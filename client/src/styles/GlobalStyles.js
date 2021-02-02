@@ -129,6 +129,9 @@ const GlobalStyle = createGlobalStyle`
   svg {
     fill: currentColor;
     vertical-align: middle;
+    .playerNormal{
+      color:${colors.grey};
+    }
   }
   input {
     border-radius: 0;
@@ -164,7 +167,6 @@ const GlobalStyle = createGlobalStyle`
     font-size:${fontSizes.xs};
     padding:7px 13px;
     `}
-    
   }
 `;
 

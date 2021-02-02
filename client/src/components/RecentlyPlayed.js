@@ -9,7 +9,7 @@ import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 const { colors } = theme;
 
 const StyledRecentlyPlayedContainer = styled.main`
-  margin: 5vh 20px;
+  margin: 5vh 20px ${theme.visibleBottom} 20px;
   h1 {
     font-size: 40px;
     font-weight: 900;

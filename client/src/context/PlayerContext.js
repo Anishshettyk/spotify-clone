@@ -2,11 +2,21 @@ import React, { createContext, useReducer, useState, useEffect } from "react";
 import { getRecentlyPlayed } from "../spotify";
 import PlayerReducer from "./PlayerReducer";
 
-export const PlayerContext = createContext();
+const initialState = {
+  playerData: {
+    musicImageUrl: null,
+    musicName: null,
+    musicArtistName: null,
+    musicArtistId: null,
+    musicPreviewUrl: null,
+  },
+};
+
+export const PlayerContext = createContext(initialState);
 
 const PlayerProvider = ({ children }) => {
-  const [playerData, setPlayerData] = useState([]);
-  useReducer(PlayerReducer, playerData);
+  const [playerData, setPlayerData] = useState(null);
+  const [state, dispath] = useReducer(PlayerReducer, initialState);
 
   useEffect(() => {
     const playerInitialDataRequest = async () => {
@@ -16,8 +26,33 @@ const PlayerProvider = ({ children }) => {
     playerInitialDataRequest();
   }, []);
 
+  if (playerData) {
+    const {
+      track: {
+        artists,
+        album: { images, name },
+        preview_url,
+      },
+    } = playerData;
+
+    initialState.playerData.musicPreviewUrl = preview_url;
+    initialState.playerData.musicName = name;
+    initialState.playerData.musicImageUrl = images[2].url;
+    initialState.playerData.musicArtistName = artists[0].name;
+    initialState.playerData.musicArtistId = artists[0].id;
+  }
+
+  const playClickedMusic = (playerData) => {
+    dispath({
+      type: "PLAY_MUSIC",
+      payload: playerData,
+    });
+  };
+
   return (
-    <PlayerContext.Provider value={{ playerData }}>
+    <PlayerContext.Provider
+      value={{ playerData: state.playerData, playClickedMusic }}
+    >
       {children}
     </PlayerContext.Provider>
   );

@@ -121,7 +121,7 @@ export const getFollowing = () =>
 export const getPlaylists = () =>
   axios.get("https://api.spotify.com/v1/me/playlists", { headers });
 
-//get artists
+//get artists (short list)
 export const getTopArtistsShort = () =>
   axios.get(
     "https://api.spotify.com/v1/me/top/artists?limit=50&time_range=short_term",
@@ -129,6 +129,8 @@ export const getTopArtistsShort = () =>
       headers,
     }
   );
+
+//get artists (medium list)
 export const getTopArtistsMedium = () =>
   axios.get(
     "https://api.spotify.com/v1/me/top/artists?limit=50&time_range=medium_term",
@@ -136,6 +138,8 @@ export const getTopArtistsMedium = () =>
       headers,
     }
   );
+
+//get artists (long list)
 export const getTopArtistsLong = () =>
   axios.get(
     "https://api.spotify.com/v1/me/top/artists?limit=50&time_range=long_term",
@@ -175,13 +179,13 @@ export const getArtistsTopTrack = (artistId) =>
 //get an artist album (single)
 export const getArtistAlbumSingle = (artistId) =>
   axios.get(
-    `https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=single&market=IN&limit=20&offset=5`,
+    `https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=single&market=IN&limit=20&offset=0`,
     { headers }
   );
 //get an artist album (appeared on)
 export const getArtistAlbumAppearsOn = (artistId) =>
   axios.get(
-    `https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=appears_on&market=IN&limit=20&offset=5`,
+    `https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=appears_on&market=IN&limit=20&offset=0`,
     { headers }
   );
 
@@ -194,6 +198,17 @@ export const getRelatedArtist = (artistId) =>
 //get recently played tracks
 export const getRecentlyPlayed = () =>
   axios.get("https://api.spotify.com/v1/me/player/recently-played", {
+    headers,
+  });
+
+//get a album details
+export const getAlbumDetails = (albumId) =>
+  axios.get(`https://api.spotify.com/v1/albums/${albumId}?market=IN`, {
+    headers,
+  });
+// get a track
+export const getTrack = (trackId) =>
+  axios.get(`https://api.spotify.com/v1/tracks/${trackId}?market=IN`, {
     headers,
   });
 

@@ -115,7 +115,7 @@ const RecentlyPlayed = () => {
           <RecentlyPlayedContentContainer>
             {recentlyPlayed.items.map(({ context, track }, i) => (
               <RecentlyPlayedContent key={i}>
-                <RecentlyPlayedLink to={`/albums/${track.id}`}>
+                <RecentlyPlayedLink to={`/album/${track.id}`}>
                   <img
                     src={track.album.images[1].url}
                     alt={track.album.artists.name}

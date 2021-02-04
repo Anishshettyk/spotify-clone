@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { PlayerContext } from "../context/PlayerContext";
 import { Link } from "@reach/router";
 import styled from "styled-components";
@@ -132,8 +132,13 @@ const Player = () => {
   const [duration, setDuration] = useState("0:00");
   const [currentTime, setCurrentTime] = useState("0:00");
   const [percentage, setPercentage] = useState(0);
+  const [playerDataObtained, setPlayerDataObtained] = useState(null);
 
   const { playerData } = useContext(PlayerContext);
+
+  useEffect(() => {
+    setPlayerDataObtained(playerData);
+  }, [playerData]);
 
   const audioRef = useRef();
 
@@ -159,24 +164,26 @@ const Player = () => {
   return (
     <PlayerStyledContainer>
       <ArtistContent>
-        {playerData && (
+        {playerDataObtained && (
           <div className="artistData__container">
             <img
-              src={playerData.track?.album?.images[2]?.url}
-              alt={playerData?.track?.name}
+              src={playerDataObtained?.musicImageUrl}
+              alt={playerDataObtained?.musicName}
             />
             <div className="artistData_content_container">
-              <PLayerAlbumLink to={`/albums/${playerData?.track?.album?.id}`}>
+              <PLayerAlbumLink
+                to={`/albums/${playerDataObtained?.musicArtistId}`}
+              >
                 <p>
-                  {playerData?.track?.name.length > 15
-                    ? `${playerData?.track?.name.slice(0, 15)}...`
-                    : playerData?.track?.name}
+                  {playerDataObtained?.musicName?.length > 15
+                    ? `${playerDataObtained?.musicName.slice(0, 15)}...`
+                    : playerDataObtained?.musicName}
                 </p>
               </PLayerAlbumLink>
               <PlayerArtistLink
-                to={`/artist/${playerData?.track?.artists[0]?.id}`}
+                to={`/artist/${playerDataObtained?.musicArtistId}`}
               >
-                <span>{playerData?.track?.artists[0]?.name}</span>
+                <span>{playerDataObtained.musicArtistName}</span>
               </PlayerArtistLink>
             </div>
           </div>
@@ -217,7 +224,7 @@ const Player = () => {
             <RepeatIcon style={{ fontSize: 20, color: colors.lightGrey }} />
           </Tooltip>
         </div>
-        {playerData && (
+        {playerDataObtained && (
           <div className="playerActions__slider__container">
             <span className="timer__start">{`${currentTime}`}</span>
             <MusicSlider
@@ -228,7 +235,7 @@ const Player = () => {
               onChange={MusicSliderpercentage}
             />
             <audio
-              src={playerData?.track?.preview_url}
+              src={playerDataObtained?.musicPreviewUrl}
               ref={audioRef}
               onLoadedData={(e) => {
                 setDuration(

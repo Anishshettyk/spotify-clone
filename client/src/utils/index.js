@@ -20,8 +20,14 @@ export const convertMilli = (milli) => {
   return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 };
 
-//convert time
+//covert milliseconds to minitute:seconds format with min and sec retured.
+export const convertMilli1 = (milli) => {
+  const minutes = Math.floor(milli / 60000);
+  const seconds = ((milli % 60000) / 1000).toFixed(0);
+  return `${minutes} Min ${seconds < 10 ? "0" : ""}${seconds} Sec`;
+};
 
+//convert time
 export const convertTime = (timestamp) => {
   let minutes = Math.floor(timestamp / 60);
   let seconds = Math.trunc(timestamp - minutes * 60); //to remove decimal part

@@ -45,6 +45,7 @@ const AlbumPreviewLargeContainer = styled.div`
     p {
       margin: 0;
       color: ${colors.lightestGrey};
+      font-style: italic;
     }
   }
 `;

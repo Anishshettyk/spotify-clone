@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { getRecentlyPlayed } from "../spotify";
+import React, { useState, useEffect, useContext } from "react";
+import { getRecentlyPlayed, getTrack } from "../spotify";
 import styled from "styled-components";
 import { Loader } from "./index";
 import { theme, media, mixins } from "../styles";
 import { Link } from "@reach/router";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import { PlayerContext } from "../context/PlayerContext";
 
 const { colors } = theme;
 
@@ -15,7 +16,7 @@ const StyledRecentlyPlayedContainer = styled.main`
     font-weight: 900;
     letter-spacing: 0.5px;
     padding-bottom: 5px;
-    border-bottom: 1px solid ${colors.lightGrey};
+    border-bottom: 2px solid ${colors.grey};
     ${media.tablet`
      font-size:30px;
     `}
@@ -68,7 +69,7 @@ const Mask = styled.div`
   transition: ${theme.transition};
 `;
 
-const RecentlyPlayedLink = styled(Link)`
+const RecentlyPlayedInsider = styled.div`
   display: inline-block;
   position: relative;
   width: 100%;
@@ -98,6 +99,7 @@ const ArtistLink = styled(Link)`
 
 const RecentlyPlayed = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState(null);
+  const { playClickedMusic } = useContext(PlayerContext);
 
   useEffect(() => {
     const getRecentlyPlayedData = async () => {
@@ -107,38 +109,56 @@ const RecentlyPlayed = () => {
     getRecentlyPlayedData();
   }, []);
 
+  const playClickedSong = async (trackID) => {
+    const response = await getTrack(trackID);
+    const {
+      album: { images },
+      preview_url,
+      artists,
+      name,
+    } = response?.data;
+
+    const playerData = {
+      musicImageUrl: images[2]?.url,
+      musicName: name,
+      musicArtistName: artists[0]?.name,
+      musicArtistId: artists[0]?.id,
+      musicPreviewUrl: preview_url,
+    };
+    playClickedMusic(playerData);
+  };
+
   return (
     <section>
       {recentlyPlayed ? (
         <StyledRecentlyPlayedContainer>
           <h1>Recently Played.</h1>
           <RecentlyPlayedContentContainer>
-            {recentlyPlayed.items.map(({ context, track }, i) => (
+            {recentlyPlayed?.items.map(({ context, track }, i) => (
               <RecentlyPlayedContent key={i}>
-                <RecentlyPlayedLink to={`/album/${track.id}`}>
-                  <img
-                    src={track.album.images[1].url}
-                    alt={track.album.artists.name}
-                  />
+                <RecentlyPlayedInsider
+                  onClick={() => playClickedSong(track?.id)}
+                >
+                  <img src={track?.album?.images[1]?.url} alt={track?.name} />
                   <Mask>
                     <PlayCircleOutlineIcon style={{ fontSize: 80 }} />
                   </Mask>
-                </RecentlyPlayedLink>
-                <h4>{track.album.name}</h4>
-                {track.artists &&
-                  track.artists.map(({ name, id }, i) => (
+                </RecentlyPlayedInsider>
+                <h4>{track?.name}</h4>
+                {track?.artists &&
+                  track?.artists.map(({ name, id }, i) => (
                     <ArtistLink to={`/artist/${id}`} key={i}>
                       <span>
                         {name}
-                        {track.artists.length > 0 &&
-                        i === track.artists.length - 1
+                        {track?.artists?.length > 0 &&
+                        i === track?.artists?.length - 1
                           ? ""
                           : ","}
                         &nbsp;
                       </span>
                     </ArtistLink>
                   ))}
-                <p>{context.type}</p>
+                <p>{context?.type}</p>
               </RecentlyPlayedContent>
             ))}
           </RecentlyPlayedContentContainer>

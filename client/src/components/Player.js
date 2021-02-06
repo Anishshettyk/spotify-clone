@@ -134,13 +134,18 @@ const Player = () => {
   const [percentage, setPercentage] = useState(0);
   const [playerDataObtained, setPlayerDataObtained] = useState(null);
 
-  const { playerData } = useContext(PlayerContext);
+  const { playerData, playClickedMusic } = useContext(PlayerContext);
+
+  const audioRef = useRef();
+
+  const playerChangedData = {
+    ...playerData,
+    audio: audioRef.current,
+  };
 
   useEffect(() => {
     setPlayerDataObtained(playerData);
   }, [playerData]);
-
-  const audioRef = useRef();
 
   const handlePlayPause = () => {
     const audio = audioRef.current;
@@ -151,6 +156,7 @@ const Player = () => {
       setPlaying(true);
       audio.play();
     }
+    playClickedMusic(playerChangedData);
   };
 
   const MusicSliderpercentage = () => {

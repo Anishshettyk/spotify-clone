@@ -4,14 +4,7 @@ import { Link } from "@reach/router";
 import { theme } from "../styles";
 import { getUser } from "./../spotify";
 import { logout } from "./../spotify";
-import {
-  Avatar,
-  CircularProgress,
-  Menu,
-  MenuItem,
-  Button,
-  Tooltip,
-} from "@material-ui/core";
+import { Avatar, Menu, MenuItem, Button, Tooltip } from "@material-ui/core";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 
 const { colors } = theme;
@@ -81,7 +74,7 @@ const TopBanner = () => {
 
   return (
     <TopBannerContainer>
-      {user ? (
+      {user && (
         <TopBannerInside>
           <SearchContainer>.</SearchContainer>
           <UserShowContainer>
@@ -114,8 +107,6 @@ const TopBanner = () => {
             </div>
           </UserShowContainer>
         </TopBannerInside>
-      ) : (
-        <CircularProgress />
       )}
     </TopBannerContainer>
   );

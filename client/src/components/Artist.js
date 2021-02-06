@@ -64,7 +64,7 @@ const FansAlsoLikeContainer = styled.div`
     padding: 2px;
     border-radius: 2px;
     &:hover {
-      background-color: ${colors.black};
+      background-color: ${colors.grey};
     }
     ${mixins.flexComman};
     h5 {
@@ -81,7 +81,7 @@ const LatestReleaseContainer = styled.div`
   .latest__release__container {
     ${mixins.flexStart};
     &:hover {
-      background-color: ${colors.black};
+      background-color: ${colors.grey};
     }
     img {
       width: 80px;

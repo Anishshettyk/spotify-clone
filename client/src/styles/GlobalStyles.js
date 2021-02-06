@@ -93,7 +93,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${colors.black};
     color: ${colors.white};
     background: linear-gradient(transparent 7.0666%, ${colors.black} 38.08333%);
-    background-color: ${colors.grey};
+    background-color: ${colors.darkGrey};
   }
   #root {
     min-height: 100%;

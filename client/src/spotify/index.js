@@ -212,6 +212,29 @@ export const getTrack = (trackId) =>
     headers,
   });
 
+//get users top tracks (short)
+export const getTopTracksShort = () =>
+  axios.get(
+    "https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=short_term",
+    { headers }
+  );
+
+//get users top tracks (medium)
+export const getTopTracksMedium = () =>
+  axios.get(
+    "https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=medium_term",
+    {
+      headers,
+    }
+  );
+
+//get users top tracks (long)
+export const getTopTracksLong = () =>
+  axios.get(
+    "https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term",
+    { headers }
+  );
+
 export const getUserInfo = () => {
   return axios.all([getUser(), getFollowing(), getPlaylists()]).then(
     axios.spread((user, followedArtists, playlists) => {

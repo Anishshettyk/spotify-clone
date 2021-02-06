@@ -147,9 +147,9 @@ const Navbar = () => {
           </NavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to="/tracks">
+          <NavLink to="/top-tracks">
             <MusicNoteIcon />
-            <div>Tracks</div>
+            <div>Top Tracks</div>
           </NavLink>
         </MenuItem>
         <MenuItem>

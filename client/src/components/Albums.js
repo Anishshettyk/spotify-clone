@@ -106,7 +106,11 @@ const Albums = ({ albumID }) => {
                   <ArtistLink key={i} to={`/artist/${artist.id}`}>
                     <span>
                       {artist.name}
-                      {AlbumsDetails.artists.length > 1 ? "," : ""}
+                      {AlbumsDetails.artists.length > 0 &&
+                      i === AlbumsDetails.artists.length - 1
+                        ? " "
+                        : ","}
+                      &nbsp;
                     </span>
                   </ArtistLink>
                 ))}

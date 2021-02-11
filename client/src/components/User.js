@@ -223,19 +223,19 @@ const User = ({ artistID }) => {
               <h3>Public playlists</h3>
               <div className="overview__tab__content__container">
                 {playlists &&
-                  playlists.items.map(
+                  playlists?.items?.map(
                     (playlist, id) =>
-                      playlist.public && (
+                      playlist?.public && (
                         <div
                           className="overview__tab__content__inside__container"
                           key={id}
                         >
                           <img
-                            src={playlist.images[0].url}
-                            alt={playlist.name}
+                            src={playlist?.images[0]?.url}
+                            alt={playlist?.name}
                           />
-                          <h4>{playlist.name}</h4>
-                          <p>{`Total tracks ${playlist.tracks.total}`}</p>
+                          <h4>{playlist?.name}</h4>
+                          <p>{`Total tracks ${playlist?.tracks?.total}`}</p>
                         </div>
                       )
                   )}
@@ -244,19 +244,21 @@ const User = ({ artistID }) => {
             <TabPanel value={value} index={1}>
               <div className="overview__tab__content__container">
                 {playlists &&
-                  playlists.items.map(
+                  playlists?.items.map(
                     (playlist, id) =>
-                      playlist.public && (
+                      playlist?.public && (
                         <div
                           className="overview__tab__content__inside__container"
                           key={id}
                         >
                           <img
-                            src={playlist.images[0].url}
-                            alt={playlist.name}
+                            src={playlist?.images[0]?.url}
+                            alt={playlist?.name}
                           />
-                          <h4>{playlist.name}</h4>
-                          <p>{`Total tracks ${playlist.tracks.total}`}</p>
+                          <h4>{playlist?.name}</h4>
+                          <p>{`Total tracks ${
+                            playlist?.tracks?.total || 0
+                          }`}</p>
                         </div>
                       )
                   )}
@@ -265,26 +267,26 @@ const User = ({ artistID }) => {
             <TabPanel value={value} index={2}>
               <div className="artist__follower__content__container">
                 {followedArtists &&
-                  followedArtists.artists.items.map((item, id) => (
+                  followedArtists?.artists?.items?.map((item, id) => (
                     <div
                       className="followed__artist__content__container"
                       key={id}
                     >
                       <div className="followed__artist__content">
                         <Avatar
-                          src={item.images[0].url}
-                          alt={item.name}
+                          src={item?.images[0]?.url}
+                          alt={item?.name}
                           className={classes.Avatar__size}
                         />
                         <div className="followed__artist__content__container__text">
                           <ArtistName to={`/artist/${item.id}`}>
-                            <h5>{item.name}</h5>
+                            <h5>{item?.name}</h5>
                           </ArtistName>
-                          <p>{`${item.followers.total} Followers`}</p>
+                          <p>{`${item?.followers?.total} Followers`}</p>
                         </div>
                       </div>
 
-                      <Link to={`/artist/${item.id}`}>
+                      <Link to={`/artist/${item?.id}`}>
                         <button>View Artist</button>
                       </Link>
                     </div>

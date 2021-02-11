@@ -79,8 +79,8 @@ const TopBanner = () => {
           <SearchContainer>.</SearchContainer>
           <UserShowContainer>
             <div className="UserShowContainer__insider">
-              <Avatar alt="Aemy Sharp" src={user.data.images[0].url} />
-              <p>{user.data.display_name}</p>
+              <Avatar alt="Aemy Sharp" src={user?.data?.images[0]?.url} />
+              <p>{user?.data?.display_name || "NO NAME"}</p>
               <Tooltip title="Menu" aria-label="Menu">
                 <Button
                   aria-controls="simple-menu"

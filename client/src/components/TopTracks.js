@@ -90,7 +90,7 @@ const TopTracks = () => {
             <h3>Sorted by</h3>
             <StyledFormControl className={classes.formControl}>
               <Select
-                inputProps={{ "aria-label": "sort latest artists" }}
+                inputProps={{ "aria-label": "Sort latest tracks" }}
                 defaultValue="All time"
                 className={classes.SelectStyles}
               >

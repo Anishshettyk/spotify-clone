@@ -12,8 +12,8 @@ const TrackInfoLargeContainer = styled.section`
   align-items: center;
   justify-content: space-between;
   margin: 20px 2vw;
-  border-top: 1px solid ${colors.grey};
-  border-bottom: 1px solid ${colors.grey};
+  padding-bottom: 10px;
+
 `;
 const TrackInfoContentContainer = styled.div`
   display: flex;

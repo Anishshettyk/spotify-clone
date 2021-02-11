@@ -9,6 +9,7 @@ const initialState = {
     musicArtistName: null,
     musicArtistId: null,
     musicPreviewUrl: null,
+    audioplaying: false,
   },
 };
 

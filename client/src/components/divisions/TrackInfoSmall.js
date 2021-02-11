@@ -6,6 +6,7 @@ import { convertMilli } from "../../utils";
 import { PlayerContext } from "../../context/PlayerContext";
 
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 
 const { colors } = theme;
 
@@ -48,37 +49,50 @@ const TrackInfoContainer = styled.div`
   }
 `;
 
-const TrackInfoSmall = ({ TopTrack, trackNumber }) => {
-  const [insideValue, setInsideValue] = useState(true);
+const TrackInfoSmall = ({ TopTrack }) => {
+  const [insideIcon, setInsideIcon] = useState(true);
   const { playClickedMusic } = useContext(PlayerContext);
 
-  const mouseAction = () => {
-    setInsideValue(!insideValue);
+  console.log(insideIcon);
+
+  const PauseClickedMusic = () => {
+    const playerDataChanged = {
+      musicImageUrl: TopTrack?.album?.images[2]?.url,
+      musicName: TopTrack?.name,
+      musicArtistName: TopTrack?.artists[0]?.name,
+      musicArtistId: TopTrack?.artists[0]?.id,
+      musicPreviewUrl: TopTrack?.preview_url,
+      audioPlaying: false,
+    };
+    playClickedMusic(playerDataChanged);
+    setInsideIcon(!insideIcon);
   };
 
   const PlayClickedMusic = () => {
-    const playerData = {
-      musicImageUrl: TopTrack.album.images[2].url,
-      musicName: TopTrack.name,
-      musicArtistName: TopTrack.artists[0].name,
-      musicArtistId: TopTrack.artists[0].id,
-      musicPreviewUrl: TopTrack.preview_url,
+    const playerDataChanged = {
+      musicImageUrl: TopTrack?.album?.images[2]?.url,
+      musicName: TopTrack?.name,
+      musicArtistName: TopTrack?.artists[0]?.name,
+      musicArtistId: TopTrack?.artists[0]?.id,
+      musicPreviewUrl: TopTrack?.preview_url,
+      audioplaying: true,
     };
-    playClickedMusic(playerData);
+    playClickedMusic(playerDataChanged);
+    setInsideIcon(!insideIcon);
   };
 
   return (
-    <TrackInfoContainer onMouseEnter={mouseAction} onMouseLeave={mouseAction}>
+    <TrackInfoContainer>
       <div className="TrackInfoSmall__main">
         <img
           src={TopTrack?.album?.images[2]?.url}
           alt={TopTrack?.album?.name}
         />
         <span>
-          {insideValue ? (
-            trackNumber
-          ) : (
+          {insideIcon ? (
             <PlayCircleOutlineIcon onClick={PlayClickedMusic} />
+          ) : (
+            <VolumeUpIcon onClick={PauseClickedMusic} />
           )}
         </span>
         <p>

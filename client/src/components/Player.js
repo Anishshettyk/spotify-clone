@@ -140,7 +140,17 @@ const Player = () => {
 
   useEffect(() => {
     setPlayerDataObtained(playerData);
-    console.log(playerData);
+    const musicPlayOutside = async () => {
+      const audio = await audioRef.current;
+      if (playerData.audioplaying) {
+        audio?.play();
+        setPlaying(true);
+      } else {
+        audio?.pause();
+        setPlaying(false);
+      }
+    };
+    musicPlayOutside();
   }, [playerData]);
 
   const handlePlayPause = () => {

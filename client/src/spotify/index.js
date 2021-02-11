@@ -25,7 +25,7 @@ const refreshAccessToken = async () => {
     const { data } = await axios
       .get(`/refresh_token?refresh_token=${getLocalRefreshToken()}`)
       .catch((error) => {
-        if (error.response.status === 401) {
+        if (error?.response?.status === 401) {
           window.localStorage.removeItem("SPOTIFY_TOKEN_TIMESTAMP");
           window.localStorage.removeItem("SPOTIFY_ACCESS_TOKEN");
           window.localStorage.removeItem("SPOTIFY_REFRESH_TOKEN");

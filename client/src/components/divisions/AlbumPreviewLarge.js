@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import { convertMilli } from "../../utils";
 import styled from "styled-components";
 import { theme } from "../../styles";
 import { getTrack } from "../../spotify";
 import { PlayerContext } from "../../context/PlayerContext";
+
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 
 const { colors } = theme;
 
@@ -51,14 +53,10 @@ const AlbumPreviewLargeContainer = styled.div`
 `;
 
 const AlbumPreviewLarge = ({ AlbumID, track }) => {
-  const [insideValue, setInsideValue] = useState(true);
+  const [insideIcon, setInsideIcon] = useState(true);
   const { playClickedMusic } = useContext(PlayerContext);
 
-  const changeInsideValue = () => {
-    setInsideValue(!insideValue);
-  };
-
-  const playMusicClicked = async (trackID) => {
+  const getTrackData = async (trackID) => {
     const response = await getTrack(trackID);
     const {
       album: { images },
@@ -66,7 +64,6 @@ const AlbumPreviewLarge = ({ AlbumID, track }) => {
       artists,
       name,
     } = response?.data;
-
     const playerData = {
       musicImageUrl: images[2].url,
       musicName: name,
@@ -74,20 +71,36 @@ const AlbumPreviewLarge = ({ AlbumID, track }) => {
       musicArtistId: artists[0].id,
       musicPreviewUrl: preview_url,
     };
-    playClickedMusic(playerData);
+    return playerData;
+  };
+
+  const playMusicClicked = async (trackID) => {
+    const response = await getTrackData(trackID);
+    const playerChangedData = {
+      ...response,
+      audioplaying: true,
+    };
+    playClickedMusic(playerChangedData);
+    setInsideIcon(!insideIcon);
+  };
+
+  const pauseClickedMusic = async (trackID) => {
+    const response = await getTrackData(trackID);
+    const playerChangedData = {
+      ...response,
+      audioplaying: false,
+    };
+    playClickedMusic(playerChangedData);
+    setInsideIcon(!insideIcon);
   };
 
   return (
-    <AlbumPreviewLargeContainer
-      className="AlbumTrackContainer__inner"
-      onMouseEnter={changeInsideValue}
-      onMouseLeave={changeInsideValue}
-    >
+    <AlbumPreviewLargeContainer className="AlbumTrackContainer__inner">
       <div className="AlbumTrackContainer__inner_1">
-        {insideValue ? (
-          <p>{AlbumID + 1}</p>
+        {insideIcon ? (
+          <PlayCircleOutlineIcon onClick={() => playMusicClicked(track?.id)} />
         ) : (
-          <PlayCircleOutlineIcon onClick={() => playMusicClicked(track.id)} />
+          <VolumeUpIcon onClick={() => pauseClickedMusic(track?.id)} />
         )}
         <p>{track.name}</p>
       </div>

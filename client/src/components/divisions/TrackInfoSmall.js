@@ -53,8 +53,6 @@ const TrackInfoSmall = ({ TopTrack }) => {
   const [insideIcon, setInsideIcon] = useState(true);
   const { playClickedMusic } = useContext(PlayerContext);
 
-  console.log(insideIcon);
-
   const PauseClickedMusic = () => {
     const playerDataChanged = {
       musicImageUrl: TopTrack?.album?.images[2]?.url,

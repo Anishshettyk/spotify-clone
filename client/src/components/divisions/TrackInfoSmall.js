@@ -53,13 +53,21 @@ const TrackInfoSmall = ({ TopTrack }) => {
   const [insideIcon, setInsideIcon] = useState(true);
   const { playClickedMusic } = useContext(PlayerContext);
 
-  const PauseClickedMusic = () => {
+  const playerOriginalData = () => {
     const playerDataChanged = {
       musicImageUrl: TopTrack?.album?.images[2]?.url,
       musicName: TopTrack?.name,
       musicArtistName: TopTrack?.artists[0]?.name,
       musicArtistId: TopTrack?.artists[0]?.id,
       musicPreviewUrl: TopTrack?.preview_url,
+    };
+    return playerDataChanged;
+  };
+
+  const PauseClickedMusic = () => {
+    const response = playerOriginalData();
+    const playerDataChanged = {
+      ...response,
       audioPlaying: false,
     };
     playClickedMusic(playerDataChanged);
@@ -67,12 +75,9 @@ const TrackInfoSmall = ({ TopTrack }) => {
   };
 
   const PlayClickedMusic = () => {
+    const response = playerOriginalData();
     const playerDataChanged = {
-      musicImageUrl: TopTrack?.album?.images[2]?.url,
-      musicName: TopTrack?.name,
-      musicArtistName: TopTrack?.artists[0]?.name,
-      musicArtistId: TopTrack?.artists[0]?.id,
-      musicPreviewUrl: TopTrack?.preview_url,
+      ...response,
       audioplaying: true,
     };
     playClickedMusic(playerDataChanged);

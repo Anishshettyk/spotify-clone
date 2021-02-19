@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { getAlbumDetails } from "../spotify";
 import styled from "styled-components";
-import { theme, mixins } from "../styles";
+import { theme, mixins, media } from "../styles";
 import { Link } from "@reach/router";
 import { convertMilli1 } from "../utils";
 import { Loader } from "./index";
@@ -17,6 +17,7 @@ const AlbumContainer = styled.main`
 const AlbumInfoContainer = styled.section`
   display: grid;
   grid-template-columns: 1fr 5fr;
+  position: relative;
   .AlbumInfoContainer__image {
     img {
       width: 100%;
@@ -28,8 +29,9 @@ const AlbumInfoContainer = styled.section`
     padding: 0px 0px 0px 20px;
     .AlbumInfoContainer__info__album__type {
       font-size: 14px;
+      color: ${colors.blue};
     }
-    h1 {
+    .AlbumInfoContainer__info__album__name {
       font-size: 50px;
       margin-bottom: 20px;
     }
@@ -47,6 +49,33 @@ const AlbumInfoContainer = styled.section`
       ${mixins.greenButton};
     }
   }
+  ${media.tablet`
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  .AlbumInfoContainer__image{
+    width:300px;
+    height:300px;
+   img{
+     border-radius:20px;
+   }
+  }
+  .AlbumInfoContainer__info {
+    padding:0;
+    margin-top:20px;
+    .AlbumInfoContainer__info__album__type{
+      font-size:12px;
+      
+    }
+    .AlbumInfoContainer__info__album__name{
+      font-size:30px;
+    }
+    .AlbumInfoContainer__info__button{
+      padding:10px 40px;
+    }
+   
+  }
+  `}
 `;
 
 const ArtistLink = styled(Link)`
@@ -99,7 +128,9 @@ const Albums = ({ albumID }) => {
               <p className="AlbumInfoContainer__info__album__type">
                 {AlbumsDetails.album_type.toUpperCase()}
               </p>
-              <h1>{AlbumsDetails.name}</h1>
+              <h1 className="AlbumInfoContainer__info__album__name">
+                {AlbumsDetails.name}
+              </h1>
               <p className="AlbumInfoContainer__info__para__artist">
                 By{" "}
                 {AlbumsDetails.artists.map((artist, i) => (

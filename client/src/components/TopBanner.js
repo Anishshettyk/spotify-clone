@@ -5,7 +5,9 @@ import { theme } from "../styles";
 import { getUser } from "./../spotify";
 import { logout } from "./../spotify";
 import { Avatar, Menu, MenuItem, Button, Tooltip } from "@material-ui/core";
+
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import SearchIcon from "@material-ui/icons/Search";
 
 const { colors } = theme;
 
@@ -49,6 +51,12 @@ const UserShowContainer = styled.div`
 `;
 const SearchContainer = styled.div`
   padding: 10px;
+  background: ${colors.black};
+  border-radius: 50%;
+  svg {
+    color: ${colors.green};
+    font-weight: 900;
+  }
 `;
 
 const TopBanner = () => {
@@ -76,11 +84,20 @@ const TopBanner = () => {
     <TopBannerContainer>
       {user && (
         <TopBannerInside>
-          <SearchContainer>.</SearchContainer>
+          <Link to="search">
+            <SearchContainer>
+              <Tooltip
+                title="search Artist or Albums"
+                aria-label="Search field"
+              >
+                <SearchIcon />
+              </Tooltip>
+            </SearchContainer>
+          </Link>
           <UserShowContainer>
             <div className="UserShowContainer__insider">
               <Avatar alt="Aemy Sharp" src={user?.data?.images[0]?.url} />
-              <p>{user?.data?.display_name || "NO NAME"}</p>
+              <p>{user?.data?.display_name || "No name"}</p>
               <Tooltip title="Menu" aria-label="Menu">
                 <Button
                   aria-controls="simple-menu"

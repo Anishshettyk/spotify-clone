@@ -10,3 +10,4 @@ export { default as RecentlyPlayed } from "./RecentlyPlayed";
 export { default as Player } from "./Player";
 export { default as Albums } from "./Albums";
 export { default as TopTracks } from "./TopTracks";
+export { default as Search } from "./Search";

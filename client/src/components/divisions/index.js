@@ -5,3 +5,4 @@ export { default as AlbumPreviewSmall } from "./AlbumPreviewSmall";
 export { default as AlbumTopHeader } from "./AlbumTopHeader";
 export { default as AlbumPreviewLarge } from "./AlbumPreviewLarge";
 export { default as TrackInfoLarge } from "./TrackInfoLarge";
+export { default as IconChange } from "./IconChange";

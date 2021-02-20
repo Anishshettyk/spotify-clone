@@ -9,6 +9,7 @@ const initialState = {
     musicArtistName: null,
     musicArtistId: null,
     musicPreviewUrl: null,
+    musicID: null,
     audioplaying: false,
   },
 };
@@ -33,6 +34,7 @@ const PlayerProvider = ({ children }) => {
         artists,
         album: { images, name },
         preview_url,
+        id,
       },
     } = playerData;
 
@@ -41,6 +43,7 @@ const PlayerProvider = ({ children }) => {
     initialState.playerData.musicImageUrl = images[2].url;
     initialState.playerData.musicArtistName = artists[0].name;
     initialState.playerData.musicArtistId = artists[0].id;
+    initialState.playerData.musicID = id;
   }
 
   const playClickedMusic = (playerData) => {

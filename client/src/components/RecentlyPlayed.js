@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
-import { getRecentlyPlayed, getTrack } from "../spotify";
+import React, { useState, useEffect } from "react";
+import { getRecentlyPlayed } from "../spotify";
 import styled from "styled-components";
 import { Loader } from "./index";
-import { theme, media, mixins } from "../styles";
+import { IconChange } from "./divisions";
+
+import { theme, media } from "../styles";
 import { Link } from "@reach/router";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-import { PlayerContext } from "../context/PlayerContext";
 
 const { colors } = theme;
 
@@ -53,39 +53,6 @@ const RecentlyPlayedContent = styled.div`
   }
 `;
 
-const Mask = styled.div`
-  ${mixins.flexCenter};
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  font-size: 20px;
-  color: ${colors.white};
-  opacity: 0;
-  transition: ${theme.transition};
-`;
-
-const RecentlyPlayedInsider = styled.div`
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  &:hover,
-  &:focus {
-    ${Mask} {
-      opacity: 1;
-    }
-  }
-  img {
-    object-fit: cover;
-    width: 100%;
-
-    box-shadow: ${mixins.coverShadow};
-  }
-`;
 const ArtistLink = styled(Link)`
   border-bottom: 1px solid transparent;
   &:hover,
@@ -99,7 +66,6 @@ const ArtistLink = styled(Link)`
 
 const RecentlyPlayed = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState(null);
-  const { playClickedMusic } = useContext(PlayerContext);
 
   useEffect(() => {
     const getRecentlyPlayedData = async () => {
@@ -109,25 +75,6 @@ const RecentlyPlayed = () => {
     getRecentlyPlayedData();
   }, []);
 
-  const playClickedSong = async (trackID) => {
-    const response = await getTrack(trackID);
-    const {
-      album: { images },
-      preview_url,
-      artists,
-      name,
-    } = response?.data;
-
-    const playerData = {
-      musicImageUrl: images[2]?.url,
-      musicName: name,
-      musicArtistName: artists[0]?.name,
-      musicArtistId: artists[0]?.id,
-      musicPreviewUrl: preview_url,
-    };
-    playClickedMusic(playerData);
-  };
-
   return (
     <section>
       {recentlyPlayed ? (
@@ -136,14 +83,7 @@ const RecentlyPlayed = () => {
           <RecentlyPlayedContentContainer>
             {recentlyPlayed?.items.map(({ context, track }, i) => (
               <RecentlyPlayedContent key={i}>
-                <RecentlyPlayedInsider
-                  onClick={() => playClickedSong(track?.id)}
-                >
-                  <img src={track?.album?.images[1]?.url} alt={track?.name} />
-                  <Mask>
-                    <PlayCircleOutlineIcon style={{ fontSize: 80 }} />
-                  </Mask>
-                </RecentlyPlayedInsider>
+                <IconChange track={track} />
                 <h4>{track?.name}</h4>
                 {track?.artists &&
                   track?.artists.map(({ name, id }, i) => (

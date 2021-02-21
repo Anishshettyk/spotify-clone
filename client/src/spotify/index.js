@@ -250,7 +250,7 @@ export const getUserInfo = () => {
 //get users current playback
 export const getUsersCurrentPlayback = () =>
   axios.get(
-    "https://api.spotify.com/v1/me/player?market=ES&additional_types=episode",
+    "https://api.spotify.com/v1/me/player?market=IN&additional_types=episode",
     {
       headers,
     }
@@ -259,7 +259,7 @@ export const getUsersCurrentPlayback = () =>
 //gets users current playing track
 export const getUsersCurrentPlay = () =>
   axios.get(
-    "https://api.spotify.com/v1/me/player/currently-playing?market=ES&additional_types=episode",
+    "https://api.spotify.com/v1/me/player/currently-playing?market=IN&additional_types=episode",
     {
       headers,
     }
@@ -270,3 +270,33 @@ export const getUsersDevices = () =>
   axios.get("https://api.spotify.com/v1/me/player/devices", {
     headers,
   });
+
+//get search results (Artist)
+export const getArtistSearchResults = (searchQuery) =>
+  axios.get(
+    `https://api.spotify.com/v1/search?query=${searchQuery}&type=artist&market=IN`,
+    { headers }
+  );
+//get search results (Artist)
+export const getTrackSearchResults = (searchQuery) =>
+  axios.get(
+    `https://api.spotify.com/v1/search?query=${searchQuery}&type=track&market=IN`,
+    { headers }
+  );
+
+//Search API endpoints combined.
+export const getSearchResults = (searchQuery) => {
+  return axios
+    .all([
+      getArtistSearchResults(searchQuery),
+      getTrackSearchResults(searchQuery),
+    ])
+    .then(
+      axios.spread((artists, tracks) => {
+        return {
+          artists: artists.data,
+          tracks: tracks.data,
+        };
+      })
+    );
+};

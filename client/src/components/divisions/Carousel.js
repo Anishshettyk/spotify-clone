@@ -1,14 +1,40 @@
 import React from "react";
 import styled from "styled-components";
 import { useSwipeable } from "react-swipeable";
+import { theme, mixins } from "../../styles/";
+import { Tooltip } from "@material-ui/core";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+
+const { colors } = theme;
+
+const CarouselHeading = styled.section`
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid ${colors.grey};
+  margin-bottom: 15px;
+  h2 {
+    font-size: 20px;
+    letter-spacing: 0.25px;
+  }
+  .button__Container {
+    ${mixins.flexComman}
+    button {
+      padding: 0;
+      margin: 0;
+      margin: 0px 5px;
+      padding: 5px;
+      svg {
+        font-size: 22px;
+        color: ${colors.green};
+      }
+    }
+  }
+`;
 
 const CarouselContainer = styled.div`
   display: flex;
   transition: ${(props) => (props.sliding ? "none" : "transform 1s ease")};
-  transform: ${(props) => {
-    if (props.sliding) return "translateX(-100px)";
-    return "translateX(0px)";
-  }};
   justify-content: space-between;
 `;
 
@@ -21,20 +47,6 @@ const CarouselSlot = styled.div`
   order: ${(props) => props.order};
 `;
 
-const SlideButton = styled.button`
-  margin-top: 20px;
-  text-decoration: none;
-  float: ${(props) => props.float};
-
-  &:active {
-    position: relative;
-    top: 1px;
-  }
-  &:focus {
-    outline: 0;
-  }
-`;
-
 const NEXT = "NEXT";
 const PREV = "PREV";
 
@@ -44,7 +56,7 @@ const getOrder = ({ index, pos, numItems }) => {
 
 const initialState = { pos: 0, sliding: false, dir: NEXT };
 
-const Carousel = ({ children, totalSlide }) => {
+const Carousel = ({ children, title }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const numItems = React.Children.count(children);
   const slide = (dir) => {
@@ -62,29 +74,40 @@ const Carousel = ({ children, totalSlide }) => {
   });
 
   return (
-    <div {...handlers}>
-      <Wrapper>
-        <CarouselContainer
-          dir={state.dir}
-          sliding={state.sliding}
-          totalSlide={totalSlide}
-        >
-          {React.Children.map(children, (child, index) => (
-            <CarouselSlot
-              key={index}
-              order={getOrder({ index: index, pos: state.pos, numItems })}
-            >
-              {child}
-            </CarouselSlot>
-          ))}
-        </CarouselContainer>
-      </Wrapper>
-      <SlideButton onClick={() => slide(PREV)} float="left">
-        Prev
-      </SlideButton>
-      <SlideButton onClick={() => slide(NEXT)} float="right">
-        Next
-      </SlideButton>
+    <div>
+      <CarouselHeading>
+        <div>
+          <h2>{title || "No heading"}</h2>
+        </div>
+
+        <div className="button__Container">
+          <Tooltip title="Prev">
+            <button onClick={() => slide(PREV)}>
+              <ChevronLeftIcon />
+            </button>
+          </Tooltip>
+          <Tooltip title="Next">
+            <button onClick={() => slide(NEXT)}>
+              <ChevronRightIcon />
+            </button>
+          </Tooltip>
+        </div>
+      </CarouselHeading>
+
+      <div {...handlers}>
+        <Wrapper>
+          <CarouselContainer dir={state.dir} sliding={state.sliding}>
+            {React.Children.map(children, (child, index) => (
+              <CarouselSlot
+                key={index}
+                order={getOrder({ index: index, pos: state.pos, numItems })}
+              >
+                {child}
+              </CarouselSlot>
+            ))}
+          </CarouselContainer>
+        </Wrapper>
+      </div>
     </div>
   );
 };

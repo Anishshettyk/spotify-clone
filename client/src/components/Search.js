@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Link } from "@reach/router";
 import { theme, mixins } from "../styles";
 import { getSearchResults } from "../spotify";
 import { Carousel } from "./divisions";
@@ -69,6 +70,16 @@ const SearchInfo = styled.div`
     color: ${colors.lightestGrey};
   }
 `;
+const ArtistSearchContent = styled.div`
+  ${mixins.flexColumn}
+  h4 {
+    margin-top: 20px;
+    border: 1px solid transparent;
+    &:hover {
+      border-bottom: 1px solid ${colors.white};
+    }
+  }
+`;
 const Item = styled.div`
   margin: 0 10px;
   text-align: center;
@@ -82,7 +93,7 @@ const Search = () => {
   const [searchArtists, setSearchArtists] = useState(null);
   const [searchTracks, setSearchTracks] = useState(null);
   const [userSearchValue, setUserSearchValue] = useState("");
-  console.log(searchTracks);
+  console.log(searchArtists);
 
   useEffect(() => {
     fetchSearchResults(userSearchValue);
@@ -108,10 +119,19 @@ const Search = () => {
       </div>
 
       <SearchResultsContainer>
-        {userSearchValue ? (
-          <Carousel>
+        {userSearchValue && searchArtists ? (
+          <Carousel title="Top Results (artist)">
             {searchArtists?.items?.map((item, i) => (
-              <Item img={item?.images[0]?.url} alt="hgk" key={i} />
+              <ArtistSearchContent>
+                <Item img={item?.images[0]?.url} alt="hgk" key={i} />
+                <Link to={`/artist/${item?.id}`}>
+                  <h4>
+                    {item?.name?.length > 15
+                      ? `${item?.name?.slice(0, 15)}...`
+                      : item?.name}
+                  </h4>
+                </Link>
+              </ArtistSearchContent>
             ))}
           </Carousel>
         ) : (

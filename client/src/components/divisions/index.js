@@ -6,3 +6,4 @@ export { default as AlbumTopHeader } from "./AlbumTopHeader";
 export { default as AlbumPreviewLarge } from "./AlbumPreviewLarge";
 export { default as TrackInfoLarge } from "./TrackInfoLarge";
 export { default as IconChange } from "./IconChange";
+export { default as Carousel } from "./Carousel";

@@ -12,8 +12,8 @@ const { colors } = theme;
 const Mask = styled.div`
   ${mixins.flexCenter};
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: ${(props) => props.fits + "px"};
+  height: ${(props) => props.fits + "px"};
   background-color: rgba(0, 0, 0, 0.5);
   top: 0;
   bottom: 0;
@@ -28,7 +28,7 @@ const Mask = styled.div`
 const RecentlyPlayedInsider = styled.div`
   display: inline-block;
   position: relative;
-  width: 100%;
+  width: ${(props) => props.fits + "px"};
   &:hover,
   &:focus {
     ${Mask} {
@@ -37,11 +37,11 @@ const RecentlyPlayedInsider = styled.div`
   }
   img {
     object-fit: cover;
-    width: 100%;
+    width: ${(props) => props.fits + "px"};
     box-shadow: ${mixins.coverShadow};
   }
 `;
-const IconChange = ({ track }) => {
+const IconChange = ({ track, fits }) => {
   const [iconState, SetIconState] = useState(true);
   const { playerData, playClickedMusic } = useContext(PlayerContext);
 
@@ -68,9 +68,12 @@ const IconChange = ({ track }) => {
     SetIconState(!iconState);
   };
   return (
-    <RecentlyPlayedInsider onClick={() => playClickedSong(track?.id)}>
-      <img src={track?.album?.images[1]?.url} alt={track?.name} />
-      <Mask>
+    <RecentlyPlayedInsider
+      onClick={() => playClickedSong(track?.id)}
+      fits={fits}
+    >
+      <img src={track?.album?.images[1]?.url} alt={track?.name} fits={fits} />
+      <Mask fits={fits}>
         {iconState ? (
           <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
         ) : (

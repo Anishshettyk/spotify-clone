@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { theme, mixins } from "../styles";
 import { getSearchResults } from "../spotify";
+import { Carousel } from "./divisions";
 
 import SearchIcon from "@material-ui/icons/Search";
 
@@ -48,6 +49,7 @@ const SearchContainer = styled.section`
 
 const SearchResultsContainer = styled.div`
   margin-top: 20px;
+  padding: 0px 10px;
 `;
 
 const SearchInfo = styled.div`
@@ -67,10 +69,20 @@ const SearchInfo = styled.div`
     color: ${colors.lightestGrey};
   }
 `;
+const Item = styled.div`
+  margin: 0 10px;
+  text-align: center;
+  padding: 100px;
+  background-image: ${(props) => `url(${props.img})`};
+  background-size: cover;
+  border-radius: 50%;
+`;
 
 const Search = () => {
-  const [searchResults, setSearchResults] = useState(null);
+  const [searchArtists, setSearchArtists] = useState(null);
+  const [searchTracks, setSearchTracks] = useState(null);
   const [userSearchValue, setUserSearchValue] = useState("");
+  console.log(searchTracks);
 
   useEffect(() => {
     fetchSearchResults(userSearchValue);
@@ -79,7 +91,8 @@ const Search = () => {
   const fetchSearchResults = async (searchValue) => {
     if (searchValue) {
       const response = await getSearchResults(searchValue);
-      setSearchResults(response);
+      setSearchArtists(response?.artists?.artists);
+      setSearchTracks(response?.tracks?.tracks);
     }
   };
 
@@ -96,7 +109,11 @@ const Search = () => {
 
       <SearchResultsContainer>
         {userSearchValue ? (
-          "hello search"
+          <Carousel>
+            {searchArtists?.items?.map((item, i) => (
+              <Item img={item?.images[0]?.url} alt="hgk" key={i} />
+            ))}
+          </Carousel>
         ) : (
           <SearchInfo>
             <SearchIcon />

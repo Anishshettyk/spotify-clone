@@ -93,7 +93,7 @@ const Search = () => {
   const [searchArtists, setSearchArtists] = useState(null);
   const [searchTracks, setSearchTracks] = useState(null);
   const [userSearchValue, setUserSearchValue] = useState("");
-  console.log(searchArtists);
+  console.log(searchTracks);
 
   useEffect(() => {
     fetchSearchResults(userSearchValue);

@@ -52,10 +52,19 @@ const UserShowContainer = styled.div`
 const SearchContainer = styled.div`
   padding: 10px;
   background: ${colors.black};
+  border: 1px solid transparent;
   border-radius: 50%;
   svg {
     color: ${colors.green};
     font-weight: 900;
+  }
+  &:hover,
+  &:focus {
+    background: ${colors.darkGrey};
+    border: 1px solid ${colors.white};
+    svg {
+      color: ${colors.blue};
+    }
   }
 `;
 
@@ -84,16 +93,13 @@ const TopBanner = () => {
     <TopBannerContainer>
       {user && (
         <TopBannerInside>
-          <Link to="search">
-            <SearchContainer>
-              <Tooltip
-                title="search Artist or Albums"
-                aria-label="Search field"
-              >
+          <Tooltip title="search Artist or Albums" aria-label="Search field">
+            <Link to="search">
+              <SearchContainer>
                 <SearchIcon />
-              </Tooltip>
-            </SearchContainer>
-          </Link>
+              </SearchContainer>
+            </Link>
+          </Tooltip>
           <UserShowContainer>
             <div className="UserShowContainer__insider">
               <Avatar alt="Aemy Sharp" src={user?.data?.images[0]?.url} />

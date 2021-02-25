@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Link } from "@reach/router";
 import { theme, mixins } from "../styles";
 import { getSearchResults } from "../spotify";
-import { Carousel } from "./divisions";
+import { Carousel, IconChange } from "./divisions";
 
 import SearchIcon from "@material-ui/icons/Search";
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import noUserImage from "../assets/no-user.png";
 
 const { colors } = theme;
 
 const SearchContainer = styled.section`
-  margin: 20px 30px calc(${theme.navHeight} + 20px);
+  margin: 20px 30px calc(${theme.navHeight} + 35px);
   .search__field {
     margin-top: 20px;
     ${mixins.flexComman};
@@ -89,15 +91,67 @@ const Item = styled.div`
   border-radius: 50%;
 `;
 
+const Mask = styled.div`
+  ${mixins.flexCenter};
+  position: absolute;
+  padding: 100px;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  bottom: 0;
+  left: 10px;
+  right: 10px;
+  border-radius: 50%;
+  font-size: 20px;
+  color: ${colors.white};
+  opacity: 0;
+  transition: ${theme.transition};
+`;
+const ArtistArtwork = styled(Link)`
+  display: inline-block;
+  position: relative;
+
+  &:hover,
+  &:focus {
+    ${Mask} {
+      opacity: 1;
+    }
+  }
+  ${Item} {
+    border-radius: 100%;
+    object-fit: cover;
+  }
+`;
+
+const SearchedTrack = styled.div`
+  h4 {
+    margin: 5px 10px;
+  }
+  .artist__container {
+    margin: 0px 10px;
+    span {
+      font-size: 12px;
+      color: ${colors.lightestGrey};
+      &:hover {
+        border-bottom: 1px solid ${colors.green};
+      }
+    }
+  }
+`;
+
 const Search = () => {
   const [searchArtists, setSearchArtists] = useState(null);
   const [searchTracks, setSearchTracks] = useState(null);
   const [userSearchValue, setUserSearchValue] = useState("");
+  const searchField = useRef(null);
   console.log(searchTracks);
 
   useEffect(() => {
     fetchSearchResults(userSearchValue);
   }, [userSearchValue]);
+
+  useEffect(() => {
+    searchField.current.focus();
+  }, []);
 
   const fetchSearchResults = async (searchValue) => {
     if (searchValue) {
@@ -115,25 +169,78 @@ const Search = () => {
           type="text"
           placeholder="Search Artists and Tracks..."
           onChange={(event) => setUserSearchValue(event.target.value)}
+          ref={searchField}
         />
       </div>
 
       <SearchResultsContainer>
-        {userSearchValue && searchArtists ? (
-          <Carousel title="Top Results (artist)">
-            {searchArtists?.items?.map((item, i) => (
-              <ArtistSearchContent>
-                <Item img={item?.images[0]?.url} alt="hgk" key={i} />
-                <Link to={`/artist/${item?.id}`}>
-                  <h4>
-                    {item?.name?.length > 15
-                      ? `${item?.name?.slice(0, 15)}...`
-                      : item?.name}
-                  </h4>
-                </Link>
-              </ArtistSearchContent>
-            ))}
-          </Carousel>
+        {searchArtists && searchTracks ? (
+          <div>
+            <Carousel title="Top Results (Artists)">
+              {searchArtists &&
+                searchArtists?.items?.map((artist, i) => (
+                  <ArtistSearchContent key={i}>
+                    <ArtistArtwork to={`/artist/${artist.id}`}>
+                      <Item
+                        img={
+                          artist?.images.length === 0
+                            ? noUserImage
+                            : artist?.images[0]?.url
+                        }
+                        alt={artist?.name}
+                      />
+                      <Mask>
+                        <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
+                      </Mask>
+                    </ArtistArtwork>
+
+                    <Link to={`/artist/${artist?.id}`}>
+                      <h4>
+                        {artist?.name?.length > 15
+                          ? `${artist?.name?.slice(0, 15)}...`
+                          : artist?.name}
+                      </h4>
+                    </Link>
+                  </ArtistSearchContent>
+                ))}
+            </Carousel>
+            <Carousel
+              title="Top Results (Tracks)"
+              style={{ marginTop: "10vh" }}
+            >
+              {searchTracks &&
+                searchTracks?.items.map((track, i) => (
+                  <SearchedTrack>
+                    <IconChange
+                      track={track}
+                      key={i}
+                      fits={250}
+                      marginSide={10}
+                    />
+                    <h4>
+                      {track?.name.length > 30
+                        ? `${track?.name?.slice(0, 30)}...`
+                        : track?.name}
+                    </h4>
+                    <div className="artist__container">
+                      {track?.artists &&
+                        track?.artists.slice(0, 3).map(({ name, id }, i) => (
+                          <ArtistArtwork to={`/artist/${id}`} key={i}>
+                            <span>
+                              {name}
+                              {track?.artists?.length > 0 &&
+                              i === track?.artists?.length - 1
+                                ? ""
+                                : ","}
+                              &nbsp;
+                            </span>
+                          </ArtistArtwork>
+                        ))}
+                    </div>
+                  </SearchedTrack>
+                ))}
+            </Carousel>
+          </div>
         ) : (
           <SearchInfo>
             <SearchIcon />

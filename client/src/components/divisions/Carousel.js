@@ -75,24 +75,26 @@ const Carousel = ({ children, title }) => {
 
   return (
     <div>
-      <CarouselHeading>
-        <div>
-          <h2>{title || "No heading"}</h2>
-        </div>
+      {numItems > 0 && (
+        <CarouselHeading>
+          <div>
+            <h2>{title || "No heading"}</h2>
+          </div>
 
-        <div className="button__Container">
-          <Tooltip title="Prev">
-            <button onClick={() => slide(PREV)}>
-              <ChevronLeftIcon />
-            </button>
-          </Tooltip>
-          <Tooltip title="Next">
-            <button onClick={() => slide(NEXT)}>
-              <ChevronRightIcon />
-            </button>
-          </Tooltip>
-        </div>
-      </CarouselHeading>
+          <div className="button__Container">
+            <Tooltip title="Prev">
+              <button onClick={() => slide(PREV)}>
+                <ChevronLeftIcon />
+              </button>
+            </Tooltip>
+            <Tooltip title="Next">
+              <button onClick={() => slide(NEXT)}>
+                <ChevronRightIcon />
+              </button>
+            </Tooltip>
+          </div>
+        </CarouselHeading>
+      )}
 
       <div {...handlers}>
         <Wrapper>

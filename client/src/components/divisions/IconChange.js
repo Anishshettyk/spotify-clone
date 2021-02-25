@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { theme, mixins } from "../../styles";
 import { getTrack } from "../../spotify";
@@ -29,6 +30,7 @@ const RecentlyPlayedInsider = styled.div`
   display: inline-block;
   position: relative;
   width: ${(props) => props.fits + "px"};
+  margin: 0px ${(props) => props.marginSide + "px"};
   &:hover,
   &:focus {
     ${Mask} {
@@ -41,7 +43,7 @@ const RecentlyPlayedInsider = styled.div`
     box-shadow: ${mixins.coverShadow};
   }
 `;
-const IconChange = ({ track, fits }) => {
+const IconChange = ({ track, fits, marginSide }) => {
   const [iconState, SetIconState] = useState(true);
   const { playerData, playClickedMusic } = useContext(PlayerContext);
 
@@ -71,6 +73,7 @@ const IconChange = ({ track, fits }) => {
     <RecentlyPlayedInsider
       onClick={() => playClickedSong(track?.id)}
       fits={fits}
+      marginSide={marginSide}
     >
       <img src={track?.album?.images[1]?.url} alt={track?.name} fits={fits} />
       <Mask fits={fits}>
@@ -82,6 +85,12 @@ const IconChange = ({ track, fits }) => {
       </Mask>
     </RecentlyPlayedInsider>
   );
+};
+
+IconChange.prototype = {
+  track: PropTypes.object.isRequired,
+  fits: PropTypes.number,
+  marginSide: PropTypes.number,
 };
 
 export default IconChange;

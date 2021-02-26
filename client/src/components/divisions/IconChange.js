@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { theme, mixins } from "../../styles";
+import { theme, mixins, media } from "../../styles";
 import { getTrack } from "../../spotify";
 import { PlayerContext } from "../../context/PlayerContext";
 
@@ -9,6 +9,8 @@ import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 
 const { colors } = theme;
+
+const themeDivider = 1.7;
 
 const Mask = styled.div`
   ${mixins.flexCenter};
@@ -24,13 +26,18 @@ const Mask = styled.div`
   color: ${colors.white};
   opacity: 0;
   transition: ${theme.transition};
+  ${media.tablet`
+  width: ${(props) => props.fits / themeDivider + "px"};
+  height: ${(props) => props.fits / themeDivider + "px"};
+  `}
 `;
 
 const RecentlyPlayedInsider = styled.div`
   display: inline-block;
   position: relative;
   width: ${(props) => props.fits + "px"};
-  margin: 0px ${(props) => props.marginSide + "px"};
+  margin: 0px ${(props) => props.marginSide + "px" || "0px"};
+
   &:hover,
   &:focus {
     ${Mask} {
@@ -41,7 +48,13 @@ const RecentlyPlayedInsider = styled.div`
     object-fit: cover;
     width: ${(props) => props.fits + "px"};
     box-shadow: ${mixins.coverShadow};
+    ${media.tablet`
+    width: ${(props) => props.fits / themeDivider + "px"};
+  `}
   }
+  ${media.tablet`
+  width: ${(props) => props.fits / themeDivider + "px"};
+  `}
 `;
 const IconChange = ({ track, fits, marginSide }) => {
   const [iconState, SetIconState] = useState(true);

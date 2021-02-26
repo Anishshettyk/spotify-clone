@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Link } from "@reach/router";
-import { theme, mixins } from "../styles";
+import { theme, mixins, media } from "../styles";
 import { getSearchResults } from "../spotify";
 import { Carousel, IconChange } from "./divisions";
 
 import SearchIcon from "@material-ui/icons/Search";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import FlagIcon from "@material-ui/icons/Flag";
 import noUserImage from "../assets/no-user.png";
 
 const { colors } = theme;
@@ -66,6 +67,10 @@ const SearchInfo = styled.div`
   h1 {
     font-size: 30px;
     margin-bottom: 20px;
+    span {
+      font-weight: 300;
+      color: ${colors.white};
+    }
   }
   p {
     text-align: center;
@@ -80,6 +85,9 @@ const ArtistSearchContent = styled.div`
     &:hover {
       border-bottom: 1px solid ${colors.white};
     }
+    ${media.tablet`
+    font-size:13px;
+  `}
   }
 `;
 const Item = styled.div`
@@ -89,6 +97,9 @@ const Item = styled.div`
   background-image: ${(props) => `url(${props.img})`};
   background-size: cover;
   border-radius: 50%;
+  ${media.tablet`
+  padding:50px;
+  `}
 `;
 
 const Mask = styled.div`
@@ -105,6 +116,9 @@ const Mask = styled.div`
   color: ${colors.white};
   opacity: 0;
   transition: ${theme.transition};
+  ${media.tablet`
+  padding:50px;
+  `}
 `;
 const ArtistArtwork = styled(Link)`
   display: inline-block;
@@ -125,6 +139,9 @@ const ArtistArtwork = styled(Link)`
 const SearchedTrack = styled.div`
   h4 {
     margin: 5px 10px;
+    ${media.tablet`
+    font-size:13px;
+    `}
   }
   .artist__container {
     margin: 0px 10px;
@@ -143,7 +160,6 @@ const Search = () => {
   const [searchTracks, setSearchTracks] = useState(null);
   const [userSearchValue, setUserSearchValue] = useState("");
   const searchField = useRef(null);
-  console.log(searchTracks);
 
   useEffect(() => {
     fetchSearchResults(userSearchValue);
@@ -156,8 +172,8 @@ const Search = () => {
   const fetchSearchResults = async (searchValue) => {
     if (searchValue) {
       const response = await getSearchResults(searchValue);
-      setSearchArtists(response?.artists?.artists);
-      setSearchTracks(response?.tracks?.tracks);
+      setSearchArtists(response?.artists?.artists?.items);
+      setSearchTracks(response?.tracks?.tracks?.items);
     }
   };
 
@@ -178,7 +194,7 @@ const Search = () => {
           <div>
             <Carousel title="Top Results (Artists)">
               {searchArtists &&
-                searchArtists?.items?.map((artist, i) => (
+                searchArtists.map((artist, i) => (
                   <ArtistSearchContent key={i}>
                     <ArtistArtwork to={`/artist/${artist.id}`}>
                       <Item
@@ -209,14 +225,9 @@ const Search = () => {
               style={{ marginTop: "10vh" }}
             >
               {searchTracks &&
-                searchTracks?.items.map((track, i) => (
-                  <SearchedTrack>
-                    <IconChange
-                      track={track}
-                      key={i}
-                      fits={250}
-                      marginSide={10}
-                    />
+                searchTracks?.map((track, i) => (
+                  <SearchedTrack key={i}>
+                    <IconChange track={track} fits={250} marginSide={10} />
                     <h4>
                       {track?.name.length > 30
                         ? `${track?.name?.slice(0, 30)}...`
@@ -248,6 +259,18 @@ const Search = () => {
             <p>
               Find your favorite songs, artists, albums and <br /> everything in
               between.
+            </p>
+          </SearchInfo>
+        )}
+        {searchArtists && searchTracks?.length === 0 && (
+          <SearchInfo>
+            <FlagIcon />
+            <h1>
+              No results found for <span>"{userSearchValue}"</span>
+            </h1>
+            <p>
+              please make sure your words are spelled correctly or use less
+              <br /> or different words.
             </p>
           </SearchInfo>
         )}

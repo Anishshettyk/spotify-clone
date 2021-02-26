@@ -84,7 +84,11 @@ const AlbumPreviewSmall = ({ artistAlbum }) => {
       </RecentlyPlayedLink>
       <AlbumLink to={`/albums/${artistAlbum.id}`}>
         <Tooltip title={artistAlbum?.name}>
-          <p>{artistAlbum?.name}</p>
+          <p>
+            {artistAlbum?.name?.length > 35
+              ? `${artistAlbum?.name?.slice(0, 35)}...`
+              : artistAlbum?.name}
+          </p>
         </Tooltip>
       </AlbumLink>
 

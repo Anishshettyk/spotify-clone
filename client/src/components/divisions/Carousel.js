@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { useSwipeable } from "react-swipeable";
-import { theme, mixins } from "../../styles/";
+import { theme, mixins, media } from "../../styles/";
 import { Tooltip } from "@material-ui/core";
+
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
@@ -16,6 +17,9 @@ const CarouselHeading = styled.section`
   h2 {
     font-size: 20px;
     letter-spacing: 0.25px;
+    ${media.tablet`
+    font-size:16px;
+    `}
   }
   .button__Container {
     ${mixins.flexComman}
@@ -27,6 +31,9 @@ const CarouselHeading = styled.section`
       svg {
         font-size: 22px;
         color: ${colors.green};
+        ${media.tablet`
+        font-size:15px;
+      `}
       }
     }
   }

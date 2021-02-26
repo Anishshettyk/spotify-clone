@@ -57,8 +57,8 @@ const RecentlyPlayedInsider = styled.div`
   `}
 `;
 const IconChange = ({ track, fits, marginSide }) => {
-  const [iconState, SetIconState] = useState(true);
   const { playerData, playClickedMusic } = useContext(PlayerContext);
+  const [iconState, SetIconState] = useState(false);
 
   const playClickedSong = async (trackID) => {
     const response = await getTrack(trackID);
@@ -79,9 +79,9 @@ const IconChange = ({ track, fits, marginSide }) => {
       audioplaying: !playerData.audioplaying,
     };
     playClickedMusic(playerDataChanged);
-
-    SetIconState(!iconState);
+    playerDataChanged.audioplaying ? SetIconState(true) : SetIconState(false);
   };
+
   return (
     <RecentlyPlayedInsider
       onClick={() => playClickedSong(track?.id)}
@@ -91,9 +91,9 @@ const IconChange = ({ track, fits, marginSide }) => {
       <img src={track?.album?.images[1]?.url} alt={track?.name} fits={fits} />
       <Mask fits={fits}>
         {iconState ? (
-          <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
-        ) : (
           <VolumeUpIcon style={{ fontSize: 50 }} />
+        ) : (
+          <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
         )}
       </Mask>
     </RecentlyPlayedInsider>

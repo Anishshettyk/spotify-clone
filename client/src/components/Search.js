@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "@reach/router";
 import { theme, mixins, media } from "../styles";
@@ -159,15 +159,10 @@ const Search = () => {
   const [searchArtists, setSearchArtists] = useState(null);
   const [searchTracks, setSearchTracks] = useState(null);
   const [userSearchValue, setUserSearchValue] = useState("");
-  const searchField = useRef(null);
 
   useEffect(() => {
     fetchSearchResults(userSearchValue);
   }, [userSearchValue]);
-
-  useEffect(() => {
-    searchField.current.focus();
-  }, []);
 
   const fetchSearchResults = async (searchValue) => {
     if (searchValue) {
@@ -185,7 +180,6 @@ const Search = () => {
           type="text"
           placeholder="Search Artists and Tracks..."
           onChange={(event) => setUserSearchValue(event.target.value)}
-          ref={searchField}
         />
       </div>
 

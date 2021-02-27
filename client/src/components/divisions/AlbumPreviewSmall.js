@@ -27,15 +27,15 @@ const StyledAlbumPreviewSmallContainer = styled.div`
 `;
 
 const AlbumLink = styled(Link)`
-  p {
+  h4 {
     border-bottom: 1px solid transparent;
     display: block;
+    margin: 10px 0px 0px;
   }
   &:hover,
   &:focus {
-    p {
-      color: ${colors.green};
-      border-bottom: 1px solid ${colors.green};
+    h4 {
+      border-bottom: 1px solid ${colors.white};
     }
   }
 `;
@@ -74,18 +74,29 @@ const RecentlyPlayedLink = styled(Link)`
   }
 `;
 
-const AlbumPreviewSmall = ({ artistAlbum }) => {
+const AlbumPreviewSmall = ({
+  artistAlbum,
+  imageIndex = 1,
+  playlist = false,
+}) => {
+  const linkToGo = playlist
+    ? `/playlist/${artistAlbum.id}`
+    : `/albums/${artistAlbum.id}`;
+
   return (
     <StyledAlbumPreviewSmallContainer>
-      <RecentlyPlayedLink to={`/albums/${artistAlbum.id}`}>
-        <img src={artistAlbum?.images[1]?.url} alt={artistAlbum?.name} />
+      <RecentlyPlayedLink to={linkToGo}>
+        <img
+          src={artistAlbum?.images[imageIndex]?.url}
+          alt={artistAlbum?.name}
+        />
         <Mask>
           <PlayCircleOutlineIcon style={{ fontSize: 80 }} />
         </Mask>
       </RecentlyPlayedLink>
-      <AlbumLink to={`/albums/${artistAlbum.id}`}>
+      <AlbumLink to={linkToGo}>
         <Tooltip title={artistAlbum?.name}>
-          <p>{valueChopper(artistAlbum?.name, 35)}</p>
+          <h4>{valueChopper(artistAlbum?.name, 35)}</h4>
         </Tooltip>
       </AlbumLink>
 
@@ -96,6 +107,8 @@ const AlbumPreviewSmall = ({ artistAlbum }) => {
 
 AlbumPreviewSmall.propTypes = {
   artistAlbum: PropTypes.object.isRequired,
+  imageIndex: PropTypes.number,
+  playlist: PropTypes.bool,
 };
 
 export default AlbumPreviewSmall;

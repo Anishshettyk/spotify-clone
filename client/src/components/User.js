@@ -7,7 +7,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { theme, media } from "../styles";
 import { AppBar, Tabs, Tab, Box } from "@material-ui/core";
-import { Profile } from "./divisions";
+import { AlbumPreviewSmall, Profile } from "./divisions";
 import { Loader } from "./index";
 
 const { colors } = theme;
@@ -104,7 +104,7 @@ const StyledUserSection = styled.main`
 
 const UserActionsContainer = styled.div`
   .overview__tab {
-    h3 {
+    h2 {
       padding-bottom: 5px;
       border-bottom: 1px solid ${colors.grey};
     }
@@ -115,10 +115,8 @@ const UserActionsContainer = styled.div`
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 20px;
     .overview__tab__content__inside__container {
-      h4 {
-        padding: 10px 0 0 0;
-      }
       p {
+        margin: 0;
         color: ${colors.lightGrey};
         font-size: 13px;
       }
@@ -220,21 +218,21 @@ const User = ({ artistID }) => {
               )}
             </StyledAppBar>
             <TabPanel value={value} index={0} className="overview__tab">
-              <h3>Public playlists</h3>
+              <h2>Playlists</h2>
               <div className="overview__tab__content__container">
                 {playlists &&
                   playlists?.items?.map(
                     (playlist, id) =>
-                      playlist?.public && (
+                      playlist && (
                         <div
                           className="overview__tab__content__inside__container"
                           key={id}
                         >
-                          <img
-                            src={playlist?.images[0]?.url}
-                            alt={playlist?.name}
+                          <AlbumPreviewSmall
+                            artistAlbum={playlist}
+                            imageIndex={0}
+                            playlist={true}
                           />
-                          <h4>{playlist?.name}</h4>
                           <p>{`Total tracks ${playlist?.tracks?.total}`}</p>
                         </div>
                       )
@@ -251,11 +249,11 @@ const User = ({ artistID }) => {
                           className="overview__tab__content__inside__container"
                           key={id}
                         >
-                          <img
-                            src={playlist?.images[0]?.url}
-                            alt={playlist?.name}
+                          <AlbumPreviewSmall
+                            artistAlbum={playlist}
+                            imageIndex={0}
+                            playlist={true}
                           />
-                          <h4>{playlist?.name}</h4>
                           <p>{`Total tracks ${
                             playlist?.tracks?.total || 0
                           }`}</p>

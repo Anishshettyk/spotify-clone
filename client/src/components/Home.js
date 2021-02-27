@@ -15,6 +15,7 @@ import {
   Albums,
   TopTracks,
   Search,
+  Playlist,
 } from "./index";
 import PlayerProvider from "./../context/PlayerContext";
 
@@ -42,6 +43,7 @@ const Home = () => (
           <Search path="search" />
           <Artist path="artist/:artistID" />
           <Albums path="albums/:albumID" />
+          <Playlist path="playlist/:playlistID" />
         </ScrollToTop>
       </Router>
     </HomeStyledWrapper>

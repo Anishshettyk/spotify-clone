@@ -121,6 +121,12 @@ export const getFollowing = () =>
 export const getPlaylists = () =>
   axios.get("https://api.spotify.com/v1/me/playlists", { headers });
 
+//get a particular playlist
+export const getAParticularPlaylist = (playlistID) =>
+  axios.get(`https://api.spotify.com/v1/playlists/${playlistID}?market=IN`, {
+    headers,
+  });
+
 //get artists (short list)
 export const getTopArtistsShort = () =>
   axios.get(

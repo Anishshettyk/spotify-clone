@@ -1,9 +1,10 @@
-import { css } from 'styled-components';
+import { css } from "styled-components";
 
 const sizes = {
   giant: 1440,
   desktop: 1200,
   netbook: 1000,
+  tabletL: 900,
   tablet: 768,
   thone: 600,
   phablet: 480,

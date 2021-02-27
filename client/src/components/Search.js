@@ -5,6 +5,7 @@ import { theme, mixins, media } from "../styles";
 import { getArtistSearchResults, getTrackSearchResults } from "../spotify";
 import { Carousel, IconChange } from "./divisions";
 import { valueChopper } from "../utils";
+import { Tooltip } from "@material-ui/core";
 
 import SearchIcon from "@material-ui/icons/Search";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
@@ -14,9 +15,10 @@ import noUserImage from "../assets/no-user.png";
 const { colors } = theme;
 
 const SearchContainer = styled.section`
-  margin: 20px 30px calc(${theme.navHeight} + 35px);
+  margin: 20px 0px calc(${theme.navHeight} + 35px);
+
   .search__field {
-    margin-top: 20px;
+    margin: 20px 10px 0px;
     ${mixins.flexComman};
     background-color: ${colors.grey};
     border-radius: 5px;
@@ -54,7 +56,6 @@ const SearchContainer = styled.section`
 
 const SearchResultsContainer = styled.div`
   margin-top: 20px;
-  padding: 0px 10px;
 `;
 
 const SearchInfo = styled.div`
@@ -205,10 +206,11 @@ const Search = () => {
                         <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
                       </Mask>
                     </ArtistArtwork>
-
-                    <Link to={`/artist/${artist?.id}`}>
-                      <h4>{valueChopper(artist?.name, 15)}</h4>
-                    </Link>
+                    <Tooltip title={artist?.name}>
+                      <Link to={`/artist/${artist?.id}`}>
+                        <h4>{valueChopper(artist?.name, 15)}</h4>
+                      </Link>
+                    </Tooltip>
                   </ArtistSearchContent>
                 ))}
             </Carousel>

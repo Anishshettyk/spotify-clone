@@ -13,7 +13,7 @@ const CarouselHeading = styled.section`
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid ${colors.grey};
-  margin-bottom: 15px;
+  margin: 0px 10px 15px;
   h2 {
     font-size: 20px;
     letter-spacing: 0.25px;

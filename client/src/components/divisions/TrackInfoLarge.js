@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { convertMilli } from "../../utils";
 import { Link } from "@reach/router";
 import { theme } from "../../styles";
+import { valueChopper } from "../../utils";
 
 const { colors } = theme;
 
@@ -13,7 +14,6 @@ const TrackInfoLargeContainer = styled.section`
   justify-content: space-between;
   margin: 20px 2vw;
   padding-bottom: 10px;
-
 `;
 const TrackInfoContentContainer = styled.div`
   display: flex;
@@ -36,7 +36,6 @@ const TrackInfoDurationContainer = styled.div`
   p {
     font-weight: 100;
     color: ${colors.lightestGrey};
-    font-style: italic;
   }
 `;
 
@@ -57,11 +56,7 @@ const TrackInfoLarge = ({ topTrack }) => {
       <TrackInfoContentContainer>
         <img src={topTrack?.album?.images[2]?.url} alt={topTrack?.name} />
         <div className="topTrack__content">
-          <p>
-            {topTrack?.name.length > 30
-              ? `${topTrack?.name?.slice(0, 30)}...`
-              : topTrack?.name}
-          </p>
+          <p>{valueChopper(topTrack?.name, 30)}</p>
           <div className="topTrack__info">
             {topTrack?.artists &&
               topTrack?.artists.map(({ name, id }, i) => (

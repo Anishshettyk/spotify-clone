@@ -84,8 +84,8 @@ const LatestReleaseContainer = styled.div`
       background-color: ${colors.grey};
     }
     img {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
     }
     .latest__release__content {
       padding: 0px 10px;

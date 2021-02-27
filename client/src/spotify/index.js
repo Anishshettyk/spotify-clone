@@ -277,26 +277,10 @@ export const getArtistSearchResults = (searchQuery) =>
     `https://api.spotify.com/v1/search?query=${searchQuery}&type=artist&market=IN`,
     { headers }
   );
+
 //get search results (Artist)
 export const getTrackSearchResults = (searchQuery) =>
   axios.get(
     `https://api.spotify.com/v1/search?query=${searchQuery}&type=track&market=IN`,
     { headers }
   );
-
-//Search API endpoints combined.
-export const getSearchResults = (searchQuery) => {
-  return axios
-    .all([
-      getArtistSearchResults(searchQuery),
-      getTrackSearchResults(searchQuery),
-    ])
-    .then(
-      axios.spread((artists, tracks) => {
-        return {
-          artists: artists.data,
-          tracks: tracks.data,
-        };
-      })
-    );
-};

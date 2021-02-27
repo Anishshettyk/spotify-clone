@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { theme } from "../../styles";
-import { convertMilli } from "../../utils";
+import { convertMilli, valueChopper } from "../../utils";
 import { PlayerContext } from "../../context/PlayerContext";
 
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
@@ -45,7 +45,7 @@ const TrackInfoContainer = styled.div`
   .TrackInfoSmall__duration {
     margin-right: 10px;
     font-weight: 200;
-    font-style: italic;
+    color: ${colors.lightGrey};
   }
 `;
 
@@ -98,11 +98,7 @@ const TrackInfoSmall = ({ TopTrack }) => {
             <VolumeUpIcon onClick={PauseClickedMusic} />
           )}
         </span>
-        <p>
-          {TopTrack?.name?.length > 25
-            ? `${TopTrack?.name.slice(0, 25)}...`
-            : TopTrack?.name}
-        </p>
+        <p>{valueChopper(TopTrack?.name, 25)}</p>
       </div>
       <p className="TrackInfoSmall__duration">
         {convertMilli(TopTrack?.duration_ms)}

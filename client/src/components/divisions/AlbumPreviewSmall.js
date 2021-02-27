@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { theme, mixins } from "../../styles";
 import { Link } from "@reach/router";
 import { Tooltip } from "@material-ui/core";
+import { valueChopper } from "../../utils";
 
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 
@@ -84,11 +85,7 @@ const AlbumPreviewSmall = ({ artistAlbum }) => {
       </RecentlyPlayedLink>
       <AlbumLink to={`/albums/${artistAlbum.id}`}>
         <Tooltip title={artistAlbum?.name}>
-          <p>
-            {artistAlbum?.name?.length > 35
-              ? `${artistAlbum?.name?.slice(0, 35)}...`
-              : artistAlbum?.name}
-          </p>
+          <p>{valueChopper(artistAlbum?.name, 35)}</p>
         </Tooltip>
       </AlbumLink>
 

@@ -6,7 +6,7 @@ import { theme, media } from "../styles";
 import { PlayerFeatures } from "./divisions";
 import { Slider, Tooltip } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { convertTime } from "../utils";
+import { convertTime, valueChopper } from "../utils";
 
 import ShuffleIcon from "@material-ui/icons/Shuffle";
 import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
@@ -185,11 +185,7 @@ const Player = () => {
               <PLayerAlbumLink
                 to={`/albums/${playerDataObtained?.musicArtistId}`}
               >
-                <p>
-                  {playerDataObtained?.musicName?.length > 15
-                    ? `${playerDataObtained?.musicName.slice(0, 15)}...`
-                    : playerDataObtained?.musicName}
-                </p>
+                <p>{valueChopper(playerDataObtained?.musicName, 15)}</p>
               </PLayerAlbumLink>
               <PlayerArtistLink
                 to={`/artist/${playerDataObtained?.musicArtistId}`}

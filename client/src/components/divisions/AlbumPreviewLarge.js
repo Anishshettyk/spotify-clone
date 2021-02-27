@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { theme } from "../../styles";
 import { getTrack } from "../../spotify";
 import { PlayerContext } from "../../context/PlayerContext";
+import { valueChopper } from "../../utils";
 
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
@@ -32,9 +33,10 @@ const AlbumPreviewLargeContainer = styled.div`
       }
     }
     svg {
-      margin-right: 95px;
+      margin-right: 80px;
       color: ${colors.lightestGrey};
       font-size: 30px;
+
       &:hover {
         color: ${colors.green};
         transform: scale(1.08);
@@ -46,8 +48,7 @@ const AlbumPreviewLargeContainer = styled.div`
     align-items: center;
     p {
       margin: 0;
-      color: ${colors.lightestGrey};
-      font-style: italic;
+      color: ${colors.lightGrey};
     }
   }
 `;
@@ -102,7 +103,7 @@ const AlbumPreviewLarge = ({ AlbumID, track }) => {
         ) : (
           <VolumeUpIcon onClick={() => pauseClickedMusic(track?.id)} />
         )}
-        <p>{track.name}</p>
+        <p>{valueChopper(track?.name, 23)}</p>
       </div>
       <div className="AlbumTrackContainer__inner_2">
         <p>{convertMilli(track.duration_ms)}</p>

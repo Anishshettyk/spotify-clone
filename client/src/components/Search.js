@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "@reach/router";
 import { theme, mixins, media } from "../styles";
-import { getSearchResults } from "../spotify";
+import { getArtistSearchResults, getTrackSearchResults } from "../spotify";
 import { Carousel, IconChange } from "./divisions";
+import { valueChopper } from "../utils";
 
 import SearchIcon from "@material-ui/icons/Search";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
@@ -166,9 +167,10 @@ const Search = () => {
 
   const fetchSearchResults = async (searchValue) => {
     if (searchValue) {
-      const response = await getSearchResults(searchValue);
-      setSearchArtists(response?.artists?.artists?.items);
-      setSearchTracks(response?.tracks?.tracks?.items);
+      const Artistresponse = await getArtistSearchResults(searchValue);
+      const Trackresponse = await getTrackSearchResults(searchValue);
+      setSearchArtists(Artistresponse?.data?.artists?.items);
+      setSearchTracks(Trackresponse?.data?.tracks?.items);
     }
   };
 
@@ -205,11 +207,7 @@ const Search = () => {
                     </ArtistArtwork>
 
                     <Link to={`/artist/${artist?.id}`}>
-                      <h4>
-                        {artist?.name?.length > 15
-                          ? `${artist?.name?.slice(0, 15)}...`
-                          : artist?.name}
-                      </h4>
+                      <h4>{valueChopper(artist?.name, 15)}</h4>
                     </Link>
                   </ArtistSearchContent>
                 ))}
@@ -222,11 +220,7 @@ const Search = () => {
                 searchTracks?.map((track, i) => (
                   <SearchedTrack key={i}>
                     <IconChange track={track} fits={250} marginSide={10} />
-                    <h4>
-                      {track?.name.length > 30
-                        ? `${track?.name?.slice(0, 30)}...`
-                        : track?.name}
-                    </h4>
+                    <h4>{valueChopper(track?.name, 30)}</h4>
                     <div className="artist__container">
                       {track?.artists &&
                         track?.artists.slice(0, 3).map(({ name, id }, i) => (

@@ -20,9 +20,16 @@ const ProfilerContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding: 10px 15px;
+  ${media.tablet`
+     padding:10px 0px;
+     
+  `}
 
   .Profiler__content {
     padding-left: 30px;
+    ${media.tablet`
+      padding:0;
+      `}
     p {
       text-transform: uppercase;
       font-size: 15px;
@@ -31,6 +38,10 @@ const ProfilerContainer = styled.div`
       font-weight: 900;
       font-size: 40px;
       letter-spacing: 1px;
+      ${media.tablet`
+      font-size:27px;
+      letter-spacing:0px;
+      `}
     }
   }
   ${media.tablet`

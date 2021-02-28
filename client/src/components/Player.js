@@ -127,6 +127,47 @@ const PlayerActionsContainer = styled.div`
   }
 `;
 
+const MobilePLayerContainer = styled.section`
+  display: none;
+  position: fixed;
+  bottom: ${theme.navHeight};
+  background-color: ${colors.black};
+  z-index: 100;
+  overflow: hidden;
+  width: 100%;
+  max-height: 100px;
+  align-items: center;
+  justify-content: space-between;
+  .mobile_info__container {
+    display: flex;
+    justify-content: space-between;
+    img {
+      width: 64px;
+    }
+    .info__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 10px;
+      p {
+        margin: 0;
+        font-size: 14px;
+      }
+      span {
+        color: ${colors.lightGrey};
+        font-size: 12px;
+      }
+    }
+  }
+  .mobile_control__container {
+    margin-right: 15px;
+  }
+
+  ${media.tablet`
+    display:flex;
+  `}
+`;
+
 const Player = () => {
   const [playing, setPlaying] = useState(false);
   const [duration, setDuration] = useState("0:00");
@@ -173,39 +214,115 @@ const Player = () => {
   };
 
   return (
-    <PlayerStyledContainer>
-      <ArtistContent>
-        {playerDataObtained && (
-          <div className="artistData__container">
-            <img
-              src={playerDataObtained?.musicImageUrl}
-              alt={playerDataObtained?.musicName}
-            />
-            <div className="artistData_content_container">
-              <PLayerAlbumLink
-                to={`/albums/${playerDataObtained?.musicArtistId}`}
-              >
-                <p>{valueChopper(playerDataObtained?.musicName, 15)}</p>
-              </PLayerAlbumLink>
-              <PlayerArtistLink
-                to={`/artist/${playerDataObtained?.musicArtistId}`}
-              >
-                <span>{playerDataObtained.musicArtistName}</span>
-              </PlayerArtistLink>
+    <div>
+      <PlayerStyledContainer>
+        <ArtistContent>
+          {playerDataObtained && (
+            <div className="artistData__container">
+              <img
+                src={playerDataObtained?.musicImageUrl}
+                alt={playerDataObtained?.musicName}
+              />
+              <div className="artistData_content_container">
+                <PLayerAlbumLink
+                  to={`/albums/${playerDataObtained?.musicArtistId}`}
+                >
+                  <p>{valueChopper(playerDataObtained?.musicName, 15)}</p>
+                </PLayerAlbumLink>
+                <PlayerArtistLink
+                  to={`/artist/${playerDataObtained?.musicArtistId}`}
+                >
+                  <span>{playerDataObtained?.musicArtistName}</span>
+                </PlayerArtistLink>
+              </div>
             </div>
+          )}
+        </ArtistContent>
+        <PlayerActionsContainer>
+          <div className="playerActions__button__container">
+            <Tooltip title="Shuffle">
+              <ShuffleIcon style={{ fontSize: 20, color: colors.lightGrey }} />
+            </Tooltip>
+            <Tooltip title="Prev">
+              <SkipPreviousIcon
+                style={{ fontSize: 20, color: colors.lightestGrey }}
+              />
+            </Tooltip>
+            {playing ? (
+              <Tooltip title="pause">
+                <PauseCircleOutlineIcon
+                  style={{ fontSize: 35 }}
+                  onClick={handlePlayPause}
+                />
+              </Tooltip>
+            ) : (
+              <Tooltip title="Play">
+                <PlayCircleOutlineIcon
+                  style={{ fontSize: 35 }}
+                  onClick={handlePlayPause}
+                />
+              </Tooltip>
+            )}
+
+            <Tooltip title="Next">
+              <SkipNextIcon
+                style={{ fontSize: 20, color: colors.lightestGrey }}
+              />
+            </Tooltip>
+            <Tooltip title="Repeat">
+              <RepeatIcon style={{ fontSize: 20, color: colors.lightGrey }} />
+            </Tooltip>
           </div>
-        )}
-      </ArtistContent>
-      <PlayerActionsContainer>
-        <div className="playerActions__button__container">
-          <Tooltip title="Shuffle">
-            <ShuffleIcon style={{ fontSize: 20, color: colors.lightGrey }} />
-          </Tooltip>
-          <Tooltip title="Prev">
-            <SkipPreviousIcon
-              style={{ fontSize: 20, color: colors.lightestGrey }}
-            />
-          </Tooltip>
+          {playerDataObtained && (
+            <div className="playerActions__slider__container">
+              <span className="timer__start">{`${currentTime}`}</span>
+              <MusicSlider
+                aria-label="player slider"
+                aria-labelledby="continuous-slider"
+                defaultValue={0}
+                value={percentage}
+                onChange={MusicSliderpercentage}
+              />
+              <audio
+                src={playerDataObtained?.musicPreviewUrl}
+                ref={audioRef}
+                onLoadedData={(e) => {
+                  setDuration(
+                    convertTime(Math.floor(e.currentTarget.duration.toFixed(2)))
+                  );
+                }}
+                onTimeUpdate={(e) => {
+                  setCurrentTime(
+                    convertTime(e.currentTarget.currentTime.toFixed(2))
+                  );
+                }}
+              ></audio>
+              <span className="timer__end">{duration}</span>
+            </div>
+          )}
+        </PlayerActionsContainer>
+        <PlayerFeatures />
+      </PlayerStyledContainer>
+      <MobilePLayerContainer>
+        <div className="mobile_info__container">
+          <img
+            src={playerDataObtained?.musicImageUrl}
+            alt={playerDataObtained?.musicName}
+          />
+          <div className="info__content">
+            <PLayerAlbumLink
+              to={`/albums/${playerDataObtained?.musicArtistId}`}
+            >
+              <p>{valueChopper(playerDataObtained?.musicName, 15)}</p>
+            </PLayerAlbumLink>
+            <PlayerArtistLink
+              to={`/artist/${playerDataObtained?.musicArtistId}`}
+            >
+              <span>{playerDataObtained?.musicArtistName}</span>
+            </PlayerArtistLink>
+          </div>
+        </div>
+        <div className="mobile_control__container">
           {playing ? (
             <Tooltip title="pause">
               <PauseCircleOutlineIcon
@@ -221,46 +338,9 @@ const Player = () => {
               />
             </Tooltip>
           )}
-
-          <Tooltip title="Next">
-            <SkipNextIcon
-              style={{ fontSize: 20, color: colors.lightestGrey }}
-            />
-          </Tooltip>
-          <Tooltip title="Repeat">
-            <RepeatIcon style={{ fontSize: 20, color: colors.lightGrey }} />
-          </Tooltip>
         </div>
-        {playerDataObtained && (
-          <div className="playerActions__slider__container">
-            <span className="timer__start">{`${currentTime}`}</span>
-            <MusicSlider
-              aria-label="player slider"
-              aria-labelledby="continuous-slider"
-              defaultValue={0}
-              value={percentage}
-              onChange={MusicSliderpercentage}
-            />
-            <audio
-              src={playerDataObtained?.musicPreviewUrl}
-              ref={audioRef}
-              onLoadedData={(e) => {
-                setDuration(
-                  convertTime(Math.floor(e.currentTarget.duration.toFixed(2)))
-                );
-              }}
-              onTimeUpdate={(e) => {
-                setCurrentTime(
-                  convertTime(e.currentTarget.currentTime.toFixed(2))
-                );
-              }}
-            ></audio>
-            <span className="timer__end">{duration}</span>
-          </div>
-        )}
-      </PlayerActionsContainer>
-      <PlayerFeatures />
-    </PlayerStyledContainer>
+      </MobilePLayerContainer>
+    </div>
   );
 };
 

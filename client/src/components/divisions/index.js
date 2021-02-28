@@ -7,3 +7,5 @@ export { default as AlbumPreviewLarge } from "./AlbumPreviewLarge";
 export { default as TrackInfoLarge } from "./TrackInfoLarge";
 export { default as IconChange } from "./IconChange";
 export { default as Carousel } from "./Carousel";
+export { default as PlaylistHeader } from "./PlaylistHeader";
+export { default as PlaylistTrack } from "./PlaylistTrack";

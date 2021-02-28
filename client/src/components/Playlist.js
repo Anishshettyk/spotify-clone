@@ -5,6 +5,7 @@ import { theme, mixins, media } from "../styles";
 import { getAParticularPlaylist } from "../spotify";
 import { convertMilli1, valueChopper } from "../utils";
 import { Loader } from "./index";
+import { PlaylistHeader, PlaylistTrack } from "./divisions";
 
 const { colors } = theme;
 
@@ -71,6 +72,10 @@ const PlayListInfoContainer = styled.section`
   `}
 `;
 
+const PlayListContentContainer = styled.section`
+  margin: 50px 0px 0px;
+`;
+
 const Playlist = ({ playlistID }) => {
   const [playlist, setPlaylist] = useState(null);
 
@@ -108,6 +113,12 @@ const Playlist = ({ playlistID }) => {
               <button>Play</button>
             </div>
           </PlayListInfoContainer>
+          <PlayListContentContainer>
+            <PlaylistHeader />
+            {playlist?.tracks?.items.map((track, i) => (
+              <PlaylistTrack key={i} track={track} />
+            ))}
+          </PlayListContentContainer>
         </PlaylistContainer>
       ) : (
         <Loader />

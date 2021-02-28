@@ -17,6 +17,7 @@ const StyledAlbumHeaderContainer = styled.div`
     p {
       margin: 0;
       color: ${colors.lightGrey};
+      font-size: 13px;
       &:nth-child(1) {
         margin-right: 95px;
       }
@@ -25,6 +26,7 @@ const StyledAlbumHeaderContainer = styled.div`
   .StyledAlbumHeaderContainer__inner_2 {
     svg {
       color: ${colors.lightGrey};
+      font-size: 18px;
     }
   }
 `;

@@ -222,22 +222,6 @@ const Search = () => {
                 searchTracks?.map((track, i) => (
                   <SearchedTrack key={i}>
                     <IconChange track={track} fits={250} marginSide={10} />
-                    <h4>{valueChopper(track?.name, 30)}</h4>
-                    <div className="artist__container">
-                      {track?.artists &&
-                        track?.artists.slice(0, 3).map(({ name, id }, i) => (
-                          <ArtistArtwork to={`/artist/${id}`} key={i}>
-                            <span>
-                              {name}
-                              {track?.artists?.length > 0 &&
-                              i === track?.artists?.length - 1
-                                ? ""
-                                : ","}
-                              &nbsp;
-                            </span>
-                          </ArtistArtwork>
-                        ))}
-                    </div>
                   </SearchedTrack>
                 ))}
             </Carousel>

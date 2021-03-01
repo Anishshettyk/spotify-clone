@@ -5,7 +5,6 @@ import { Loader } from "./index";
 import { IconChange } from "./divisions";
 
 import { theme, media } from "../styles";
-import { Link } from "@reach/router";
 
 const { colors } = theme;
 
@@ -36,34 +35,6 @@ const RecentlyPlayedContentContainer = styled.div`
   `};
 `;
 
-const RecentlyPlayedContent = styled.div`
-  h4 {
-    color: ${colors.white};
-    padding: 5px 0px;
-    margin: 0;
-  }
-  span {
-    color: ${colors.lightGrey};
-  }
-  p {
-    padding-top: 5px;
-    text-transform: uppercase;
-    color: ${colors.lightGrey};
-    font-size: 12px;
-  }
-`;
-
-const ArtistLink = styled(Link)`
-  border-bottom: 1px solid transparent;
-  &:hover,
-  &:focus {
-    border-bottom: 1px solid ${colors.green};
-    span {
-      color: ${colors.green};
-    }
-  }
-`;
-
 const RecentlyPlayed = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState(null);
 
@@ -82,24 +53,7 @@ const RecentlyPlayed = () => {
           <h1>Recently Played.</h1>
           <RecentlyPlayedContentContainer>
             {recentlyPlayed?.items.map(({ context, track }, i) => (
-              <RecentlyPlayedContent key={i}>
-                <IconChange track={track} />
-                <h4>{track?.name}</h4>
-                {track?.artists &&
-                  track?.artists.map(({ name, id }, i) => (
-                    <ArtistLink to={`/artist/${id}`} key={i}>
-                      <span>
-                        {name}
-                        {track?.artists?.length > 0 &&
-                        i === track?.artists?.length - 1
-                          ? ""
-                          : ","}
-                        &nbsp;
-                      </span>
-                    </ArtistLink>
-                  ))}
-                <p>{context?.type}</p>
-              </RecentlyPlayedContent>
+              <IconChange track={track} context={context} key={i} />
             ))}
           </RecentlyPlayedContentContainer>
         </StyledRecentlyPlayedContainer>

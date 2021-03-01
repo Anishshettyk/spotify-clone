@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { theme, mixins } from "../../styles";
+import { theme, mixins, media } from "../../styles";
 import { Link } from "@reach/router";
 import { Tooltip } from "@material-ui/core";
 import { valueChopper } from "../../utils";
@@ -9,9 +9,11 @@ import { valueChopper } from "../../utils";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 
 const { colors } = theme;
+const themeDivider = 1.7;
 
 const StyledAlbumPreviewSmallContainer = styled.div`
   margin-bottom: 15px;
+  margin-left: 10px;
   p {
     padding-top: 5px;
     margin: 0;
@@ -43,8 +45,8 @@ const AlbumLink = styled(Link)`
 const Mask = styled.div`
   ${mixins.flexCenter};
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: ${(props) => props.fits + "px"};
+  height: ${(props) => props.fits + "px"};
   background-color: rgba(0, 0, 0, 0.5);
   top: 0;
   bottom: 0;
@@ -54,12 +56,16 @@ const Mask = styled.div`
   color: ${colors.white};
   opacity: 0;
   transition: ${theme.transition};
+  ${media.tablet`
+  width: ${(props) => props.fits / themeDivider + "px"};
+  height: ${(props) => props.fits / themeDivider + "px"};
+  `}
 `;
 
 const RecentlyPlayedLink = styled(Link)`
   display: inline-block;
   position: relative;
-  width: 100%;
+  width: ${(props) => props.fits + "px"};
   &:hover,
   &:focus {
     ${Mask} {
@@ -68,29 +74,37 @@ const RecentlyPlayedLink = styled(Link)`
   }
   img {
     object-fit: cover;
-    width: 100%;
+    width: ${(props) => props.fits + "px"};
 
     box-shadow: ${mixins.coverShadow};
+    ${media.tablet`
+    width: ${(props) => props.fits / themeDivider + "px"};
+  `}
   }
+  ${media.tablet`
+  width: ${(props) => props.fits / themeDivider + "px"};
+  `}
 `;
 
 const AlbumPreviewSmall = ({
   artistAlbum,
   imageIndex = 1,
   playlist = false,
+  fits,
 }) => {
   const linkToGo = playlist
     ? `/playlist/${artistAlbum.id}`
     : `/albums/${artistAlbum.id}`;
 
   return (
-    <StyledAlbumPreviewSmallContainer>
-      <RecentlyPlayedLink to={linkToGo}>
+    <StyledAlbumPreviewSmallContainer fits={fits}>
+      <RecentlyPlayedLink to={linkToGo} fits={fits}>
         <img
           src={artistAlbum?.images[imageIndex]?.url}
           alt={artistAlbum?.name}
+          fits={fits}
         />
-        <Mask>
+        <Mask fits={fits}>
           <PlayCircleOutlineIcon style={{ fontSize: 80 }} />
         </Mask>
       </RecentlyPlayedLink>

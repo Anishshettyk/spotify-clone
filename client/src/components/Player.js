@@ -138,6 +138,7 @@ const MobilePLayerContainer = styled.section`
   max-height: 100px;
   align-items: center;
   justify-content: space-between;
+  border-top: 1px solid ${colors.grey};
   .mobile_info__container {
     display: flex;
     justify-content: space-between;

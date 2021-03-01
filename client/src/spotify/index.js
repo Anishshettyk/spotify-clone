@@ -290,3 +290,20 @@ export const getTrackSearchResults = (searchQuery) =>
     `https://api.spotify.com/v1/search?query=${searchQuery}&type=track&market=IN`,
     { headers }
   );
+
+//get new releases
+export const newReleases = () =>
+  axios.get("https://api.spotify.com/v1/browse/new-releases?country=IN", {
+    headers,
+  });
+
+export const homeApis = () => {
+  return axios.all([newReleases(), getRecentlyPlayed()]).then(
+    axios.spread((newReleases, recentlyPlayed) => {
+      return {
+        newReleases: newReleases.data,
+        recentlyPlayed: recentlyPlayed.data,
+      };
+    })
+  );
+};

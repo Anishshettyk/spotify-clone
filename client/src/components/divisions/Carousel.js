@@ -13,13 +13,20 @@ const CarouselHeading = styled.section`
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid ${colors.grey};
-  margin: 0px 10px 15px;
+  margin: 0px 0px 15px;
   h2 {
-    font-size: 20px;
+    font-size: 26px;
     letter-spacing: 0.25px;
+    margin: 0;
     ${media.tablet`
     font-size:16px;
     `}
+  }
+  p {
+    color: ${colors.lightGrey};
+    margin: 5px 0px 5px;
+    font-size: 13px;
+    font-weight: bold;
   }
   .button__Container {
     ${mixins.flexComman}
@@ -43,6 +50,7 @@ const CarouselContainer = styled.div`
   display: flex;
   transition: ${(props) => (props.sliding ? "none" : "transform 1s ease")};
   justify-content: space-between;
+  margin-bottom: 30px;
 `;
 
 const Wrapper = styled.div`
@@ -63,7 +71,7 @@ const getOrder = ({ index, pos, numItems }) => {
 
 const initialState = { pos: 0, sliding: false, dir: NEXT };
 
-const Carousel = ({ children, title }) => {
+const Carousel = ({ children, title, discription }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const numItems = React.Children.count(children);
   const slide = (dir) => {
@@ -86,6 +94,7 @@ const Carousel = ({ children, title }) => {
         <CarouselHeading>
           <div>
             <h2>{title || "No heading"}</h2>
+            <p>{discription || ""}</p>
           </div>
 
           <div className="button__Container">

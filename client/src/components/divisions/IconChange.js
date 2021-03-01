@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { Link } from "@reach/router";
 import { theme, mixins, media } from "../../styles";
 import { getTrack } from "../../spotify";
 import { PlayerContext } from "../../context/PlayerContext";
@@ -11,6 +12,23 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 const { colors } = theme;
 
 const themeDivider = 1.7;
+
+const IconChangeContainer = styled.section`
+  h4 {
+    color: ${colors.white};
+    padding: 5px 0px;
+    margin: 0;
+  }
+  span {
+    color: ${colors.lightGrey};
+  }
+  p {
+    padding-top: 5px;
+    text-transform: uppercase;
+    color: ${colors.lightGrey};
+    font-size: 12px;
+  }
+`;
 
 const Mask = styled.div`
   ${mixins.flexCenter};
@@ -56,7 +74,18 @@ const RecentlyPlayedInsider = styled.div`
   width: ${(props) => props.fits / themeDivider + "px"};
   `}
 `;
-const IconChange = ({ track, fits, marginSide }) => {
+
+const ArtistLink = styled(Link)`
+  border-bottom: 1px solid transparent;
+  &:hover,
+  &:focus {
+    border-bottom: 1px solid ${colors.green};
+    span {
+      color: ${colors.green};
+    }
+  }
+`;
+const IconChange = ({ track, context, fits, marginSide }) => {
   const { playerData, playClickedMusic } = useContext(PlayerContext);
   const [iconState, SetIconState] = useState(false);
 
@@ -83,20 +112,36 @@ const IconChange = ({ track, fits, marginSide }) => {
   };
 
   return (
-    <RecentlyPlayedInsider
-      onClick={() => playClickedSong(track?.id)}
-      fits={fits}
-      marginSide={marginSide}
-    >
-      <img src={track?.album?.images[1]?.url} alt={track?.name} fits={fits} />
-      <Mask fits={fits}>
-        {iconState ? (
-          <VolumeUpIcon style={{ fontSize: 50 }} />
-        ) : (
-          <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
-        )}
-      </Mask>
-    </RecentlyPlayedInsider>
+    <IconChangeContainer fits={fits}>
+      <RecentlyPlayedInsider
+        onClick={() => playClickedSong(track?.id)}
+        fits={fits}
+        marginSide={marginSide}
+      >
+        <img src={track?.album?.images[1]?.url} alt={track?.name} fits={fits} />
+        <Mask fits={fits}>
+          {iconState ? (
+            <VolumeUpIcon style={{ fontSize: 50 }} />
+          ) : (
+            <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
+          )}
+        </Mask>
+      </RecentlyPlayedInsider>
+      <h4>{track?.name}</h4>
+      {track?.artists &&
+        track?.artists?.slice(0, 3)?.map(({ name, id }, i) => (
+          <ArtistLink to={`/artist/${id}`} key={i}>
+            <span>
+              {name}
+              {track?.artists?.length > 0 && i === track?.artists?.length - 1
+                ? ""
+                : ","}
+              &nbsp;
+            </span>
+          </ArtistLink>
+        ))}
+      <p>{context?.type}</p>
+    </IconChangeContainer>
   );
 };
 

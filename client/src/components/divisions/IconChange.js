@@ -16,8 +16,10 @@ const themeDivider = 1.7;
 const IconChangeContainer = styled.section`
   h4 {
     color: ${colors.white};
-    padding: 5px 0px;
-    margin: 0;
+    margin: 5px 2px;
+    ${media.tablet`
+    font-size:14px;
+    `}
   }
   span {
     color: ${colors.lightGrey};
@@ -77,6 +79,11 @@ const RecentlyPlayedInsider = styled.div`
 
 const ArtistLink = styled(Link)`
   border-bottom: 1px solid transparent;
+  span {
+    ${media.tablet`
+      font-size:12px;
+      `}
+  }
   &:hover,
   &:focus {
     border-bottom: 1px solid ${colors.green};

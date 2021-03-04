@@ -20,7 +20,7 @@ const CarouselHeading = styled.section`
     margin: 0;
     ${media.tablet`
     font-size:16px;
-    `}
+    `};
   }
   p {
     color: ${colors.lightGrey};

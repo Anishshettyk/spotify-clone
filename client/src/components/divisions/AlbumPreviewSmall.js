@@ -33,6 +33,9 @@ const AlbumLink = styled(Link)`
     border-bottom: 1px solid transparent;
     display: block;
     margin: 10px 0px 0px;
+    ${media.tablet`
+    font-size:14px;
+    `}
   }
   &:hover,
   &:focus {
@@ -115,6 +118,11 @@ const AlbumPreviewSmall = ({
       </AlbumLink>
 
       <span>{artistAlbum?.release_date?.split("-")[0]}</span>
+      <p>
+        {artistAlbum?.tracks?.total
+          ? `Total tracks ${artistAlbum?.tracks?.total}`
+          : ""}
+      </p>
     </StyledAlbumPreviewSmallContainer>
   );
 };

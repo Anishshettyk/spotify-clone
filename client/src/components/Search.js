@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "@reach/router";
 import { theme, mixins, media } from "../styles";
-import { getArtistSearchResults, getTrackSearchResults } from "../spotify";
+import { totalSearch } from "../spotify";
 import { Carousel, IconChange } from "./divisions";
 import { valueChopper } from "../utils";
 import { Tooltip } from "@material-ui/core";
@@ -55,7 +55,10 @@ const SearchContainer = styled.section`
 `;
 
 const SearchResultsContainer = styled.div`
-  margin-top: 20px;
+  margin: 20px 30px 0px 30px;
+  ${media.tablet`
+  margin:20px 10px 0px 10px;
+  `}
 `;
 
 const SearchInfo = styled.div`
@@ -168,10 +171,11 @@ const Search = () => {
 
   const fetchSearchResults = async (searchValue) => {
     if (searchValue) {
-      const Artistresponse = await getArtistSearchResults(searchValue);
-      const Trackresponse = await getTrackSearchResults(searchValue);
-      setSearchArtists(Artistresponse?.data?.artists?.items);
-      setSearchTracks(Trackresponse?.data?.tracks?.items);
+      const totalSearchResponse = await totalSearch(searchValue);
+      setSearchArtists(
+        totalSearchResponse?.artistSearchResults?.artists?.items
+      );
+      setSearchTracks(totalSearchResponse?.trackSearchResults?.tracks?.items);
     }
   };
 
@@ -189,7 +193,10 @@ const Search = () => {
       <SearchResultsContainer>
         {searchArtists && searchTracks ? (
           <div>
-            <Carousel title="Top Results (Artists)">
+            <Carousel
+              title="Top Results (Artists)"
+              discription="These are some of the top artists based on your search"
+            >
               {searchArtists &&
                 searchArtists.map((artist, i) => (
                   <ArtistSearchContent key={i}>
@@ -216,6 +223,7 @@ const Search = () => {
             </Carousel>
             <Carousel
               title="Top Results (Tracks)"
+              discription="These are some of the top tracks based on your search"
               style={{ marginTop: "10vh" }}
             >
               {searchTracks &&

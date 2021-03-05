@@ -48,6 +48,7 @@ const PlaylistTrack = ({ track }) => {
       preview_url,
       artists,
       name,
+      id,
     } = track;
     const playerData = {
       musicImageUrl: images[2]?.url,
@@ -55,6 +56,7 @@ const PlaylistTrack = ({ track }) => {
       musicArtistName: artists[0]?.name,
       musicArtistId: artists[0]?.id,
       musicPreviewUrl: preview_url,
+      musicID: id,
     };
     return playerData;
   };
@@ -78,6 +80,7 @@ const PlaylistTrack = ({ track }) => {
     playClickedMusic(playerChangedData);
     setInsideIcon(!insideIcon);
   };
+
   return (
     <PlaylistTrackContainer>
       <div className="play__pause__button__container">

@@ -55,9 +55,9 @@ const SearchContainer = styled.section`
 `;
 
 const SearchResultsContainer = styled.div`
-  margin: 20px 30px 0px 30px;
+  margin: 30px 30px 0px 30px;
   ${media.tablet`
-  margin:20px 10px 0px 10px;
+  margin:30px 10px 0px 10px;
   `}
 `;
 
@@ -194,13 +194,13 @@ const Search = () => {
         {searchArtists && searchTracks ? (
           <div>
             <Carousel
-              title="Top Results (Artists)"
+              title="Top Results - Artists"
               discription="These are some of the top artists based on your search"
             >
               {searchArtists &&
-                searchArtists.map((artist, i) => (
-                  <ArtistSearchContent key={i}>
-                    <ArtistArtwork to={`/artist/${artist.id}`}>
+                searchArtists.map((artist) => (
+                  <ArtistSearchContent key={artist?.id}>
+                    <ArtistArtwork to={`/artist/${artist?.id}`}>
                       <Item
                         img={
                           artist?.images.length === 0
@@ -222,13 +222,13 @@ const Search = () => {
                 ))}
             </Carousel>
             <Carousel
-              title="Top Results (Tracks)"
+              title="Top Results - Tracks"
               discription="These are some of the top tracks based on your search"
               style={{ marginTop: "10vh" }}
             >
               {searchTracks &&
-                searchTracks?.map((track, i) => (
-                  <SearchedTrack key={i}>
+                searchTracks?.map((track) => (
+                  <SearchedTrack key={track?.id}>
                     <IconChange track={track} fits={250} marginSide={10} />
                   </SearchedTrack>
                 ))}

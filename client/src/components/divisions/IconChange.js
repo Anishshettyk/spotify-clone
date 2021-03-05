@@ -103,6 +103,7 @@ const IconChange = ({ track, context, fits, marginSide }) => {
       preview_url,
       artists,
       name,
+      id,
     } = response?.data;
 
     const playerDataChanged = {
@@ -112,6 +113,7 @@ const IconChange = ({ track, context, fits, marginSide }) => {
       musicArtistName: artists[0]?.name,
       musicArtistId: artists[0]?.id,
       musicPreviewUrl: preview_url,
+      musicID: id,
       audioplaying: !playerData.audioplaying,
     };
     playClickedMusic(playerDataChanged);

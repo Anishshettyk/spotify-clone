@@ -60,6 +60,7 @@ const TrackInfoSmall = ({ TopTrack }) => {
       musicArtistName: TopTrack?.artists[0]?.name,
       musicArtistId: TopTrack?.artists[0]?.id,
       musicPreviewUrl: TopTrack?.preview_url,
+      musicID: TopTrack?.id,
     };
     return playerDataChanged;
   };

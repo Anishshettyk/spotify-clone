@@ -31,14 +31,12 @@ const Main = () => {
   const [recentlyReleased, setRecentlyReleased] = useState(null);
   const [recentlyPlayed, setRecentlyPlayed] = useState(null);
   const [topTracks, setTopTracks] = useState(null);
-  const [user, setUser] = useState(null);
 
   const mainApiCall = async () => {
     const response = await homeApis();
     setRecentlyReleased(response?.newReleases);
     setRecentlyPlayed(response?.recentlyPlayed);
     setTopTracks(response?.topTracks);
-    setUser(response?.user);
   };
 
   useEffect(() => {
@@ -61,15 +59,15 @@ const Main = () => {
 
   return (
     <div>
-      {recentlyReleased && recentlyPlayed ? (
+      {recentlyReleased && recentlyPlayed && topTracks ? (
         <HomeContainer>
           <h1>
             {findGreeting()}
             <span>.</span>
           </h1>
           <Carousel
-            title={`Top tracks of ${user?.display_name}.`}
-            discription="These are some of the all time favorite songs."
+            title={`Top tracks.`}
+            discription="Your all time favorite songs."
           >
             {topTracks?.items?.map((track, i) => (
               <IconChange

@@ -1,5 +1,5 @@
 # spotify-clone
->### A spotify web app for Previewing a track or to view a artist and many more.
+>### A spotify web app for previewing a track or to view a artist and many more.
 
 
 Built with bunch of things, but here are some of the main things,

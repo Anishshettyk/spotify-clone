@@ -271,11 +271,23 @@ export const getUsersCurrentPlay = () =>
     }
   );
 
-//get user devices
-export const getUsersDevices = () =>
-  axios.get("https://api.spotify.com/v1/me/player/devices", {
+//check user liked tracks
+export const checkUserLikedTrack = (trackID) =>
+  axios.get(`https://api.spotify.com/v1/me/tracks/contains?ids=${trackID}`, {
     headers,
   });
+
+//add this track to liked songs
+export const likeThisTrack = (trackID) => {
+  const url = `https://api.spotify.com/v1/me/tracks?ids=${trackID}`;
+  return axios({ method: "PUT", url, headers });
+};
+
+//remove this track from liked song
+export const dislikeThisTrack = (trackID) => {
+  const url = `https://api.spotify.com/v1/me/tracks?ids=${trackID}`;
+  return axios({ method: "DELETE", url, headers });
+};
 
 //get search results (Artist)
 export const getArtistSearchResults = (searchQuery) =>

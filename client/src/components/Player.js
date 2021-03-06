@@ -7,6 +7,11 @@ import { PlayerFeatures } from "./divisions";
 import { Slider, Tooltip } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { convertTime, valueChopper } from "../utils";
+import {
+  checkUserLikedTrack,
+  dislikeThisTrack,
+  likeThisTrack,
+} from "../spotify";
 
 import ShuffleIcon from "@material-ui/icons/Shuffle";
 import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
@@ -14,6 +19,8 @@ import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import PauseCircleOutlineIcon from "@material-ui/icons/PauseCircleOutline";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
 import RepeatIcon from "@material-ui/icons/Repeat";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const { colors } = theme;
 
@@ -74,6 +81,12 @@ const ArtistContent = styled.div`
     span {
       font-size: 10px;
       color: ${colors.lightGrey};
+    }
+    svg {
+      color: ${colors.green};
+      font-size: 20px;
+      cursor: pointer;
+      margin-left: 5px;
     }
   }
 `;
@@ -162,6 +175,14 @@ const MobilePLayerContainer = styled.section`
   }
   .mobile_control__container {
     margin-right: 15px;
+    svg {
+      &:nth-child(1) {
+        color: ${colors.green};
+        margin-right: 20px;
+        font-size: 30px;
+        cursor: pointer;
+      }
+    }
   }
 
   ${media.tablet`
@@ -175,6 +196,7 @@ const Player = () => {
   const [currentTime, setCurrentTime] = useState("0:00");
   const [percentage, setPercentage] = useState(0);
   const [playerDataObtained, setPlayerDataObtained] = useState(null);
+  const [likedSong, setLikedSong] = useState(false);
 
   const { playerData } = useContext(PlayerContext);
 
@@ -193,6 +215,9 @@ const Player = () => {
       }
     };
     musicPlayOutside();
+    if (playerData.musicID) {
+      isUserLikedSong(playerData?.musicID);
+    }
   }, [playerData]);
 
   const handlePlayPause = () => {
@@ -206,12 +231,26 @@ const Player = () => {
     }
   };
 
+  const isUserLikedSong = async (trackID) => {
+    const response = await checkUserLikedTrack(trackID);
+    setLikedSong(response?.data[0]);
+  };
+
   const MusicSliderpercentage = () => {
     const audio = audioRef.current;
     const percentageobtained = Math.floor(
       audio.currentTime * (100 / audio.duration)
     );
     setPercentage(percentageobtained);
+  };
+
+  const likeClickedSong = async (trackid) => {
+    await likeThisTrack(trackid);
+    isUserLikedSong(trackid);
+  };
+  const dislikeClickedSong = async (trackID) => {
+    await dislikeThisTrack(trackID);
+    isUserLikedSong(trackID);
   };
 
   return (
@@ -230,11 +269,30 @@ const Player = () => {
                 >
                   <p>{valueChopper(playerDataObtained?.musicName, 15)}</p>
                 </PLayerAlbumLink>
-                <PlayerArtistLink
-                  to={`/artist/${playerDataObtained?.musicArtistId}`}
-                >
-                  <span>{playerDataObtained?.musicArtistName}</span>
-                </PlayerArtistLink>
+                <div>
+                  <PlayerArtistLink
+                    to={`/artist/${playerDataObtained?.musicArtistId}`}
+                  >
+                    <span>{playerDataObtained?.musicArtistName}</span>
+                  </PlayerArtistLink>
+                  {likedSong ? (
+                    <Tooltip title="Remove this from liked songs">
+                      <FavoriteIcon
+                        onClick={() =>
+                          dislikeClickedSong(playerDataObtained?.musicID)
+                        }
+                      />
+                    </Tooltip>
+                  ) : (
+                    <Tooltip title="Add this to liked songs">
+                      <FavoriteBorderIcon
+                        onClick={() =>
+                          likeClickedSong(playerDataObtained?.musicID)
+                        }
+                      />
+                    </Tooltip>
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -324,6 +382,20 @@ const Player = () => {
           </div>
         </div>
         <div className="mobile_control__container">
+          {likedSong ? (
+            <Tooltip title="Remove this from liked songs">
+              <FavoriteIcon
+                onClick={() => dislikeClickedSong(playerDataObtained?.musicID)}
+              />
+            </Tooltip>
+          ) : (
+            <Tooltip title="Add this to liked songs">
+              <FavoriteBorderIcon
+                onClick={() => likeClickedSong(playerDataObtained?.musicID)}
+              />
+            </Tooltip>
+          )}
+
           {playing ? (
             <Tooltip title="pause">
               <PauseCircleOutlineIcon

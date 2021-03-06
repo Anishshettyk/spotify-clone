@@ -22,6 +22,9 @@ const { colors } = theme;
 
 const StyledArtistContainer = styled.main`
   margin: 0 15px ${theme.visibleBottom} 15px;
+  ${media.tablet`
+  margin: 0 5px ${theme.visibleBottom} 5px;
+  `}
 `;
 const ArtistTopContentContainer = styled.div`
   ${mixins.flexBetween};

@@ -26,18 +26,23 @@ const ProfilerContainer = styled.div`
   `}
 
   .Profiler__content {
+    display: flex;
+    flex-direction: column;
     padding-left: 30px;
+
     ${media.tablet`
       padding:0;
       `}
     p {
       text-transform: uppercase;
       font-size: 15px;
+      color: ${colors.lightGrey};
     }
     h1 {
       font-weight: 900;
       font-size: 40px;
       letter-spacing: 1px;
+
       ${media.tablet`
       font-size:27px;
       letter-spacing:0px;
@@ -50,9 +55,16 @@ const ProfilerContainer = styled.div`
     padding:10px;
     P{
       font-size:13px;
+     
+      ${media.tablet`
+      font-size:10px;
+      `}
     }
     h1{
       font-size:30px;
+      ${media.tablet`
+      font-size:20px;
+      `}
     }
   } 
   `}
@@ -78,6 +90,7 @@ const Profile = ({ profiler }) => {
             )}
           </span>
         </p>
+
         <h1>{profiler.display_name || profiler.name}</h1>
       </div>
     </ProfilerContainer>

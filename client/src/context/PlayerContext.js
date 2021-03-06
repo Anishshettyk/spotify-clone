@@ -1,12 +1,13 @@
 import React, { createContext, useReducer, useState, useEffect } from "react";
 import { getRecentlyPlayed } from "../spotify";
 import PlayerReducer from "./PlayerReducer";
+import spotifyImage from "../assets/spotify-logo.png";
 
 const initialState = {
   playerData: {
-    musicImageUrl: null,
-    musicName: null,
-    musicArtistName: null,
+    musicImageUrl: spotifyImage,
+    musicName: "NO song to play",
+    musicArtistName: "unknown",
     musicArtistId: null,
     musicPreviewUrl: null,
     musicID: null,

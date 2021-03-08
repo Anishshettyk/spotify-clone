@@ -339,3 +339,10 @@ export const homeApis = () => {
       })
     );
 };
+
+//get all the browse categories
+export const getCategories = () =>
+  axios.get(
+    "https://api.spotify.com/v1/browse/categories?country=IN&limit=50",
+    { headers }
+  );

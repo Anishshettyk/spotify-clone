@@ -13,9 +13,9 @@ import {
   RecentlyPlayed,
   Player,
   Albums,
-  TopTracks,
   Search,
   Playlist,
+  Browse,
 } from "./index";
 import PlayerProvider from "./../context/PlayerContext";
 
@@ -37,7 +37,7 @@ const Home = () => (
         <ScrollToTop path="/">
           <Main path="/" />
           <User path="me" />
-          <TopTracks path="/top-tracks" />
+          <Browse path="/browse" />
           <RecentlyPlayed path="recently-played" />
           <Artists path="artists" />
           <Search path="search" />

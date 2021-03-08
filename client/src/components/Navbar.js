@@ -6,7 +6,7 @@ import { theme, mixins, media } from "../styles";
 
 import HomeIcon from "@material-ui/icons/Home";
 import HeadsetMicIcon from "@material-ui/icons/HeadsetMic";
-import MusicNoteIcon from "@material-ui/icons/MusicNote";
+import LanguageIcon from "@material-ui/icons/Language";
 import UpdateIcon from "@material-ui/icons/Update";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import GitHubIcon from "@material-ui/icons/GitHub";
@@ -147,9 +147,9 @@ const Navbar = () => {
           </NavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to="/top-tracks">
-            <MusicNoteIcon />
-            <div>Top Tracks</div>
+          <NavLink to="/browse">
+            <LanguageIcon />
+            <div>Browse</div>
           </NavLink>
         </MenuItem>
         <MenuItem>

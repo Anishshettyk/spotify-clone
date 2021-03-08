@@ -20,7 +20,7 @@ const BrowseContainer = styled.main`
   `}
 `;
 
-const BrowseContentContainer = styled.div`
+const BrowseContentContainer = styled.section`
   margin-top: 30px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

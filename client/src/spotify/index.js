@@ -346,3 +346,10 @@ export const getCategories = () =>
     "https://api.spotify.com/v1/browse/categories?country=IN&limit=50",
     { headers }
   );
+
+//get playlist for a particular category
+export const getCatagoryPlaylist = (categoryID) =>
+  axios.get(
+    `https://api.spotify.com/v1/browse/categories/${categoryID}/playlists?country=IN&limit=50`,
+    { headers }
+  );

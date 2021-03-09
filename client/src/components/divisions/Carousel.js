@@ -50,7 +50,7 @@ const CarouselContainer = styled.div`
   display: flex;
   transition: ${(props) => (props.sliding ? "none" : "transform 1s ease")};
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
 const Wrapper = styled.div`

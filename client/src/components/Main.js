@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { theme, media } from "../styles";
-import { Carousel, AlbumPreviewSmall, IconChange } from "./divisions";
+import {
+  Carousel,
+  AlbumPreviewSmall,
+  IconChange,
+  ArtistInfo,
+} from "./divisions";
 import { homeApis } from "../spotify/";
 import { Loader } from "./index";
 
@@ -32,6 +37,7 @@ const Main = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState(null);
   const [topTracks, setTopTracks] = useState(null);
   const [featuredPlaylists, setFeaturedPlaylists] = useState(null);
+  const [topArtists, setTopArtists] = useState(null);
 
   const mainApiCall = async () => {
     const response = await homeApis();
@@ -39,6 +45,7 @@ const Main = () => {
     setRecentlyPlayed(response?.recentlyPlayed);
     setTopTracks(response?.topTracks);
     setFeaturedPlaylists(response?.featuredPlaylists);
+    setTopArtists(response?.topArtists);
   };
 
   useEffect(() => {
@@ -49,9 +56,9 @@ const Main = () => {
     const date = new Date();
     const hours = date.getHours();
     let message = "Welcome to spotify";
-    if (hours > 0 && hours < 12) {
+    if (hours >= 0 && hours < 12) {
       message = "Good morning";
-    } else if (hours > 12 && hours < 16) {
+    } else if (hours >= 12 && hours < 16) {
       message = "Good Afternoon";
     } else {
       message = "Good evening";
@@ -61,14 +68,19 @@ const Main = () => {
 
   return (
     <div>
-      {recentlyReleased && recentlyPlayed && topTracks && featuredPlaylists ? (
+      {recentlyReleased &&
+      recentlyPlayed &&
+      topTracks &&
+      featuredPlaylists &&
+      topArtists ? (
         <HomeContainer>
           <h1>
             {findGreeting()}
             <span>.</span>
           </h1>
+
           <Carousel
-            title={`Top tracks.`}
+            title="Top tracks."
             discription="Your all time favorite songs."
           >
             {topTracks?.items?.map((track, i) => (
@@ -79,6 +91,15 @@ const Main = () => {
                 context={track}
                 marginSide={5}
               />
+            ))}
+          </Carousel>
+
+          <Carousel
+            title="Favorite artists."
+            discription="These are some of the artists you like the most."
+          >
+            {topArtists?.items?.map((artist, i) => (
+              <ArtistInfo artist={artist} key={i} fits={230} marginSide={5} />
             ))}
           </Carousel>
 
@@ -96,6 +117,7 @@ const Main = () => {
               />
             ))}
           </Carousel>
+
           <Carousel
             title={`${featuredPlaylists?.message}.`}
             discription="These are some of the featured playlists on spotify."
@@ -110,6 +132,7 @@ const Main = () => {
               />
             ))}
           </Carousel>
+
           <Carousel
             title="Recently released."
             discription="These are some of the recently released albums"

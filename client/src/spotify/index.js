@@ -339,15 +339,23 @@ export const homeApis = () => {
       getRecentlyPlayed(),
       getTopTracksLong(),
       getFeaturedPlaylists(),
+      getTopArtistsLong(),
     ])
     .then(
       axios.spread(
-        (newReleases, recentlyPlayed, topTracksLong, featuredPlaylists) => {
+        (
+          newReleases,
+          recentlyPlayed,
+          topTracksLong,
+          featuredPlaylists,
+          TopArtistsLong
+        ) => {
           return {
             newReleases: newReleases.data,
             recentlyPlayed: recentlyPlayed.data,
             topTracks: topTracksLong.data,
             featuredPlaylists: featuredPlaylists.data,
+            topArtists: TopArtistsLong.data,
           };
         }
       )

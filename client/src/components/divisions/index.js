@@ -9,3 +9,4 @@ export { default as IconChange } from "./IconChange";
 export { default as Carousel } from "./Carousel";
 export { default as PlaylistHeader } from "./PlaylistHeader";
 export { default as PlaylistTrack } from "./PlaylistTrack";
+export { default as ArtistInfo } from "./ArtistInfo";

@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "@reach/router";
 import { theme, mixins, media } from "../styles";
 import { totalSearch } from "../spotify";
-import { Carousel, IconChange } from "./divisions";
-import { valueChopper } from "../utils";
-import { Tooltip } from "@material-ui/core";
+import { Carousel, IconChange, ArtistInfo } from "./divisions";
 
 import SearchIcon from "@material-ui/icons/Search";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import FlagIcon from "@material-ui/icons/Flag";
-import noUserImage from "../assets/no-user.png";
 
 const { colors } = theme;
 
@@ -82,64 +77,6 @@ const SearchInfo = styled.div`
     color: ${colors.lightestGrey};
   }
 `;
-const ArtistSearchContent = styled.div`
-  ${mixins.flexColumn}
-  h4 {
-    margin-top: 20px;
-    border: 1px solid transparent;
-    &:hover {
-      border-bottom: 1px solid ${colors.white};
-    }
-    ${media.tablet`
-    font-size:13px;
-  `}
-  }
-`;
-const Item = styled.div`
-  margin: 0 10px;
-  text-align: center;
-  padding: 100px;
-  background-image: ${(props) => `url(${props.img})`};
-  background-size: cover;
-  border-radius: 50%;
-  ${media.tablet`
-  padding:50px;
-  `}
-`;
-
-const Mask = styled.div`
-  ${mixins.flexCenter};
-  position: absolute;
-  padding: 100px;
-  background-color: rgba(0, 0, 0, 0.5);
-  top: 0;
-  bottom: 0;
-  left: 10px;
-  right: 10px;
-  border-radius: 50%;
-  font-size: 20px;
-  color: ${colors.white};
-  opacity: 0;
-  transition: ${theme.transition};
-  ${media.tablet`
-  padding:50px;
-  `}
-`;
-const ArtistArtwork = styled(Link)`
-  display: inline-block;
-  position: relative;
-
-  &:hover,
-  &:focus {
-    ${Mask} {
-      opacity: 1;
-    }
-  }
-  ${Item} {
-    border-radius: 100%;
-    object-fit: cover;
-  }
-`;
 
 const SearchedTrack = styled.div`
   h4 {
@@ -199,26 +136,12 @@ const Search = () => {
             >
               {searchArtists &&
                 searchArtists.map((artist) => (
-                  <ArtistSearchContent key={artist?.id}>
-                    <ArtistArtwork to={`/artist/${artist?.id}`}>
-                      <Item
-                        img={
-                          artist?.images.length === 0
-                            ? noUserImage
-                            : artist?.images[0]?.url
-                        }
-                        alt={artist?.name}
-                      />
-                      <Mask>
-                        <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
-                      </Mask>
-                    </ArtistArtwork>
-                    <Tooltip title={artist?.name}>
-                      <Link to={`/artist/${artist?.id}`}>
-                        <h4>{valueChopper(artist?.name, 15)}</h4>
-                      </Link>
-                    </Tooltip>
-                  </ArtistSearchContent>
+                  <ArtistInfo
+                    key={artist?.id}
+                    artist={artist}
+                    fits={200}
+                    marginSide={10}
+                  />
                 ))}
             </Carousel>
             <Carousel

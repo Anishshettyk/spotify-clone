@@ -17,6 +17,7 @@ import {
   Playlist,
   Browse,
   CatagoryPlaylist,
+  NotFound,
 } from "./index";
 import PlayerProvider from "./../context/PlayerContext";
 
@@ -46,6 +47,7 @@ const Home = () => (
           <Albums path="albums/:albumID" />
           <Playlist path="playlist/:playlistID" />
           <CatagoryPlaylist path="browse/:categoryID" />
+          <NotFound default />
         </ScrollToTop>
       </Router>
     </HomeStyledWrapper>

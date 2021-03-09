@@ -332,6 +332,13 @@ export const getFeaturedPlaylists = () =>
     { headers }
   );
 
+//get bollywood categories
+export const getBollywoodCategory = () =>
+  axios.get(
+    "https://api.spotify.com/v1/browse/categories/bollywood/playlists?country=IN&limit=50",
+    { headers }
+  );
+
 export const homeApis = () => {
   return axios
     .all([
@@ -340,6 +347,7 @@ export const homeApis = () => {
       getTopTracksLong(),
       getFeaturedPlaylists(),
       getTopArtistsLong(),
+      getBollywoodCategory(),
     ])
     .then(
       axios.spread(
@@ -348,7 +356,8 @@ export const homeApis = () => {
           recentlyPlayed,
           topTracksLong,
           featuredPlaylists,
-          TopArtistsLong
+          TopArtistsLong,
+          bollywoodCategory
         ) => {
           return {
             newReleases: newReleases.data,
@@ -356,6 +365,7 @@ export const homeApis = () => {
             topTracks: topTracksLong.data,
             featuredPlaylists: featuredPlaylists.data,
             topArtists: TopArtistsLong.data,
+            bollywoodCategory: bollywoodCategory.data,
           };
         }
       )

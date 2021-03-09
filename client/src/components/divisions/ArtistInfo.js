@@ -3,6 +3,7 @@ import { Link } from "@reach/router";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { mixins, theme, media } from "../../styles";
+import NoUser from "../../assets/no-user.png";
 
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 
@@ -84,7 +85,11 @@ const ArtistInfo = ({ artist, fits, marginSide }) => {
   return (
     <ArtistInfoContainer to={`/artist/${artist?.id}`}>
       <ArtistImageContainer fits={fits} marginSide={marginSide}>
-        <img src={artist?.images[0]?.url} alt={artist?.name} fits={fits} />
+        <img
+          src={artist?.images?.length > 0 ? artist?.images[0]?.url : NoUser}
+          alt=""
+          fits={fits}
+        />
         <Mask fits={fits}>
           <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
         </Mask>

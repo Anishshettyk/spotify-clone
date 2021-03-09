@@ -115,7 +115,7 @@ const AlbumPreviewSmall = ({
           fits={fits}
         />
         <Mask fits={fits}>
-          <PlayCircleOutlineIcon style={{ fontSize: 80 }} />
+          <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
         </Mask>
       </RecentlyPlayedLink>
       <AlbumLink to={linkToGo}>
@@ -125,10 +125,12 @@ const AlbumPreviewSmall = ({
       </AlbumLink>
 
       <span>{artistAlbum?.release_date?.split("-")[0]}</span>
-      <p className="discription">{artistAlbum?.description}</p>
+      <p className="discription">
+        {valueChopper(artistAlbum?.description, 60)}
+      </p>
       <p className="total__tracks">
         {artistAlbum?.tracks?.total
-          ? `Total tracks ${artistAlbum?.tracks?.total}`
+          ? `${artistAlbum?.tracks?.total} Tracks `
           : ""}
       </p>
     </StyledAlbumPreviewSmallContainer>

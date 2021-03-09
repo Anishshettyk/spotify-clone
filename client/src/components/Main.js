@@ -38,6 +38,7 @@ const Main = () => {
   const [topTracks, setTopTracks] = useState(null);
   const [featuredPlaylists, setFeaturedPlaylists] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
+  const [bollywoodCategory, setBollywoodCategory] = useState(null);
 
   const mainApiCall = async () => {
     const response = await homeApis();
@@ -46,6 +47,7 @@ const Main = () => {
     setTopTracks(response?.topTracks);
     setFeaturedPlaylists(response?.featuredPlaylists);
     setTopArtists(response?.topArtists);
+    setBollywoodCategory(response?.bollywoodCategory);
   };
 
   useEffect(() => {
@@ -72,7 +74,8 @@ const Main = () => {
       recentlyPlayed &&
       topTracks &&
       featuredPlaylists &&
-      topArtists ? (
+      topArtists &&
+      bollywoodCategory ? (
         <HomeContainer>
           <h1>
             {findGreeting()}
@@ -87,9 +90,9 @@ const Main = () => {
               <IconChange
                 key={i}
                 track={track}
-                fits={300}
+                fits={260}
                 context={track}
-                marginSide={5}
+                marginSide={10}
               />
             ))}
           </Carousel>
@@ -99,7 +102,22 @@ const Main = () => {
             discription="These are some of the artists you like the most."
           >
             {topArtists?.items?.map((artist, i) => (
-              <ArtistInfo artist={artist} key={i} fits={230} marginSide={5} />
+              <ArtistInfo artist={artist} key={i} fits={210} marginSide={10} />
+            ))}
+          </Carousel>
+
+          <Carousel
+            title="Bollywood blockbuster."
+            discription="These are some of the famous playlists in bollywood."
+          >
+            {bollywoodCategory?.playlists?.items?.map((item, i) => (
+              <AlbumPreviewSmall
+                key={i}
+                artistAlbum={item}
+                fits={260}
+                imageIndex={0}
+                playlist={true}
+              />
             ))}
           </Carousel>
 
@@ -111,9 +129,9 @@ const Main = () => {
               <IconChange
                 key={i}
                 track={item?.track}
-                fits={300}
+                fits={260}
                 context={item?.context}
-                marginSide={5}
+                marginSide={10}
               />
             ))}
           </Carousel>
@@ -126,7 +144,7 @@ const Main = () => {
               <AlbumPreviewSmall
                 key={i}
                 artistAlbum={item}
-                fits={300}
+                fits={260}
                 imageIndex={0}
                 playlist={true}
               />
@@ -138,7 +156,7 @@ const Main = () => {
             discription="These are some of the recently released albums"
           >
             {recentlyReleased?.albums?.items?.map((album, i) => (
-              <AlbumPreviewSmall key={i} artistAlbum={album} fits={300} />
+              <AlbumPreviewSmall key={i} artistAlbum={album} fits={260} />
             ))}
           </Carousel>
         </HomeContainer>

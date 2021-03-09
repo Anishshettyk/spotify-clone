@@ -138,7 +138,7 @@ const IconChange = ({ track, context, fits, marginSide }) => {
       </RecentlyPlayedInsider>
       <h4>{track?.name}</h4>
       {track?.artists &&
-        track?.artists?.slice(0, 3)?.map(({ name, id }, i) => (
+        track?.artists?.slice(0, 2)?.map(({ name, id }, i) => (
           <ArtistLink to={`/artist/${id}`} key={i}>
             <span>
               {name}

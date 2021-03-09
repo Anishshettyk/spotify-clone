@@ -105,7 +105,9 @@ const PlaylistTrack = ({ track }) => {
       >
         <h5>{valueChopper(track?.track?.artists[0]?.name, 15)}</h5>
       </ArtistArtWork>
-      <h5 className="album__name">{track?.track?.album?.name}</h5>
+      <h5 className="album__name">
+        {valueChopper(track?.track?.album?.name, 40)}
+      </h5>
       <p className="added__date">{track?.added_at?.split("T")[0]}</p>
       <p>{convertMilli(track?.track?.duration_ms)}</p>
     </PlaylistTrackContainer>

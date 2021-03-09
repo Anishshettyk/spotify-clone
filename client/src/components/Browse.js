@@ -8,11 +8,11 @@ import { Link } from "@reach/router";
 const { colors } = theme;
 
 const BrowseContainer = styled.main`
-  margin: 30px 20px ${theme.visibleBottom};
+  margin: 30px 20px calc(${theme.visibleBottom} + 5px);
   h1 {
     font-size: 45px;
     padding-bottom: 10px;
-    border-bottom: 2px solid ${colors.grey};
+    border-bottom: 1px solid ${colors.grey};
   }
   ${media.tablet`
   margin-left:10px;
@@ -75,8 +75,8 @@ const Browse = () => {
       {catagories ? (
         <BrowseContentContainer>
           {catagories?.items?.map((item, i) => (
-            <Link to={`/browse/${item?.id}`}>
-              <Category key={i}>
+            <Link to={`/browse/${item?.id}`} key={i}>
+              <Category>
                 <img src={item?.icons[0]?.url} alt={item?.name} />
                 <h3>{item?.name}</h3>
               </Category>

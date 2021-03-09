@@ -43,22 +43,24 @@ const PlaylistTrack = ({ track }) => {
   const { playClickedMusic } = useContext(PlayerContext);
 
   const getTrackData = (track) => {
-    const {
-      album: { images },
-      preview_url,
-      artists,
-      name,
-      id,
-    } = track;
-    const playerData = {
-      musicImageUrl: images[2]?.url,
-      musicName: name,
-      musicArtistName: artists[0]?.name,
-      musicArtistId: artists[0]?.id,
-      musicPreviewUrl: preview_url,
-      musicID: id,
-    };
-    return playerData;
+    if (track) {
+      const {
+        album: { images },
+        preview_url,
+        artists,
+        name,
+        id,
+      } = track;
+      const playerData = {
+        musicImageUrl: images[2]?.url,
+        musicName: name,
+        musicArtistName: artists[0]?.name,
+        musicArtistId: artists[0]?.id,
+        musicPreviewUrl: preview_url,
+        musicID: id,
+      };
+      return playerData;
+    }
   };
 
   const playMusicClicked = (track) => {

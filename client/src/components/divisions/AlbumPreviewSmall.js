@@ -17,6 +17,7 @@ const StyledAlbumPreviewSmallContainer = styled.div`
   p {
     padding-top: 5px;
     margin: 0;
+    color: ${colors.lightGrey};
   }
   span {
     display: block;
@@ -25,6 +26,9 @@ const StyledAlbumPreviewSmallContainer = styled.div`
     color: ${colors.lightGrey};
     font-size: 13px;
     font-weight: 900;
+  }
+  .discription {
+    color: ${colors.lightestGrey};
   }
 `;
 
@@ -118,6 +122,7 @@ const AlbumPreviewSmall = ({
       </AlbumLink>
 
       <span>{artistAlbum?.release_date?.split("-")[0]}</span>
+      <p className="discription">{artistAlbum?.description}</p>
       <p>
         {artistAlbum?.tracks?.total
           ? `Total tracks ${artistAlbum?.tracks?.total}`

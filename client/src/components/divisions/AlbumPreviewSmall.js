@@ -17,7 +17,6 @@ const StyledAlbumPreviewSmallContainer = styled.div`
   p {
     padding-top: 5px;
     margin: 0;
-    color: ${colors.lightGrey};
   }
   span {
     display: block;
@@ -29,6 +28,10 @@ const StyledAlbumPreviewSmallContainer = styled.div`
   }
   .discription {
     color: ${colors.lightestGrey};
+  }
+  .total__tracks {
+    color: ${colors.lightGrey};
+    font-size: 13px;
   }
 `;
 
@@ -123,7 +126,7 @@ const AlbumPreviewSmall = ({
 
       <span>{artistAlbum?.release_date?.split("-")[0]}</span>
       <p className="discription">{artistAlbum?.description}</p>
-      <p>
+      <p className="total__tracks">
         {artistAlbum?.tracks?.total
           ? `Total tracks ${artistAlbum?.tracks?.total}`
           : ""}

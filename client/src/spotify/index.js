@@ -296,7 +296,7 @@ export const getArtistSearchResults = (searchQuery) =>
     { headers }
   );
 
-//get search results (Artist)
+//get search results (tracks)
 export const getTrackSearchResults = (searchQuery) =>
   axios.get(
     `https://api.spotify.com/v1/search?query=${searchQuery}&type=track&market=IN&limit=10`,
@@ -325,18 +325,32 @@ export const newReleases = () =>
     headers,
   });
 
+//get featured playlists
+export const getFeaturedPlaylists = () =>
+  axios.get(
+    "https://api.spotify.com/v1/browse/featured-playlists?country=IN&limit=10",
+    { headers }
+  );
+
 export const homeApis = () => {
   return axios
-    .all([newReleases(), getRecentlyPlayed(), getTopTracksLong(), getUser()])
+    .all([
+      newReleases(),
+      getRecentlyPlayed(),
+      getTopTracksLong(),
+      getFeaturedPlaylists(),
+    ])
     .then(
-      axios.spread((newReleases, recentlyPlayed, topTracksLong, user) => {
-        return {
-          newReleases: newReleases.data,
-          recentlyPlayed: recentlyPlayed.data,
-          topTracks: topTracksLong.data,
-          user: user.data,
-        };
-      })
+      axios.spread(
+        (newReleases, recentlyPlayed, topTracksLong, featuredPlaylists) => {
+          return {
+            newReleases: newReleases.data,
+            recentlyPlayed: recentlyPlayed.data,
+            topTracks: topTracksLong.data,
+            featuredPlaylists: featuredPlaylists.data,
+          };
+        }
+      )
     );
 };
 

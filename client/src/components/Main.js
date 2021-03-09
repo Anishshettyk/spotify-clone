@@ -31,12 +31,14 @@ const Main = () => {
   const [recentlyReleased, setRecentlyReleased] = useState(null);
   const [recentlyPlayed, setRecentlyPlayed] = useState(null);
   const [topTracks, setTopTracks] = useState(null);
+  const [featuredPlaylists, setFeaturedPlaylists] = useState(null);
 
   const mainApiCall = async () => {
     const response = await homeApis();
     setRecentlyReleased(response?.newReleases);
     setRecentlyPlayed(response?.recentlyPlayed);
     setTopTracks(response?.topTracks);
+    setFeaturedPlaylists(response?.featuredPlaylists);
   };
 
   useEffect(() => {
@@ -59,7 +61,7 @@ const Main = () => {
 
   return (
     <div>
-      {recentlyReleased && recentlyPlayed && topTracks ? (
+      {recentlyReleased && recentlyPlayed && topTracks && featuredPlaylists ? (
         <HomeContainer>
           <h1>
             {findGreeting()}
@@ -81,7 +83,7 @@ const Main = () => {
           </Carousel>
 
           <Carousel
-            title="Recently Played."
+            title="Recently played."
             discription="These are some of your recently played"
           >
             {recentlyPlayed?.items?.map((item, i) => (
@@ -95,7 +97,21 @@ const Main = () => {
             ))}
           </Carousel>
           <Carousel
-            title="Recently Released."
+            title={`${featuredPlaylists?.message}.`}
+            discription="These are some of the featured playlists on spotify."
+          >
+            {featuredPlaylists?.playlists?.items?.map((item, i) => (
+              <AlbumPreviewSmall
+                key={i}
+                artistAlbum={item}
+                fits={300}
+                imageIndex={0}
+                playlist={true}
+              />
+            ))}
+          </Carousel>
+          <Carousel
+            title="Recently released."
             discription="These are some of the recently released albums"
           >
             {recentlyReleased?.albums?.items?.map((album, i) => (

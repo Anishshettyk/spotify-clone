@@ -70,19 +70,20 @@ const Browse = () => {
 
   return (
     <BrowseContainer>
-      <h1>Browse.</h1>
-
       {catagories ? (
-        <BrowseContentContainer>
-          {catagories?.items?.map((item, i) => (
-            <Link to={`/browse/${item?.id}`} key={i}>
-              <Category>
-                <img src={item?.icons[0]?.url} alt={item?.name} />
-                <h3>{item?.name}</h3>
-              </Category>
-            </Link>
-          ))}
-        </BrowseContentContainer>
+        <section>
+          <h1>Browse.</h1>
+          <BrowseContentContainer>
+            {catagories?.items?.map((item, i) => (
+              <Link to={`/browse/${item?.id}`} key={i}>
+                <Category>
+                  <img src={item?.icons[0]?.url} alt={item?.name} />
+                  <h3>{item?.name}</h3>
+                </Category>
+              </Link>
+            ))}
+          </BrowseContentContainer>
+        </section>
       ) : (
         <Loader />
       )}

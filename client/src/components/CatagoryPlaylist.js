@@ -4,6 +4,7 @@ import { getCatagoryPlaylist } from "../spotify";
 import styled from "styled-components";
 import { theme, media } from "../styles";
 import { AlbumPreviewSmall } from "./divisions";
+import { Loader } from "./index";
 
 const { colors } = theme;
 const CatagoryPlaylistContainer = styled.main`
@@ -52,19 +53,25 @@ const CatagoryPlaylist = ({ categoryID }) => {
   }, [categoryID]);
 
   return (
-    <CatagoryPlaylistContainer>
-      <h1>{categoryID}.</h1>
-      <CategoryPlaylist>
-        {playlist?.items?.map((item, i) => (
-          <AlbumPreviewSmall
-            artistAlbum={item}
-            playlist={true}
-            key={i}
-            imageIndex={0}
-          />
-        ))}
-      </CategoryPlaylist>
-    </CatagoryPlaylistContainer>
+    <section>
+      {playlist ? (
+        <CatagoryPlaylistContainer>
+          <h1>{categoryID}.</h1>
+          <CategoryPlaylist>
+            {playlist?.items?.map((item, i) => (
+              <AlbumPreviewSmall
+                artistAlbum={item}
+                playlist={true}
+                key={i}
+                imageIndex={0}
+              />
+            ))}
+          </CategoryPlaylist>
+        </CatagoryPlaylistContainer>
+      ) : (
+        <Loader />
+      )}
+    </section>
   );
 };
 CatagoryPlaylist.prototype = {

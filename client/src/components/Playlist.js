@@ -36,10 +36,15 @@ const PlayListInfoContainer = styled.section`
       text-transform: uppercase;
       color: ${colors.lightestGrey};
       font-size: 14px;
+      font-weight: bolder;
       margin-bottom: 10px;
       ${media.tabletL`
       margin-bottom: 5px;
       `}
+    }
+    .playlist__discription {
+      color: ${colors.lightGrey};
+      font-style: italic;
     }
     .playlist__author {
       margin: 15px 0px 20px;
@@ -105,6 +110,7 @@ const Playlist = ({ playlistID }) => {
             <div className="playlist__info">
               <p className="playlist__type">{playlist?.type}</p>
               <h1>{valueChopper(playlist?.name, 40)}</h1>
+              <p className="playlist__discription">{playlist?.description}</p>
               <p className="playlist__author">
                 Created By <span>{playlist?.owner?.display_name}</span>.{" "}
                 {playlist?.tracks?.total} songs ,{calcTotalPlayTime(playlist)}

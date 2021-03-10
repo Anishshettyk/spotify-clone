@@ -14,3 +14,4 @@ export { default as Playlist } from "./Playlist";
 export { default as Browse } from "./Browse";
 export { default as CatagoryPlaylist } from "./CatagoryPlaylist";
 export { default as NotFound } from "./NotFound";
+export { default as More } from "./More";

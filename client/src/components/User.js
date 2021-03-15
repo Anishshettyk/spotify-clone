@@ -253,9 +253,6 @@ const User = ({ artistID }) => {
                             imageIndex={0}
                             playlist={true}
                           />
-                          <p>{`Total tracks ${
-                            playlist?.tracks?.total || 0
-                          }`}</p>
                         </div>
                       )
                   )}

@@ -18,7 +18,7 @@ import {
   Browse,
   CatagoryPlaylist,
   NotFound,
-  More,
+  Liked,
 } from "./index";
 import PlayerProvider from "./../context/PlayerContext";
 
@@ -44,7 +44,7 @@ const Home = () => (
           <RecentlyPlayed path="recently-played" />
           <Artists path="artists" />
           <Search path="search" />
-          <More path="more" />
+          <Liked path="liked-songs" />
           <Artist path="artist/:artistID" />
           <Albums path="albums/:albumID" />
           <Playlist path="playlist/:playlistID" />

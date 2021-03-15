@@ -385,3 +385,9 @@ export const getCatagoryPlaylist = (categoryID) =>
     `https://api.spotify.com/v1/browse/categories/${categoryID}/playlists?country=IN&limit=50`,
     { headers }
   );
+
+//get liked songs
+export const getLikedSongs = () =>
+  axios.get("https://api.spotify.com/v1/me/tracks?market=IN&limit=50", {
+    headers,
+  });

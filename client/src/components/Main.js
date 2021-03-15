@@ -99,7 +99,7 @@ const Main = () => {
 
           <Carousel
             title="Favorite artists."
-            discription="These are some of the artists you like the most."
+            discription="Artists you liked the most."
           >
             {topArtists?.items?.map((artist, i) => (
               <ArtistInfo artist={artist} key={i} fits={210} marginSide={10} />

@@ -8,7 +8,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import HeadsetMicIcon from "@material-ui/icons/HeadsetMic";
 import LanguageIcon from "@material-ui/icons/Language";
 import UpdateIcon from "@material-ui/icons/Update";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import GitHubIcon from "@material-ui/icons/GitHub";
 
 const { colors } = theme;
@@ -159,9 +159,9 @@ const Navbar = () => {
           </NavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to="/more">
-            <MoreHorizIcon />
-            <div>More</div>
+          <NavLink to="/liked-songs">
+            <FavoriteIcon />
+            <div>Liked songs</div>
           </NavLink>
         </MenuItem>
       </NavMenu>

@@ -10,3 +10,5 @@ export { default as Carousel } from "./Carousel";
 export { default as PlaylistHeader } from "./PlaylistHeader";
 export { default as PlaylistTrack } from "./PlaylistTrack";
 export { default as ArtistInfo } from "./ArtistInfo";
+export { default as PlaylistInfo } from "./PlaylistInfo";
+export { default as AlbumInfo } from "./AlbumInfo";

@@ -2,94 +2,12 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { getAlbumDetails } from "../spotify";
 import styled from "styled-components";
-import { theme, mixins, media } from "../styles";
-import { Link } from "@reach/router";
-import { convertMilli1 } from "../utils";
+import { theme } from "../styles";
 import { Loader } from "./index";
-import { AlbumTopHeader, AlbumPreviewLarge } from "./divisions";
-
-const { colors } = theme;
+import { AlbumInfo, AlbumTopHeader, AlbumPreviewLarge } from "./divisions";
 
 const AlbumContainer = styled.main`
   margin: 20px 20px calc(${theme.navHeight} + 19px);
-`;
-
-const AlbumInfoContainer = styled.section`
-  display: grid;
-  grid-template-columns: 1fr 5fr;
-  position: relative;
-  .AlbumInfoContainer__image {
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  .AlbumInfoContainer__info {
-    padding: 0px 0px 0px 20px;
-    .AlbumInfoContainer__info__album__type {
-      font-size: 14px;
-      color: ${colors.blue};
-    }
-    .AlbumInfoContainer__info__album__name {
-      font-size: 50px;
-      margin-bottom: 20px;
-    }
-    .AlbumInfoContainer__info__para__artist {
-      color: ${colors.lightGrey};
-    }
-    .AlbumInfoContainer__info__last {
-      color: ${colors.lightGrey};
-      font-size: 16px;
-      font-weight: 600;
-    }
-    .AlbumInfoContainer__info__button {
-      margin-top: 10px;
-      padding: 10px 50px;
-      ${mixins.greenButton};
-    }
-  }
-  ${media.tablet`
-  display:flex;
-  flex-direction: column;
-  align-items: center;
-  .AlbumInfoContainer__image{
-    width:300px;
-    height:300px;
-   img{
-     border-radius:20px;
-   }
-  }
-  .AlbumInfoContainer__info {
-    padding:0;
-    margin-top:20px;
-    .AlbumInfoContainer__info__album__type{
-      font-size:12px;
-      
-    }
-    .AlbumInfoContainer__info__album__name{
-      font-size:30px;
-    }
-    .AlbumInfoContainer__info__button{
-      padding:10px 40px;
-    }
-   
-  }
-  `}
-`;
-
-const ArtistLink = styled(Link)`
-  span {
-    font-weight: 700;
-    color: ${colors.white};
-  }
-  &:hover,
-  &:focus {
-    span {
-      border-bottom: 1px solid ${colors.green};
-      color: ${colors.green};
-    }
-  }
 `;
 
 const AlbumTrackContainer = styled.div`
@@ -108,52 +26,11 @@ const Albums = ({ albumID }) => {
     getAlbumDetailsRequest(albumID);
   }, [albumID]);
 
-  const calcTotalPlayTime = (albumsDetails) => {
-    const totalTime = albumsDetails?.tracks?.items.reduce((acc, item) => {
-      let total = acc + item.duration_ms;
-      return total;
-    }, 0);
-    return convertMilli1(totalTime);
-  };
-
   return (
     <AlbumContainer>
       {AlbumsDetails ? (
         <section>
-          <AlbumInfoContainer>
-            <div className="AlbumInfoContainer__image">
-              <img src={AlbumsDetails.images[0].url} alt={AlbumsDetails.name} />
-            </div>
-            <div className="AlbumInfoContainer__info">
-              <p className="AlbumInfoContainer__info__album__type">
-                {AlbumsDetails.album_type.toUpperCase()}
-              </p>
-              <h1 className="AlbumInfoContainer__info__album__name">
-                {AlbumsDetails.name}
-              </h1>
-              <p className="AlbumInfoContainer__info__para__artist">
-                By{" "}
-                {AlbumsDetails.artists.map((artist, i) => (
-                  <ArtistLink key={i} to={`/artist/${artist.id}`}>
-                    <span>
-                      {artist.name}
-                      {AlbumsDetails.artists.length > 0 &&
-                      i === AlbumsDetails.artists.length - 1
-                        ? " "
-                        : ","}
-                      &nbsp;
-                    </span>
-                  </ArtistLink>
-                ))}
-              </p>
-              <p className="AlbumInfoContainer__info__last">
-                {AlbumsDetails.release_date.split("-")[0]} .{" "}
-                {AlbumsDetails.tracks.total} song,{" "}
-                {calcTotalPlayTime(AlbumsDetails)}
-              </p>
-              <button className="AlbumInfoContainer__info__button">Play</button>
-            </div>
-          </AlbumInfoContainer>
+          <AlbumInfo album={AlbumsDetails} />
           <AlbumTrackContainer>
             <AlbumTopHeader />
             {AlbumsDetails &&

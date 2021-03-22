@@ -18,7 +18,7 @@ const IconChangeContainer = styled.section`
     color: ${colors.white};
     margin: 5px 2px;
     ${media.tablet`
-    font-size:14px;
+    font-size:13px;
     `}
   }
   span {
@@ -79,9 +79,10 @@ const RecentlyPlayedInsider = styled.div`
 
 const ArtistLink = styled(Link)`
   border-bottom: 1px solid transparent;
+  font-size: 14px;
   span {
     ${media.tablet`
-      font-size:12px;
+      font-size:10px;
       `}
   }
   &:hover,
@@ -92,6 +93,11 @@ const ArtistLink = styled(Link)`
     }
   }
 `;
+
+const IconChangeContent = styled.div`
+  margin: 0px ${(props) => props.marginSide + "px" || "0px"};
+`;
+
 const IconChange = ({ track, context, fits, marginSide }) => {
   const { playerData, playClickedMusic } = useContext(PlayerContext);
   const [iconState, SetIconState] = useState(false);
@@ -136,20 +142,22 @@ const IconChange = ({ track, context, fits, marginSide }) => {
           )}
         </Mask>
       </RecentlyPlayedInsider>
-      <h4>{track?.name}</h4>
-      {track?.artists &&
-        track?.artists?.slice(0, 2)?.map(({ name, id }, i) => (
-          <ArtistLink to={`/artist/${id}`} key={i}>
-            <span>
-              {name}
-              {track?.artists?.length > 0 && i === track?.artists?.length - 1
-                ? ""
-                : ","}
-              &nbsp;
-            </span>
-          </ArtistLink>
-        ))}
-      <p>{context?.type}</p>
+      <IconChangeContent marginSide={marginSide}>
+        <h4>{track?.name}</h4>
+        {track?.artists &&
+          track?.artists?.slice(0, 2)?.map(({ name, id }, i) => (
+            <ArtistLink to={`/artist/${id}`} key={i}>
+              <span>
+                {name}
+                {track?.artists?.length > 0 && i === track?.artists?.length - 1
+                  ? ""
+                  : ","}
+                &nbsp;
+              </span>
+            </ArtistLink>
+          ))}
+        <p>{context?.type}</p>
+      </IconChangeContent>
     </IconChangeContainer>
   );
 };

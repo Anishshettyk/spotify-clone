@@ -28,6 +28,10 @@ const StyledAlbumPreviewSmallContainer = styled.div`
   }
   .discription {
     color: ${colors.lightestGrey};
+    font-size: 13px;
+    ${media.tablet`
+      font-size: 10px;
+    `}
   }
   .total__tracks {
     color: ${colors.lightGrey};

@@ -4,8 +4,7 @@ import { Link } from "@reach/router";
 import styled from "styled-components";
 import { theme, media } from "../styles";
 import { PlayerFeatures } from "./divisions";
-import { Slider, Tooltip } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+import { Tooltip } from "@material-ui/core";
 import { convertTime, valueChopper } from "../utils";
 import {
   checkUserLikedTrack,
@@ -23,26 +22,6 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const { colors } = theme;
-
-const MusicSlider = withStyles({
-  root: {
-    color: colors.green,
-  },
-  track: {
-    height: 4,
-    borderRadius: 4,
-  },
-  rail: {
-    height: 4,
-    borderRadius: 4,
-  },
-  thumb: {
-    height: 12,
-    width: 12,
-    backgroundColor: "#fff",
-    marginTop: -4,
-  },
-})(Slider);
 
 const PlayerStyledContainer = styled.section`
   position: fixed;
@@ -190,6 +169,29 @@ const MobilePLayerContainer = styled.section`
   `}
 `;
 
+const SliderContainer = styled.div`
+  width: 100%;
+  background-color: ${colors.grey};
+  height: 4px;
+  border-radius: 5px;
+  position: relative;
+`;
+const SliderMovable = styled.div`
+  background-color: ${colors.green};
+  height: 100%;
+  position: relative;
+`;
+const Tumb = styled.div`
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 0px;
+  margin-top: -4px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background-color: ${colors.white};
+`;
+
 const Player = () => {
   const [playing, setPlaying] = useState(false);
   const [duration, setDuration] = useState("0:00");
@@ -241,7 +243,7 @@ const Player = () => {
     const percentageobtained = Math.floor(
       audio.currentTime * (100 / audio.duration)
     );
-    setPercentage(percentageobtained);
+    return percentageobtained;
   };
 
   const likeClickedSong = async (trackid) => {
@@ -335,13 +337,12 @@ const Player = () => {
           {playerDataObtained && (
             <div className="playerActions__slider__container">
               <span className="timer__start">{`${currentTime}`}</span>
-              <MusicSlider
-                aria-label="player slider"
-                aria-labelledby="continuous-slider"
-                defaultValue={0}
-                value={percentage}
-                onChange={MusicSliderpercentage}
-              />
+              <SliderContainer>
+                <SliderMovable
+                  style={{ width: `${percentage}%` }}
+                ></SliderMovable>
+                <Tumb style={{ left: `${percentage}%` }}></Tumb>
+              </SliderContainer>
               <audio
                 src={playerDataObtained?.musicPreviewUrl}
                 ref={audioRef}
@@ -354,8 +355,9 @@ const Player = () => {
                   setCurrentTime(
                     convertTime(e.currentTarget.currentTime.toFixed(2))
                   );
+                  setPercentage(MusicSliderpercentage);
                 }}
-              ></audio>
+              />
               <span className="timer__end">{duration}</span>
             </div>
           )}

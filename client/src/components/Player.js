@@ -119,6 +119,18 @@ const PlayerActionsContainer = styled.div`
   }
 `;
 
+const MusicPLayerStatusMobile = styled.div`
+  display: none;
+  position: fixed;
+  bottom: 132px;
+  z-index: 100;
+  overflow: hidden;
+  height: 4px;
+  background-color: ${colors.green};
+  ${media.tablet`
+  display:block;
+`}
+`;
 const MobilePLayerContainer = styled.section`
   display: none;
   position: fixed;
@@ -130,7 +142,7 @@ const MobilePLayerContainer = styled.section`
   max-height: 100px;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid ${colors.grey};
+
   .mobile_info__container {
     display: flex;
     justify-content: space-between;
@@ -175,11 +187,24 @@ const SliderContainer = styled.div`
   height: 4px;
   border-radius: 5px;
   position: relative;
+  input {
+    -webkit-appearance: none;
+    position: absolute;
+    width: 100%;
+    top: -1px;
+    cursor: pointer;
+    height: 6px;
+    margin: 0 auto;
+    opacity: 0;
+  }
 `;
 const SliderMovable = styled.div`
   background-color: ${colors.green};
   height: 100%;
   position: relative;
+  user-select: none;
+  pointer-events: none;
+  border-radius: 5px;
 `;
 const Tumb = styled.div`
   width: 12px;
@@ -199,10 +224,13 @@ const Player = () => {
   const [percentage, setPercentage] = useState(0);
   const [playerDataObtained, setPlayerDataObtained] = useState(null);
   const [likedSong, setLikedSong] = useState(false);
+  const [position, setPosition] = useState(0);
 
   const { playerData } = useContext(PlayerContext);
 
   const audioRef = useRef();
+  const thumbRef = useRef(null);
+  const rangeRef = useRef(null);
 
   useEffect(() => {
     setPlayerDataObtained(playerData);
@@ -221,6 +249,10 @@ const Player = () => {
       isUserLikedSong(playerData?.musicID);
     }
   }, [playerData]);
+
+  useEffect(() => {
+    setPosition(percentage);
+  }, [percentage]);
 
   const handlePlayPause = () => {
     const audio = audioRef.current;
@@ -244,6 +276,12 @@ const Player = () => {
       audio.currentTime * (100 / audio.duration)
     );
     return percentageobtained;
+  };
+
+  const onChange = (e) => {
+    const audio = audioRef.current;
+    audio.currentTime = (audio.duration / 100) * e.target.value;
+    setPercentage(e.target.value);
   };
 
   const likeClickedSong = async (trackid) => {
@@ -338,10 +376,17 @@ const Player = () => {
             <div className="playerActions__slider__container">
               <span className="timer__start">{`${currentTime}`}</span>
               <SliderContainer>
+                <input
+                  type="range"
+                  ref={rangeRef}
+                  value={position}
+                  step="0.01"
+                  onChange={onChange}
+                />
                 <SliderMovable
-                  style={{ width: `${percentage}%` }}
+                  style={{ width: `${position}%` }}
                 ></SliderMovable>
-                <Tumb style={{ left: `${percentage}%` }}></Tumb>
+                <Tumb style={{ left: `${position}%` }} ref={thumbRef}></Tumb>
               </SliderContainer>
               <audio
                 src={playerDataObtained?.musicPreviewUrl}
@@ -364,6 +409,9 @@ const Player = () => {
         </PlayerActionsContainer>
         <PlayerFeatures />
       </PlayerStyledContainer>
+      <MusicPLayerStatusMobile
+        style={{ width: `${percentage}%` }}
+      ></MusicPLayerStatusMobile>
       <MobilePLayerContainer>
         <div className="mobile_info__container">
           <img

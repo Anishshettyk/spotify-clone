@@ -13,7 +13,12 @@ import {
   getArtistAlbumAppearsOn,
 } from "../spotify/";
 import { formatWithCommas } from "./../utils";
-import { Profile, TrackInfoSmall, AlbumPreviewSmall } from "./divisions";
+import {
+  Profile,
+  TrackInfoSmall,
+  AlbumPreviewSmall,
+  SnackBar,
+} from "./divisions";
 import { Loader } from "./index";
 import { media, mixins, theme } from "../styles";
 import { Avatar } from "@material-ui/core";
@@ -158,6 +163,9 @@ const Artist = ({ artistID }) => {
   const [relatedArtist, setRelatedArtist] = useState(null);
   const [ArtistsTopTracks, setArtistsTopTracks] = useState(null);
   const [showMore, setShowMore] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [snackBarType, setSnackBarType] = useState("success");
+  const [snackBarMessage, setSnackBarMessage] = useState("");
 
   useEffect(() => {
     let isActive = true;
@@ -208,10 +216,16 @@ const Artist = ({ artistID }) => {
     if (followersState) {
       await unfollowArtist(artistID);
       isFollowing();
+      setSnackBarMessage(`Unfollowed ${artistData?.data.name}`);
+      setSnackBarType("error");
+      setOpen(true);
     }
     if (!followersState) {
       await followArtist(artistID);
       isFollowing();
+      setSnackBarMessage(`Following ${artistData?.data.name}`);
+      setSnackBarType("success");
+      setOpen(true);
     }
   };
 
@@ -325,6 +339,12 @@ const Artist = ({ artistID }) => {
       ) : (
         <Loader />
       )}
+      <SnackBar
+        open={open}
+        type={snackBarType}
+        message={snackBarMessage}
+        setOpen={setOpen}
+      />
     </section>
   );
 };

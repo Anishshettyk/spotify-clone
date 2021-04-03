@@ -12,3 +12,4 @@ export { default as PlaylistTrack } from "./PlaylistTrack";
 export { default as ArtistInfo } from "./ArtistInfo";
 export { default as PlaylistInfo } from "./PlaylistInfo";
 export { default as AlbumInfo } from "./AlbumInfo";
+export { default as SnackBar } from "./SnackBar";

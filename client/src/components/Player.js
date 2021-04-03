@@ -3,14 +3,16 @@ import { PlayerContext } from "../context/PlayerContext";
 import { Link } from "@reach/router";
 import styled from "styled-components";
 import { theme, media } from "../styles";
-import { PlayerFeatures } from "./divisions";
+import { PlayerFeatures, SnackBar } from "./divisions";
 import { Tooltip } from "@material-ui/core";
+
 import { convertTime, valueChopper } from "../utils";
 import {
   checkUserLikedTrack,
   dislikeThisTrack,
   likeThisTrack,
 } from "../spotify";
+import { Helmet } from "react-helmet";
 
 import ShuffleIcon from "@material-ui/icons/Shuffle";
 import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
@@ -225,6 +227,9 @@ const Player = () => {
   const [playerDataObtained, setPlayerDataObtained] = useState(null);
   const [likedSong, setLikedSong] = useState(false);
   const [position, setPosition] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [snackBarType, setSnackBarType] = useState("success");
+  const [snackBarMessage, setSnackBarMessage] = useState("");
 
   const { playerData } = useContext(PlayerContext);
 
@@ -285,16 +290,29 @@ const Player = () => {
   };
 
   const likeClickedSong = async (trackid) => {
-    await likeThisTrack(trackid);
+    const res = await likeThisTrack(trackid);
     isUserLikedSong(trackid);
+    if (res.status === 200) {
+      setSnackBarMessage("Added to liked songs");
+      setSnackBarType("success");
+      setOpen(true);
+    }
   };
   const dislikeClickedSong = async (trackID) => {
-    await dislikeThisTrack(trackID);
+    const res = await dislikeThisTrack(trackID);
     isUserLikedSong(trackID);
+    if (res.status === 200) {
+      setSnackBarMessage("Removed from liked songs");
+      setSnackBarType("error");
+      setOpen(true);
+    }
   };
 
   return (
     <div>
+      <Helmet>
+        <title>{playing && playerDataObtained?.musicName}</title>
+      </Helmet>
       <PlayerStyledContainer>
         <ArtistContent>
           {playerDataObtained && (
@@ -463,6 +481,12 @@ const Player = () => {
           )}
         </div>
       </MobilePLayerContainer>
+      <SnackBar
+        open={open}
+        type={snackBarType}
+        message={snackBarMessage}
+        setOpen={setOpen}
+      />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 export { default as Profile } from "./Profile";
-export { default as PlayerFeatures } from "./PlayerFeatures";
+export { default as VolumeControl } from "./VolumeControl";
 export { default as TrackInfoSmall } from "./TrackInfoSmall";
 export { default as AlbumPreviewSmall } from "./AlbumPreviewSmall";
 export { default as AlbumTopHeader } from "./AlbumTopHeader";

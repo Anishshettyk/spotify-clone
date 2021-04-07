@@ -3,7 +3,7 @@ import { PlayerContext } from "../context/PlayerContext";
 import { Link } from "@reach/router";
 import styled from "styled-components";
 import { theme, media } from "../styles";
-import { PlayerFeatures, SnackBar } from "./divisions";
+import { VolumeControl, SnackBar } from "./divisions";
 import { Tooltip } from "@material-ui/core";
 
 import { convertTime, valueChopper } from "../utils";
@@ -425,7 +425,7 @@ const Player = () => {
             </div>
           )}
         </PlayerActionsContainer>
-        <PlayerFeatures />
+        <VolumeControl audioRef={audioRef} />
       </PlayerStyledContainer>
       <MusicPLayerStatusMobile
         style={{ width: `${percentage}%` }}

@@ -259,6 +259,11 @@ const Player = () => {
     setPosition(percentage);
   }, [percentage]);
 
+  //for initial check if user liked last song played.
+  useEffect(() => {
+    if (playerData?.musicID) isUserLikedSong(playerData?.musicID);
+  }, [playerData?.musicID]);
+
   const handlePlayPause = () => {
     const audio = audioRef.current;
     if (playing && audio.play) {

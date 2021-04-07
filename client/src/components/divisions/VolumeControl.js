@@ -15,7 +15,7 @@ const PlayerFeaturesContainer = styled.div`
   justify-content: flex-end;
   svg {
     cursor: pointer;
-    margin-right: 15px;
+    margin-right: 5px;
   }
 `;
 const PrettoSlider = withStyles({

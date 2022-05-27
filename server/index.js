@@ -130,6 +130,7 @@ if (cluster.isMaster) {
       };
 
       request.post(authOptions, function (error, response, body) {
+        console.log("hgere", body);
         if (!error && response.statusCode === 200) {
           const access_token = body.access_token;
           const refresh_token = body.refresh_token;

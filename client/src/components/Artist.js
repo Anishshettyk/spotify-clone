@@ -216,14 +216,14 @@ const Artist = ({ artistID }) => {
     if (followersState) {
       await unfollowArtist(artistID);
       isFollowing();
-      setSnackBarMessage(`Unfollowed ${artistData?.data.name}`);
+      setSnackBarMessage(`You unfollowed ${artistData?.data.name}`);
       setSnackBarType("error");
       setOpen(true);
     }
     if (!followersState) {
       await followArtist(artistID);
       isFollowing();
-      setSnackBarMessage(`Following ${artistData?.data.name}`);
+      setSnackBarMessage(`You are now following ${artistData?.data.name}`);
       setSnackBarType("success");
       setOpen(true);
     }

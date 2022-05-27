@@ -52,7 +52,6 @@ const TrackInfoContainer = styled.div`
 const TrackInfoSmall = ({ TopTrack }) => {
   const [insideIcon, setInsideIcon] = useState(true);
   const { playClickedMusic } = useContext(PlayerContext);
-
   const playerOriginalData = () => {
     const playerDataChanged = {
       musicImageUrl: TopTrack?.album?.images[2]?.url,
@@ -61,6 +60,7 @@ const TrackInfoSmall = ({ TopTrack }) => {
       musicArtistId: TopTrack?.artists[0]?.id,
       musicPreviewUrl: TopTrack?.preview_url,
       musicID: TopTrack?.id,
+      externalURL: TopTrack?.external_urls?.spotify,
     };
     return playerDataChanged;
   };

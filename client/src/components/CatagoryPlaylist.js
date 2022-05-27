@@ -45,6 +45,7 @@ const CatagoryPlaylist = ({ categoryID }) => {
 
   const getCategoryPlaylist = async (categoryID) => {
     const response = await getCatagoryPlaylist(categoryID);
+    console.log(response);
     setPlaylist(response?.data?.playlists);
   };
 

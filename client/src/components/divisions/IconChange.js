@@ -104,12 +104,14 @@ const IconChange = ({ track, context, fits, marginSide }) => {
 
   const playClickedSong = async (trackID) => {
     const response = await getTrack(trackID);
+    console.log(response);
     const {
       album: { images },
       preview_url,
       artists,
       name,
       id,
+      external_urls,
     } = response?.data;
 
     const playerDataChanged = {
@@ -121,6 +123,7 @@ const IconChange = ({ track, context, fits, marginSide }) => {
       musicPreviewUrl: preview_url,
       musicID: id,
       audioplaying: !playerData.audioplaying,
+      externalURL: external_urls?.spotify,
     };
     playClickedMusic(playerDataChanged);
     playerDataChanged.audioplaying ? SetIconState(true) : SetIconState(false);

@@ -335,7 +335,7 @@ export const getFeaturedPlaylists = () =>
 //get bollywood categories
 export const getBollywoodCategory = () =>
   axios.get(
-    "https://api.spotify.com/v1/browse/categories/bollywood/playlists?country=IN&limit=50",
+    "https://api.spotify.com/v1/browse/categories/0JQ5DAqbMKFHCxg5H5PtqW/playlists?limit=10",
     { headers }
   );
 

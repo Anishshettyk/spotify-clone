@@ -74,8 +74,7 @@ const Main = () => {
       recentlyPlayed &&
       topTracks &&
       featuredPlaylists &&
-      topArtists &&
-      bollywoodCategory ? (
+      topArtists ? (
         <HomeContainer>
           <h1>
             {findGreeting()}
@@ -107,21 +106,6 @@ const Main = () => {
           </Carousel>
 
           <Carousel
-            title="Bollywood blockbuster."
-            discription="These are some of the famous playlists in bollywood."
-          >
-            {bollywoodCategory?.playlists?.items?.map((item, i) => (
-              <AlbumPreviewSmall
-                key={i}
-                artistAlbum={item}
-                fits={260}
-                imageIndex={0}
-                playlist={true}
-              />
-            ))}
-          </Carousel>
-
-          <Carousel
             title="Recently played."
             discription="These are some of your recently played"
           >
@@ -141,6 +125,21 @@ const Main = () => {
             discription="These are some of the featured playlists on spotify."
           >
             {featuredPlaylists?.playlists?.items?.map((item, i) => (
+              <AlbumPreviewSmall
+                key={i}
+                artistAlbum={item}
+                fits={260}
+                imageIndex={0}
+                playlist={true}
+              />
+            ))}
+          </Carousel>
+
+          <Carousel
+            title="Bollywood blockbuster."
+            discription="These are some of the famous playlists in bollywood."
+          >
+            {bollywoodCategory?.playlists?.items?.map((item, i) => (
               <AlbumPreviewSmall
                 key={i}
                 artistAlbum={item}

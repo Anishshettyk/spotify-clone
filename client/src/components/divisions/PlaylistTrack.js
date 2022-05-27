@@ -50,6 +50,7 @@ const PlaylistTrack = ({ track }) => {
         artists,
         name,
         id,
+        external_urls,
       } = track;
       const playerData = {
         musicImageUrl: images[2]?.url,
@@ -58,6 +59,7 @@ const PlaylistTrack = ({ track }) => {
         musicArtistId: artists[0]?.id,
         musicPreviewUrl: preview_url,
         musicID: id,
+        externalURL: external_urls?.spotify,
       };
       return playerData;
     }

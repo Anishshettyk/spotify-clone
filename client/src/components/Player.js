@@ -14,14 +14,14 @@ import {
 } from "../spotify";
 import { Helmet } from "react-helmet";
 
-import ShuffleIcon from "@material-ui/icons/Shuffle";
 import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import PauseCircleOutlineIcon from "@material-ui/icons/PauseCircleOutline";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
-import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import ShareIcon from "@material-ui/icons/Share";
+import { BsSpotify } from "react-icons/bs";
 
 const { colors } = theme;
 
@@ -327,11 +327,8 @@ const Player = () => {
                 alt={playerDataObtained?.musicName}
               />
               <div className="artistData_content_container">
-                <PLayerAlbumLink
-                  to={`/albums/${playerDataObtained?.musicArtistId}`}
-                >
-                  <p>{valueChopper(playerDataObtained?.musicName, 15)}</p>
-                </PLayerAlbumLink>
+                <p>{valueChopper(playerDataObtained?.musicName, 15)}</p>
+
                 <div>
                   <PlayerArtistLink
                     to={`/artist/${playerDataObtained?.musicArtistId}`}
@@ -362,8 +359,14 @@ const Player = () => {
         </ArtistContent>
         <PlayerActionsContainer>
           <div className="playerActions__button__container">
-            <Tooltip title="Shuffle">
-              <ShuffleIcon style={{ fontSize: 20, color: colors.lightGrey }} />
+            <Tooltip title="Play on Spotify">
+              <a
+                href={playerDataObtained?.externalURL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <BsSpotify style={{ fontSize: 20, color: colors.green }} />
+              </a>
             </Tooltip>
             <Tooltip title="Prev">
               <SkipPreviousIcon
@@ -391,8 +394,9 @@ const Player = () => {
                 style={{ fontSize: 20, color: colors.lightestGrey }}
               />
             </Tooltip>
-            <Tooltip title="Repeat">
-              <RepeatIcon style={{ fontSize: 20, color: colors.lightGrey }} />
+
+            <Tooltip title="Share track">
+              <ShareIcon style={{ fontSize: 20, color: colors.blue }} />
             </Tooltip>
           </div>
           {playerDataObtained && (

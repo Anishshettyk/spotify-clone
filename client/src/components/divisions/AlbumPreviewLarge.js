@@ -65,6 +65,7 @@ const AlbumPreviewLarge = ({ AlbumID, track }) => {
       artists,
       name,
       id,
+      external_urls,
     } = response?.data;
     const playerData = {
       musicImageUrl: images[2].url,
@@ -73,6 +74,7 @@ const AlbumPreviewLarge = ({ AlbumID, track }) => {
       musicArtistId: artists[0].id,
       musicPreviewUrl: preview_url,
       musicID: id,
+      externalURL: external_urls.spotify,
     };
     return playerData;
   };

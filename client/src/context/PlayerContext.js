@@ -12,6 +12,7 @@ const initialState = {
     musicPreviewUrl: null,
     musicID: null,
     audioplaying: false,
+    externalURL: null,
   },
 };
 
@@ -37,6 +38,9 @@ const PlayerProvider = ({ children }) => {
         preview_url,
         id,
       },
+      context: {
+        external_urls: { spotify },
+      },
     } = playerData;
 
     initialState.playerData.musicPreviewUrl = preview_url;
@@ -45,6 +49,7 @@ const PlayerProvider = ({ children }) => {
     initialState.playerData.musicArtistName = artists[0].name;
     initialState.playerData.musicArtistId = artists[0].id;
     initialState.playerData.musicID = id;
+    initialState.playerData.externalURL = spotify;
   }
 
   const playClickedMusic = (playerData) => {
